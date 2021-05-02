@@ -21,3 +21,13 @@ yarn build
 ```
 yarn lint
 ```
+
+### Deploys to firebase dev channel
+```
+yarn deploy-dev
+```
+
+### Deploys to firebase
+```
+yarn deploy
+```

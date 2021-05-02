@@ -6,13 +6,16 @@
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint",
-        "clean": "rm -r dist"
+        "clean": "rm -r dist",
+        "deploy-dev": "rm -r dist && vue-cli-service build && firebase hosting:channel:deploy dev",
+        "deploy": "rm -r dist && vue-cli-service build && firebase deploy"
     },
     "dependencies": {
         "@beyonk/google-fonts-webpack-plugin": "^1.5.0",
         "@fortawesome/fontawesome-svg-core": "^1.2.28",
         "@fortawesome/free-solid-svg-icons": "^5.13.0",
         "@fortawesome/vue-fontawesome": "^0.1.9",
+        "firebase": "^8.4.3",
         "parse-md": "^2.0.4",
         "prerender-spa-plugin": "^3.4.0",
         "raw-loader": "^4.0.0",
