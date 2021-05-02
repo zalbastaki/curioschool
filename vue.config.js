@@ -23,7 +23,7 @@ module.exports = {
 
         plugins: [
             new GoogleFontsPlugin({
-                fonts: [{ family: 'Tomorrow' }],
+                fonts: [{ family: 'Lato' }],
             }),
             new PrerenderSPAPlugin({
                 // Absolute path to compiled SPA

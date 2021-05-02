@@ -1,11 +1,6 @@
-# Vue Starter
+# CurioSchool
 
-This is a vue starter template. Ready for use with:
-- Netlify forms
-- Netlify CMS
-- Google fonts
-- Fontawesome
-- Media queries plugin
+This is created for my Interactive Media degree capstone project that aims to provide an accessible and engaging virtual learning environment for primary school students.
 
 ## Project setup
 ```
