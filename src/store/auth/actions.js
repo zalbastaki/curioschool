@@ -19,6 +19,18 @@ const actions = {
                 console.error(e.message, e.code);
             });
     },
+
+    async sendPasswordResetEmail(context, email) {
+        await firebase
+            .auth()
+            .sendPasswordResetEmail(email)
+            .then(() => {
+                // TO DO
+            })
+            .catch(e => {
+                console.error(e.message, e.code);
+            });
+    },
 };
 
 export default actions;
