@@ -9,3 +9,13 @@
         name: 'default',
     };
 </script>
+
+<style lang="scss">
+    body {
+        margin: 0;
+    }
+
+    #app {
+        font-family: $font-family;
+    }
+</style>
