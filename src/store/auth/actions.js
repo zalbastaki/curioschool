@@ -5,18 +5,21 @@ const actions = {
         await firebase
             .auth()
             .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-            .then(() => {
-                firebase
+            .then(async () => {
+                await firebase
                     .auth()
                     .signInWithEmailAndPassword(user.email, user.password)
                     .then(() => {
                         const uid = firebase.auth().currentUser.uid;
                         context.commit('setIsLoggedIn', true);
                         context.commit('setUserId', uid);
+                    })
+                    .catch(e => {
+                        throw e;
                     });
             })
             .catch(e => {
-                console.error(e.message, e.code);
+                throw e;
             });
     },
 
@@ -24,11 +27,8 @@ const actions = {
         await firebase
             .auth()
             .sendPasswordResetEmail(email)
-            .then(() => {
-                // TO DO
-            })
             .catch(e => {
-                console.error(e.message, e.code);
+                throw e;
             });
     },
 };

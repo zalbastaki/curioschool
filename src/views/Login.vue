@@ -41,6 +41,9 @@
                 <span class="underline">Click here</span>
             </base-text>
         </a>
+
+        <base-modal ref="error" heading="Oops!" />
+        <base-modal ref="success" heading="Woohoo!" button-color="yellow" />
     </div>
 </template>
 
@@ -71,12 +74,47 @@
         methods: {
             ...mapActions(['login', 'sendPasswordResetEmail']),
 
+            userLogin() {
+                this.login(this.user)
+                    .then(() => {
+                        // TO DO
+                        return console.log('login success');
+                    })
+                    .catch(e => {
+                        this.handleError(e);
+                    });
+            },
+
+            userForgotPassword() {
+                this.sendPasswordResetEmail(this.user.email)
+                    .then(() => {
+                        this.$refs.success.openModal(
+                            'Check your email! Click the link in the email we just sent you to reset your password.'
+                        );
+                    })
+                    .catch(e => {
+                        this.handleError(e);
+                    });
+            },
+
+            handleError(e) {
+                let errMessage = e.message;
+                if (e.code === 'auth/invalid-email') {
+                    errMessage =
+                        'It looks like the email you entered is incorrect. Please try again or ask an adult for help.';
+                } else if (e.code === 'auth/wrong-password') {
+                    errMessage =
+                        'It looks like the password you enterd is incorrect. Please try again or ask an adult for help. If you forgot your password, click the link at the bottom of the page.';
+                }
+                this.$refs.error.openModal(errMessage);
+            },
+
             submit() {
                 if (this.forgotPassword) {
-                    return this.sendPasswordResetEmail(this.user.email);
+                    return this.userForgotPassword();
                 }
 
-                return this.login(this.user);
+                return this.userLogin();
             },
         },
     };
