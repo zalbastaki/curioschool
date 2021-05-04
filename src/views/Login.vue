@@ -78,7 +78,6 @@
                 this.login(this.user)
                     .then(() => {
                         // TO DO
-                        return console.log('login success');
                     })
                     .catch(e => {
                         this.handleError(e);
