@@ -37,10 +37,13 @@ const actions = {
             });
     },
 
-    async logout() {
+    logout() {
         firebase
             .auth()
             .signOut()
+            .then(() => {
+                router.push('/');
+            })
             .catch(e => {
                 throw e;
             });

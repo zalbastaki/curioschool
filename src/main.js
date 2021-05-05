@@ -27,9 +27,17 @@ firebase.auth().onAuthStateChanged(async user => {
     } else {
         store.commit('setIsLoggedIn', false);
         store.dispatch('resetUserData');
-        router.push('/');
     }
 });
+
+firebase.getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+            unsubscribe();
+            resolve(user);
+        }, reject);
+    });
+};
 
 // Initialize icons plugin
 Vue.use(icons);

@@ -10,14 +10,11 @@
 </template>
 
 <script>
-    import protectRoute from '../../mixins/protectRoute';
     import { mapActions } from 'vuex';
     import Dashboard from '../../components/Dashboard';
 
     export default {
         name: 'student-home',
-
-        mixins: [protectRoute],
 
         components: {
             Dashboard,
