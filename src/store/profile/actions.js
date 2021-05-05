@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 
 const actions = {
-    async getProfile(context) {
+    async getRole(context) {
         await firebase
             .firestore()
             .collection('users')
@@ -10,10 +10,19 @@ const actions = {
             .then(doc => {
                 if (doc.exists) {
                     context.commit('setRole', doc.data()['role']);
-                    context.commit('setProfile', doc.data()['profile']);
                 } else {
-                    throw new Error("Can't find user's profile.");
+                    throw new Error("Can't find user's data.");
                 }
+            });
+    },
+
+    async addProfileListener(context) {
+        await firebase
+            .firestore()
+            .collection('users')
+            .doc(context.rootGetters.userId)
+            .onSnapshot(doc => {
+                context.commit('setProfile', doc.data()['profile']);
             });
     },
 };
