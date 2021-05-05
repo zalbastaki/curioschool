@@ -13,6 +13,7 @@ const actions = {
                         const uid = firebase.auth().currentUser.uid;
                         context.commit('setIsLoggedIn', true);
                         context.commit('setUserId', uid);
+                        context.dispatch('getProfile', { root: true });
                     })
                     .catch(e => {
                         throw e;

@@ -1,6 +1,6 @@
 const state = {
-    isLoggedIn: null,
-    userId: '',
+    role: '',
+    profile: {},
 };
 
 export default state;
