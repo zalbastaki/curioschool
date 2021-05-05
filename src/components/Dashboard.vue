@@ -31,4 +31,12 @@
         height: 100vh;
         background: $purple;
     }
+
+    .page-content {
+        flex: 1;
+        background: $white;
+        margin-top: 80px;
+        padding: 30px;
+        border-top-left-radius: 50px;
+    }
 </style>

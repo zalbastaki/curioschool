@@ -11,8 +11,8 @@ const mutations = {
         state.profile[field] = value;
     },
 
-    setUnsubscribe: (state, unsubscribe) => {
-        state.unsubscribe = unsubscribe;
+    setUnsubscribeProfileListener: (state, unsubscribe) => {
+        state.unsubscribeProfileListener = unsubscribe;
     },
 };
 

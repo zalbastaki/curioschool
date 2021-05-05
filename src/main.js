@@ -27,6 +27,9 @@ firebase.auth().onAuthStateChanged(async user => {
     } else {
         store.commit('setIsLoggedIn', false);
         store.dispatch('resetUserData');
+        if (router.currentRoute.path !== '/') {
+            router.push('/');
+        }
     }
 });
 

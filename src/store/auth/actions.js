@@ -21,9 +21,12 @@ const actions = {
 
     goToDashboard(context) {
         const role = context.rootGetters.role;
-        if (role === 'student') {
+        if (role === 'student' && router.currentRoute.name !== 'student-home') {
             router.push('student-home');
-        } else if (role === 'teacher') {
+        } else if (
+            role === 'teacher' &&
+            router.currentRoute.name !== 'teacher-home'
+        ) {
             router.push('teacher-home');
         }
     },
@@ -41,9 +44,6 @@ const actions = {
         firebase
             .auth()
             .signOut()
-            .then(() => {
-                router.push('/');
-            })
             .catch(e => {
                 throw e;
             });

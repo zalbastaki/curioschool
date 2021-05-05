@@ -1,7 +1,7 @@
 const state = {
     role: '',
     profile: {},
-    unsubscribe: () => {},
+    unsubscribeProfileListener: () => {},
 };
 
 export default state;

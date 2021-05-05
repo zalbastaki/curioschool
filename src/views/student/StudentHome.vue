@@ -2,15 +2,12 @@
     <dashboard>
         <div class="student-home">
             <base-text type="h3">This is the student homepage</base-text>
-            <base-button type="button" @click="logout">
-                Logout
-            </base-button>
         </div>
     </dashboard>
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
+    import { mapGetters } from 'vuex';
     import Dashboard from '../../components/Dashboard';
 
     export default {
@@ -20,8 +17,8 @@
             Dashboard,
         },
 
-        methods: {
-            ...mapActions(['logout']),
+        computed: {
+            ...mapGetters(['profile']),
         },
     };
 </script>

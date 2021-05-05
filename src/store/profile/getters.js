@@ -7,8 +7,8 @@ const getters = {
         return state.profile;
     },
 
-    unsubscribe: state => {
-        return state.unsubscribe;
+    unsubscribeProfileListener: state => {
+        return state.unsubscribeProfileListener;
     },
 };
 
