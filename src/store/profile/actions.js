@@ -5,7 +5,7 @@ const actions = {
         await firebase
             .firestore()
             .collection('users')
-            .doc(context.rootGetters.userId)
+            .doc(firebase.auth().currentUser.uid)
             .get()
             .then(doc => {
                 if (doc.exists) {
@@ -17,13 +17,29 @@ const actions = {
     },
 
     async addProfileListener(context) {
-        await firebase
+        var unsubscribe = await firebase
             .firestore()
             .collection('users')
-            .doc(context.rootGetters.userId)
+            .doc(firebase.auth().currentUser.uid)
             .onSnapshot(doc => {
                 context.commit('setProfile', doc.data()['profile']);
             });
+        context.commit('setUnsubscribe', unsubscribe);
+    },
+
+    removeProfileListener(context) {
+        context.getters.unsubscribe();
+    },
+
+    async getUserData(context) {
+        await context.dispatch('getRole');
+        await context.dispatch('addProfileListener');
+    },
+
+    async resetUserData(context) {
+        await context.commit('setRole', '');
+        await context.commit('setProfile', {});
+        await context.dispatch('removeProfileListener');
     },
 };
 

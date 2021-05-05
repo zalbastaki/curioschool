@@ -66,19 +66,13 @@
             };
         },
 
-        computed: {
-            disabled() {
-                return !this.user.email || !this.user.password;
-            },
-        },
-
         methods: {
-            ...mapActions(['login', 'sendPasswordResetEmail']),
+            ...mapActions(['login', 'sendPasswordResetEmail', 'goToDashboard']),
 
             userLogin() {
                 this.login(this.user)
                     .then(() => {
-                        // TO DO
+                        this.goToDashboard();
                     })
                     .catch(e => {
                         this.handleError(e);

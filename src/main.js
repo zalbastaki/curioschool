@@ -19,6 +19,18 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+firebase.auth().onAuthStateChanged(async user => {
+    if (user) {
+        store.commit('setIsLoggedIn', true);
+        await store.dispatch('getUserData');
+        store.dispatch('goToDashboard');
+    } else {
+        store.commit('setIsLoggedIn', false);
+        store.dispatch('resetUserData');
+        router.push('/');
+    }
+});
+
 // Initialize icons plugin
 Vue.use(icons);
 

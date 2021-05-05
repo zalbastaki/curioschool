@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import router from '../../router';
 
 const actions = {
     async login(context, user) {
@@ -9,13 +10,6 @@ const actions = {
                 await firebase
                     .auth()
                     .signInWithEmailAndPassword(user.email, user.password)
-                    .then(() => {
-                        const uid = firebase.auth().currentUser.uid;
-                        context.commit('setIsLoggedIn', true);
-                        context.commit('setUserId', uid);
-                        context.dispatch('getRole', { root: true });
-                        context.dispatch('addProfileListener', { root: true });
-                    })
                     .catch(e => {
                         throw e;
                     });
@@ -25,10 +19,28 @@ const actions = {
             });
     },
 
+    goToDashboard(context) {
+        const role = context.rootGetters.role;
+        if (role === 'student') {
+            router.push('student-home');
+        } else if (role === 'teacher') {
+            router.push('teacher-home');
+        }
+    },
+
     async sendPasswordResetEmail(context, email) {
         await firebase
             .auth()
             .sendPasswordResetEmail(email)
+            .catch(e => {
+                throw e;
+            });
+    },
+
+    async logout() {
+        firebase
+            .auth()
+            .signOut()
             .catch(e => {
                 throw e;
             });

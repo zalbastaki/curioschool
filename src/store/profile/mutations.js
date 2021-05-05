@@ -10,6 +10,10 @@ const mutations = {
     setProfileField: (state, { field, value }) => {
         state.profile[field] = value;
     },
+
+    setUnsubscribe: (state, unsubscribe) => {
+        state.unsubscribe = unsubscribe;
+    },
 };
 
 export default mutations;
