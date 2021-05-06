@@ -4,6 +4,8 @@ import firebase from 'firebase';
 
 import Login from '../views/Login.vue';
 import StudentHome from '../views/student/StudentHome';
+import StudentClass from '../views/student/StudentClass';
+import StudentSettings from '../views/student/StudentSettings';
 import TeacherHome from '../views/teacher/TeacherHome';
 import PageNotFound from '../views/PageNotFound.vue';
 
@@ -19,6 +21,23 @@ const routes = [
         path: '/student-home',
         name: 'student-home',
         component: StudentHome,
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: '/student-class/:id',
+        name: 'student-class',
+        component: StudentClass,
+        props: true,
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: '/student-settings',
+        name: 'student-settings',
+        component: StudentSettings,
         meta: {
             requiresAuth: true,
         },
