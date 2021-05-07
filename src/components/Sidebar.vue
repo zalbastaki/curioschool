@@ -26,6 +26,7 @@
             type="button"
             @click="logout"
             color="dark-orange"
+            width="190px"
         >
             Logout
         </base-button>
@@ -75,7 +76,7 @@
 
 <style lang="scss" scoped>
     .sidebar {
-        padding: 30px 0 50px;
+        padding: 50px 0 50px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -109,7 +110,7 @@
                 text-transform: uppercase;
                 font-weight: bold;
                 font-size: 30px;
-                margin-right: 20px;
+                margin-right: 25px;
                 padding: 20px 0 20px 35px;
                 color: $white;
                 text-decoration: none;
@@ -134,7 +135,7 @@
         }
 
         .logout-btn {
-            margin: 0 20px;
+            margin: 0 25px;
         }
     }
 </style>
