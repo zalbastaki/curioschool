@@ -1,5 +1,6 @@
 <template>
     <dashboard>
+        <progress-section />
         <div class="student-class">
             <base-text type="h3">
                 This is the student's {{ clas.name }} class page
@@ -11,12 +12,14 @@
 <script>
     import { mapGetters } from 'vuex';
     import Dashboard from '../../components/Dashboard';
+    import ProgressSection from '../../components/ProgressSection';
 
     export default {
         name: 'student-class',
 
         components: {
             Dashboard,
+            ProgressSection,
         },
 
         props: {

@@ -22,7 +22,6 @@
 
 <style lang="scss" scoped>
     .text {
-        color: $black;
         margin: 0;
     }
 

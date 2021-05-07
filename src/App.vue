@@ -17,5 +17,6 @@
 
     #app {
         font-family: $font-family;
+        color: $black;
     }
 </style>
