@@ -1,5 +1,5 @@
 <template>
-    <div class="meter">
+    <div class="meter" :class="$mq">
         <span :style="{ width: `${progress}%` }" />
     </div>
 </template>
@@ -27,6 +27,10 @@
         border-radius: 25px;
         padding: 10px;
         box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+
+        &.tablet {
+            height: 15px;
+        }
     }
 
     .meter > span {

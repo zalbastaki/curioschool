@@ -1,12 +1,12 @@
 <template>
-    <section class="progress">
+    <section class="progress" :class="$mq">
         <div class="level">
             <progress-bar :progress="progress" />
             <base-text type="p">Level {{ level }}</base-text>
         </div>
         <div class="coins">
             <fa-icon class="icon" :icon="['fas', 'coins']" aria-label="coins" />
-            {{ profile.coins }} coins
+            <base-text type="p">{{ profile.coins }} coins</base-text>
         </div>
     </section>
 </template>
@@ -44,9 +44,16 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        font-size: 25px;
-        color: $dark-purple;
-        font-weight: bold;
+
+        .p {
+            font-weight: bold;
+            font-size: 25px;
+            color: $dark-purple;
+
+            &.tablet {
+                font-size: 18px;
+            }
+        }
 
         .level {
             display: flex;
@@ -54,9 +61,7 @@
             margin-right: 30px;
 
             .p {
-                font-size: 25px;
-                color: $dark-purple;
-                margin-left: 10px;
+                margin-left: 8px;
             }
         }
 
@@ -66,6 +71,7 @@
 
             .icon {
                 color: $yellow;
+                font-size: 25px;
                 margin-right: 8px;
             }
         }

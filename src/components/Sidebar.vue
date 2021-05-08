@@ -1,5 +1,5 @@
 <template>
-    <div class="sidebar">
+    <div class="sidebar" :class="$mq">
         <div>
             <div class="profile">
                 <div class="avatar" />
@@ -26,7 +26,7 @@
             type="button"
             @click="logout"
             color="dark-orange"
-            width="190px"
+            :width="$mq === 'tablet' ? '160px' : '190px'"
         >
             Logout
         </base-button>
@@ -89,8 +89,8 @@
             align-items: center;
 
             .avatar {
-                width: 150px;
-                height: 150px;
+                width: 100px;
+                height: 100px;
                 border-radius: 50%;
                 background-image: url('../assets/images/placeholder-avatar.png');
                 background-size: cover;
@@ -126,6 +126,10 @@
 
                 &.selected {
                     background: darken($purple, 10%);
+
+                    &:hover {
+                        background: darken($purple, 10%);
+                    }
                 }
 
                 &:hover {
@@ -136,6 +140,36 @@
 
         .logout-btn {
             margin: 0 25px;
+        }
+
+        &.tablet {
+            padding: 30px 0 30px;
+
+            .profile {
+                .avatar {
+                    width: 80px;
+                    height: 80px;
+                    margin-bottom: 10px;
+                }
+
+                .name {
+                    font-size: 20px;
+                }
+            }
+
+            .nav {
+                margin-top: 20px;
+
+                .nav-item {
+                    font-size: 25px;
+                    margin-right: 20px;
+                    padding: 15px 0 15px 25px;
+                }
+            }
+
+            .logout-btn {
+                margin: 0 15px;
+            }
         }
     }
 </style>

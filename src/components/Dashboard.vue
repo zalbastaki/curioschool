@@ -1,5 +1,5 @@
 <template>
-    <div class="dashboard">
+    <div class="dashboard" :class="$mq">
         <sidebar />
         <div class="page-content">
             <slot />
@@ -30,13 +30,19 @@
         width: 100vw;
         height: 100vh;
         background: $purple;
-    }
 
-    .page-content {
-        flex: 1;
-        background: $white;
-        margin-top: 80px;
-        padding: 30px;
-        border-top-left-radius: 50px;
+        .page-content {
+            flex: 1;
+            background: $white;
+            margin-top: 80px;
+            padding: 30px;
+            border-top-left-radius: 50px;
+        }
+
+        &.tablet {
+            .page-content {
+                margin-top: 40px;
+            }
+        }
     }
 </style>
