@@ -20,7 +20,7 @@ const actions = {
     },
 
     goToDashboard(context) {
-        const role = context.rootGetters.role;
+        const role = context.getters.role;
         if (role === 'student' && router.currentRoute.name !== 'student-home') {
             router.push('student-home');
         } else if (

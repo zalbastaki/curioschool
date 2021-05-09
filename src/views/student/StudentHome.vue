@@ -1,16 +1,11 @@
 <template>
     <dashboard>
         <div class="student-home">
-            <progress-section />
-            <section class="greeting">
+            <section class="top-bar">
                 <base-text type="h1">Hey {{ profile.first_name }}!</base-text>
+                <progress-section />
             </section>
-            <dashboard-section class="todo" heading="Today's plan">
-                <!-- TO DO -->
-                <base-text v-for="(num, index) in 20" :key="index" type="p"
-                    >Test item</base-text
-                >
-            </dashboard-section>
+            <to-do-section />
             <dashboard-section class="upcoming" heading="Upcoming Assessments">
                 <!-- TO DO -->
             </dashboard-section>
@@ -23,7 +18,8 @@
                     :key="index"
                     class="class-link"
                     :to="{ path: `/student-class/${clas.id}` }"
-                    :hex-color="clas.color"
+                    :background="`${clas.color}44`"
+                    :border="clas.color"
                 >
                     <div class="teacher-img" />
                     <base-text type="h4">{{ clas.name }}</base-text>
@@ -37,6 +33,7 @@
     import { mapGetters } from 'vuex';
     import Dashboard from '../../components/Dashboard';
     import ProgressSection from '../../components/ProgressSection';
+    import ToDoSection from '../../components/ToDoSection';
     import DashboardSection from '../../components/DashboardSection';
     import DashboardCard from '../../components/DashboardCard';
 
@@ -46,6 +43,7 @@
         components: {
             Dashboard,
             ProgressSection,
+            ToDoSection,
             DashboardSection,
             DashboardCard,
         },
@@ -61,34 +59,27 @@
         width: 100%;
         max-height: 100%;
         display: grid;
-        grid-template-rows: auto auto minmax(0, 3fr) minmax(0, 1fr);
-        grid-template-columns: calc(38% - 20px) calc(38% - 20px) 24%;
+        grid-template-rows: auto minmax(0, 3fr) minmax(0, 1fr);
+        grid-template-columns: calc(35% - 20px) calc(35% - 20px) 30%;
         gap: 20px;
         grid-template-areas:
-            'progress progress progress'
-            'greeting greeting greeting'
-            'todo upcoming schedule'
+            'top-bar top-bar top-bar'
+            'todos upcoming schedule'
             'classes classes schedule';
     }
 
-    section.progress {
-        grid-area: progress;
-    }
-
-    section.greeting {
-        grid-area: greeting;
+    .top-bar {
+        grid-area: top-bar;
+        display: flex;
+        justify-content: space-between;
 
         .h1 {
-            font-size: 70px;
-
-            &.tablet {
-                font-size: 50px;
-            }
+            font-size: 50px;
         }
     }
 
-    .todo {
-        grid-area: todo;
+    .todos {
+        grid-area: todos;
     }
 
     .upcoming {

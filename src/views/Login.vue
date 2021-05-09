@@ -146,7 +146,7 @@
             justify-content: center;
             flex-direction: column;
 
-            .input {
+            .base-input {
                 width: 80vw;
                 max-width: 500px;
                 margin-top: 10px;

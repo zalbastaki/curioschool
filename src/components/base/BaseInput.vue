@@ -1,17 +1,27 @@
 <template>
-    <component
-        ref="input"
-        class="input"
-        :class="[type]"
-        :is="type === 'textarea' ? 'textarea' : 'input'"
-        :type="type === 'textarea' ? null : type"
-        :name="name"
-        :id="id"
-        :placeholder="placeholder"
-        :value="value"
-        :checked="type === 'checkbox' ? value : null"
-        @input="emitInput"
-    />
+    <div class="base-input">
+        <component
+            ref="input"
+            class="input"
+            :class="[type]"
+            :is="type === 'textarea' ? 'textarea' : 'input'"
+            :type="type === 'textarea' ? null : type"
+            :name="name"
+            :id="name"
+            :placeholder="placeholder"
+            :value="value"
+            :checked="type === 'checkbox' ? value : null"
+            @input="emitInput"
+        />
+        <label
+            v-if="label && type === 'checkbox'"
+            class="checkbox-label"
+            :class="value ? 'done' : ''"
+            :for="name"
+        >
+            {{ label }}
+        </label>
+    </div>
 </template>
 
 <script>
@@ -32,7 +42,7 @@
                 },
             },
 
-            id: {
+            placeholder: {
                 type: String,
                 required: false,
                 default() {
@@ -40,7 +50,7 @@
                 },
             },
 
-            placeholder: {
+            label: {
                 type: String,
                 required: false,
                 default() {
@@ -68,20 +78,42 @@
 </script>
 
 <style lang="scss" scoped>
-    .input {
-        padding: 15px 12px;
-        border-radius: $border-radius;
-        border: $black solid 2px;
-        font-size: 20px;
-        background: #f7f7f7;
+    .base-input {
+        .input {
+            padding: 15px 12px;
+            border-radius: $border-radius;
+            border: $black solid 2px;
+            font-size: 20px;
+            background: #f7f7f7;
+            width: 100%;
 
-        &::placeholder {
-            font-family: $font-family;
+            &::placeholder {
+                font-family: $font-family;
+            }
+
+            &:focus {
+                outline: none;
+                background: #e1e1e1;
+            }
+
+            &.checkbox {
+                display: inline-block;
+                margin: 0;
+                width: unset;
+            }
         }
 
-        &:focus {
-            outline: none;
-            background: #e1e1e1;
+        .checkbox-label {
+            display: inline-block;
+            margin-left: 5px;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            &.done {
+                text-decoration: line-through;
+            }
         }
     }
 </style>

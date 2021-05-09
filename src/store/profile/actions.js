@@ -53,6 +53,26 @@ const actions = {
         await context.dispatch('removeProfileListener');
         await context.dispatch('removeUserClassListeners');
     },
+
+    async updateProfile(context) {
+        await firebase
+            .firestore()
+            .collection('users')
+            .doc(firebase.auth().currentUser.uid)
+            .set({
+                id: firebase.auth().currentUser.uid,
+                role: context.getters.role,
+                profile: context.getters.profile,
+            })
+            .catch(e => {
+                throw e;
+            });
+    },
+
+    async editTodoDoneValue(context, { index, value }) {
+        await context.commit('setTodoDoneValue', { index, value });
+        await context.dispatch('updateProfile');
+    },
 };
 
 export default actions;

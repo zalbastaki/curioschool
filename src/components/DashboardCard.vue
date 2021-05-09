@@ -4,7 +4,7 @@
         :to="to"
         class="card"
         :class="[color]"
-        :style="{ background: hexColor }"
+        :style="{ background: background, border: `2px solid ${border}` }"
     >
         <slot />
     </component>
@@ -23,7 +23,15 @@
                 },
             },
 
-            hexColor: {
+            background: {
+                type: String,
+                required: false,
+                default() {
+                    return null;
+                },
+            },
+
+            border: {
                 type: String,
                 required: false,
                 default() {
