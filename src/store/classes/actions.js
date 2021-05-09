@@ -19,7 +19,7 @@ const actions = {
         const unsubscribeClassListeners = [
             ...context.getters.unsubscribeClassListeners,
         ];
-        unsubscribeClassListeners.foreach((unsubscribe, index) => {
+        unsubscribeClassListeners.map((unsubscribe, index) => {
             unsubscribe();
             context.commit('removeUnsubscribeClassListener', index);
         });

@@ -6,9 +6,7 @@
                 <progress-section />
             </section>
             <to-do-section />
-            <dashboard-section class="upcoming" heading="Upcoming Assessments">
-                <!-- TO DO -->
-            </dashboard-section>
+            <upcoming-section />
             <schedule-section />
             <section class="classes">
                 <dashboard-card
@@ -33,7 +31,7 @@
     import ProgressSection from '../../components/ProgressSection';
     import ToDoSection from '../../components/ToDoSection';
     import ScheduleSection from '../../components/ScheduleSection';
-    import DashboardSection from '../../components/DashboardSection';
+    import UpcomingSection from '../../components/UpcomingSection';
     import DashboardCard from '../../components/DashboardCard';
 
     export default {
@@ -44,7 +42,7 @@
             ProgressSection,
             ToDoSection,
             ScheduleSection,
-            DashboardSection,
+            UpcomingSection,
             DashboardCard,
         },
 
