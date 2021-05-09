@@ -1,5 +1,16 @@
 <template>
     <dashboard-section class="todos" heading="Today's plan">
+        <base-text
+            v-if="
+                lateTodos &&
+                    lateTodos.length === 0 &&
+                    todos &&
+                    todos.length === 0
+            "
+            type="p"
+        >
+            You've got no tasks to do today!
+        </base-text>
         <base-input
             v-for="(todo, index) in todos"
             :key="`todo-${index}`"
