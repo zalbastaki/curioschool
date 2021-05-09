@@ -27,6 +27,10 @@ const mutations = {
     removeUnsubscribeClassListener: (state, index) => {
         state.unsubscribeClassListeners.splice(index, 1);
     },
+
+    setSchedule: (state, schedule) => {
+        state.schedule = schedule;
+    },
 };
 
 export default mutations;

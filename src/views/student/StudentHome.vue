@@ -9,9 +9,7 @@
             <dashboard-section class="upcoming" heading="Upcoming Assessments">
                 <!-- TO DO -->
             </dashboard-section>
-            <section class="schedule">
-                <base-text type="h3">Schedule</base-text>
-            </section>
+            <schedule-section />
             <section class="classes">
                 <dashboard-card
                     v-for="(clas, index) in classes"
@@ -34,6 +32,7 @@
     import Dashboard from '../../components/Dashboard';
     import ProgressSection from '../../components/ProgressSection';
     import ToDoSection from '../../components/ToDoSection';
+    import ScheduleSection from '../../components/ScheduleSection';
     import DashboardSection from '../../components/DashboardSection';
     import DashboardCard from '../../components/DashboardCard';
 
@@ -44,6 +43,7 @@
             Dashboard,
             ProgressSection,
             ToDoSection,
+            ScheduleSection,
             DashboardSection,
             DashboardCard,
         },

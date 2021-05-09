@@ -6,6 +6,10 @@ const getters = {
     unsubscribeClassListeners: state => {
         return state.unsubscribeClassListeners;
     },
+
+    schedule: state => {
+        return state.schedule;
+    },
 };
 
 export default getters;
