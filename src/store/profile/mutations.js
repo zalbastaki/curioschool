@@ -15,7 +15,8 @@ const mutations = {
         state.unsubscribeProfileListener = unsubscribe;
     },
 
-    setTodoDoneValue: (state, { index, value }) => {
+    setTodoDoneValue: (state, { id, value }) => {
+        const index = state.profile.todos.findIndex(todo => todo.id === id);
         state.profile.todos[index].done = value;
     },
 };

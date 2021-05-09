@@ -69,8 +69,8 @@ const actions = {
             });
     },
 
-    async editTodoDoneValue(context, { index, value }) {
-        await context.commit('setTodoDoneValue', { index, value });
+    async editTodoDoneValue(context, { id, value }) {
+        await context.commit('setTodoDoneValue', { id, value });
         await context.dispatch('updateProfile');
     },
 };

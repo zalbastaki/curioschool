@@ -59,6 +59,14 @@
         }
     }
 
+    .h5 {
+        font-size: 20px;
+
+        &.tablet {
+            font-size: 18px;
+        }
+    }
+
     .p {
         font-size: 20px;
         line-height: 1.5;
