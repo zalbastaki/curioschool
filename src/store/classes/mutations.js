@@ -31,6 +31,10 @@ const mutations = {
     setSchedule: (state, schedule) => {
         state.schedule = schedule;
     },
+
+    setCurrentClass: (state, currentClass) => {
+        state.currentClass = currentClass;
+    },
 };
 
 export default mutations;

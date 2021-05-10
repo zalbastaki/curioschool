@@ -10,6 +10,10 @@ const getters = {
     schedule: state => {
         return state.schedule;
     },
+
+    currentClass: state => {
+        return state.currentClass;
+    },
 };
 
 export default getters;

@@ -15,20 +15,10 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
+
     export default {
         name: 'links-section',
-
-        props: {
-            id: {
-                type: String,
-                required: true,
-            },
-
-            color: {
-                type: String,
-                required: true,
-            },
-        },
 
         data() {
             return {
@@ -60,6 +50,18 @@
                     },
                 ],
             };
+        },
+
+        computed: {
+            ...mapGetters(['currentClass']),
+
+            id() {
+                return this.currentClass.id;
+            },
+
+            color() {
+                return this.currentClass.color;
+            },
         },
     };
 </script>

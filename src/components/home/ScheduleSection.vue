@@ -15,8 +15,8 @@
                 class="time"
                 :style="{ borderRight: `2px solid ${item.color}` }"
             >
-                <div>{{ getFormattedTime(item.start_time) }}</div>
-                <div>{{ getFormattedTime(item.end_time) }}</div>
+                <div>{{ formatTime(item.start_time) }}</div>
+                <div>{{ formatTime(item.end_time) }}</div>
             </div>
             <div class="name">{{ item.class }}</div>
         </div>
@@ -35,7 +35,7 @@
         },
 
         methods: {
-            getFormattedTime(time) {
+            formatTime(time) {
                 return moment(time).format('h:mm a');
             },
 

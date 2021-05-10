@@ -1,26 +1,34 @@
 <template>
     <base-dashboard>
-        <base-loader :show="!clas" />
-        <div v-if="clas" class="student-class">
+        <base-loader :show="!currentClass" />
+        <div v-if="currentClass" class="student-class">
             <section class="top-bar">
                 <div class="class-title">
                     <div
                         class="teacher-img"
-                        :style="{ borderColor: clas.color }"
+                        :style="{ borderColor: currentClass.color }"
                     />
-                    <base-text type="h1">{{ clas.name }}</base-text>
+                    <base-text type="h1">{{ currentClass.name }}</base-text>
                 </div>
                 <progress-section />
             </section>
-            <links-section :id="clas.id" :color="clas.color" />
+            <links-section />
+            <announcements-section />
+            <chat-section />
+            <leaderboard-section />
+            <rewards-section />
         </div>
     </base-dashboard>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+    import { mapActions, mapGetters } from 'vuex';
     import ProgressSection from '../../components/ProgressSection';
     import LinksSection from '../../components/class/LinksSection';
+    import AnnouncementsSection from '../../components/class/AnnouncementsSection';
+    import ChatSection from '../../components/class/ChatSection';
+    import LeaderboardSection from '../../components/class/LeaderboardSection';
+    import RewardsSection from '../../components/class/RewardsSection';
 
     export default {
         name: 'student-class',
@@ -28,23 +36,22 @@
         components: {
             ProgressSection,
             LinksSection,
-        },
-
-        props: {
-            id: {
-                type: String,
-                required: true,
-            },
+            AnnouncementsSection,
+            ChatSection,
+            LeaderboardSection,
+            RewardsSection,
         },
 
         computed: {
-            ...mapGetters(['classes']),
+            ...mapGetters(['currentClass']),
+        },
 
-            clas() {
-                return this.classes.find(({ id }) => {
-                    return id === this.id;
-                });
-            },
+        created() {
+            this.updateCurrentClass();
+        },
+
+        methods: {
+            ...mapActions(['updateCurrentClass']),
         },
     };
 </script>
@@ -54,10 +61,8 @@
         width: 100%;
         max-height: 100%;
         display: grid;
-        grid-template-rows: auto 1fr 1fr;
-        grid-template-columns:
-            calc(15% - 20px) calc(30% - 20px) calc(25% - 20px)
-            30%;
+        grid-template-rows: auto minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-columns: auto 3fr 1fr 2fr;
         gap: 20px;
         grid-template-areas:
             'top-bar top-bar top-bar top-bar'
@@ -96,5 +101,21 @@
 
     .links {
         grid-area: links;
+    }
+
+    .announcements {
+        grid-area: announcements;
+    }
+
+    .chat {
+        grid-area: chat;
+    }
+
+    .leaderboard {
+        grid-area: leaderboard;
+    }
+
+    .rewards {
+        grid-area: rewards;
     }
 </style>

@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import router from '../../router';
 
 const actions = {
     addUserClassListeners(context) {
@@ -10,6 +11,7 @@ const actions = {
                 .onSnapshot(async doc => {
                     await context.commit('setClass', doc.data());
                     context.dispatch('getSchedule');
+                    context.dispatch('updateCurrentClass');
                 });
             context.commit('addUnsubscribeClassListener', unsubscribe);
         });
@@ -55,6 +57,13 @@ const actions = {
         });
 
         context.commit('setSchedule', schedule);
+    },
+
+    updateCurrentClass(context) {
+        const currentClass = context.getters.classes.find(
+            ({ id }) => id === router.currentRoute.params.id
+        );
+        context.commit('setCurrentClass', currentClass);
     },
 };
 

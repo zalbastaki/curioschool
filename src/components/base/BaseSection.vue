@@ -1,9 +1,12 @@
 <template>
-    <section class="base-section" :class="color">
-        <div class="heading">
+    <section class="base-section" :class="background || border ? '' : color">
+        <div
+            class="heading"
+            :style="{ background: background, border: `3px solid ${border}` }"
+        >
             <base-text type="h3">{{ heading }}</base-text>
         </div>
-        <div class="content">
+        <div class="content" :style="{ border: `3px solid ${border}` }">
             <slot />
         </div>
     </section>
@@ -26,6 +29,22 @@
                     return 'orange';
                 },
             },
+
+            background: {
+                type: String,
+                required: false,
+                default() {
+                    return null;
+                },
+            },
+
+            border: {
+                type: String,
+                required: false,
+                default() {
+                    return null;
+                },
+            },
         },
     };
 </script>
@@ -38,23 +57,23 @@
         grid-template-rows: min-content 1fr;
 
         .heading {
-            color: $white;
             text-transform: capitalize;
             border-top-right-radius: $border-radius;
             border-top-left-radius: $border-radius;
-            padding: 10px 20px;
+            padding: 10px 15px;
         }
 
         .content {
             border-bottom-right-radius: $border-radius;
             border-bottom-left-radius: $border-radius;
-            padding: 10px 20px;
+            padding: 10px 15px;
             overflow: scroll;
         }
 
         &.dark-purple {
             .heading {
                 background: $dark-purple;
+                color: $white;
             }
 
             .content {
@@ -65,6 +84,7 @@
         &.purple {
             .heading {
                 background: $purple;
+                color: $white;
             }
 
             .content {
@@ -86,6 +106,7 @@
         &.orange {
             .heading {
                 background: $orange;
+                color: $white;
             }
 
             .content {
@@ -96,6 +117,7 @@
         &.dark-orange {
             .heading {
                 background: $dark-orange;
+                color: $white;
             }
 
             .content {
