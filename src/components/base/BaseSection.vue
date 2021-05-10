@@ -2,11 +2,11 @@
     <section class="base-section" :class="background || border ? '' : color">
         <div
             class="heading"
-            :style="{ background: background, border: `3px solid ${border}` }"
+            :style="{ background: background, borderColor: border }"
         >
             <base-text type="h3">{{ heading }}</base-text>
         </div>
-        <div class="content" :style="{ border: `3px solid ${border}` }">
+        <div class="content" :style="{ borderColor: border }">
             <slot />
         </div>
     </section>
@@ -61,6 +61,12 @@
             border-top-right-radius: $border-radius;
             border-top-left-radius: $border-radius;
             padding: 10px 15px;
+            border-top-width: 3px;
+            border-right-width: 3px;
+            border-left-width: 3px;
+            border-top-style: solid;
+            border-right-style: solid;
+            border-left-style: solid;
         }
 
         .content {
@@ -68,6 +74,8 @@
             border-bottom-left-radius: $border-radius;
             padding: 10px 15px;
             overflow: scroll;
+            border-width: 3px;
+            border-style: solid;
         }
 
         &.dark-purple {

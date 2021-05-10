@@ -2,7 +2,7 @@ const state = {
     classes: [],
     unsubscribeClassListeners: [],
     schedule: [],
-    currentClass: {},
+    currentClass: null,
 };
 
 export default state;

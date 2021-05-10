@@ -4,7 +4,7 @@
         :to="to"
         class="card"
         :class="[color]"
-        :style="{ background: background, border: `2px solid ${border}` }"
+        :style="{ background: background, border: `3px solid ${border}` }"
     >
         <slot />
     </component>
