@@ -23,7 +23,15 @@
                 </base-text>
             </div>
             <div class="announcement-content">
-                {{ announcement.label }}
+                <div class="text">{{ announcement.label }}</div>
+                <div class="time">
+                    <fa-icon
+                        :icon="['fas', 'clock']"
+                        aria-label="time"
+                        :style="{ color }"
+                    />
+                    {{ getTime(announcement.timestamp) }}
+                </div>
             </div>
         </div>
     </base-section>
@@ -73,6 +81,10 @@
             margin-bottom: 10px;
 
             .date {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
                 border-right-width: 2px;
                 border-right-style: solid;
                 padding: 3px 8px 8px;
@@ -81,6 +93,19 @@
 
             .announcement-content {
                 padding: 8px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                .text {
+                    font-weight: bold;
+                }
+
+                .time {
+                    align-self: flex-end;
+                    margin-top: 10px;
+                    font-size: 12px;
+                }
             }
         }
     }

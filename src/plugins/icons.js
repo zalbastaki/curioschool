@@ -9,6 +9,7 @@ import {
     faFileAlt,
     faStickyNote,
     faArrowLeft,
+    faClock,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -21,6 +22,7 @@ export default () => {
     library.add(faFileAlt);
     library.add(faStickyNote);
     library.add(faArrowLeft);
+    library.add(faClock);
 
     Vue.component('fa-icon', FontAwesomeIcon);
 };
