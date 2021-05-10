@@ -1,6 +1,6 @@
 <template>
     <div class="dashboard" :class="$mq">
-        <sidebar />
+        <dashboard-sidebar />
         <div class="page-content">
             <slot />
         </div>
@@ -9,13 +9,13 @@
 
 <script>
     import { mapGetters } from 'vuex';
-    import Sidebar from './Sidebar';
+    import DashboardSidebar from './DashboardSidebar';
 
     export default {
-        name: 'dashboard',
+        name: 'base-dashboard',
 
         components: {
-            Sidebar,
+            DashboardSidebar,
         },
 
         computed: {

@@ -6,7 +6,7 @@
 
 <script>
     export default {
-        name: 'progress-bar',
+        name: 'base-progress-bar',
 
         props: {
             progress: {
@@ -29,7 +29,7 @@
         box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
 
         &.tablet {
-            height: 15px;
+            width: 200px;
         }
     }
 

@@ -1,25 +1,27 @@
 <template>
-    <dashboard>
+    <base-dashboard>
         <base-loader :show="!clas" />
         <div v-if="clas" class="student-assessments">
-            <router-link class="back-btn" :to="`/student-class/${id}`">
+            <router-link
+                class="back-btn"
+                :to="`/student-class/${id}`"
+                :style="{
+                    background: `${clas.color}44`,
+                    borderColor: clas.color,
+                }"
+            >
                 <fa-icon :icon="['fas', 'arrow-left']" aria-label="back" />
             </router-link>
             <base-text type="h1">{{ clas.name }} {{ type }}</base-text>
         </div>
-    </dashboard>
+    </base-dashboard>
 </template>
 
 <script>
     import { mapGetters } from 'vuex';
-    import Dashboard from '../../components/Dashboard';
 
     export default {
         name: 'student-assessments',
-
-        components: {
-            Dashboard,
-        },
 
         props: {
             id: {
@@ -48,19 +50,20 @@
 <style lang="scss" scoped>
     .student-assessments {
         .back-btn {
-            background: $yellow;
             color: $black;
             font-size: 30px;
             width: 40px;
             height: 40px;
             border-radius: 50%;
+            border-width: 3px;
+            border-style: solid;
             margin-bottom: 15px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
 
             &:hover {
-                background: darken($yellow, 5%);
+                margin-left: -3px;
             }
         }
 

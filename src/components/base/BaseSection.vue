@@ -1,5 +1,5 @@
 <template>
-    <section class="dashboard-section" :class="color">
+    <section class="base-section" :class="color">
         <div class="heading">
             <base-text type="h3">{{ heading }}</base-text>
         </div>
@@ -11,7 +11,7 @@
 
 <script>
     export default {
-        name: 'dashboard-section',
+        name: 'base-section',
 
         props: {
             heading: {
@@ -31,7 +31,7 @@
 </script>
 
 <style lang="scss" scoped>
-    section.dashboard-section {
+    section.base-section {
         height: 100%;
         width: 100%;
         display: grid;

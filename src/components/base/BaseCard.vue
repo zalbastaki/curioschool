@@ -12,7 +12,7 @@
 
 <script>
     export default {
-        name: 'dashboard-card',
+        name: 'base-card',
 
         props: {
             color: {

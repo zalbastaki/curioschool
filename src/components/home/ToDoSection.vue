@@ -1,5 +1,5 @@
 <template>
-    <dashboard-section class="todos" heading="Today's plan">
+    <base-section class="todos" heading="Today's plan">
         <base-text
             v-if="
                 lateTodos &&
@@ -40,19 +40,14 @@
             @input="value => editTodoDoneValue({ id: todo.id, value })"
             :style="todo.classColor ? style(todo.classColor) : ''"
         />
-    </dashboard-section>
+    </base-section>
 </template>
 
 <script>
     import { mapGetters, mapActions } from 'vuex';
-    import DashboardSection from './DashboardSection';
 
     export default {
         name: 'to-do-section',
-
-        components: {
-            DashboardSection,
-        },
 
         computed: {
             ...mapGetters(['todos', 'lateTodos']),

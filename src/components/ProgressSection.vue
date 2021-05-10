@@ -1,7 +1,7 @@
 <template>
     <section class="progress" :class="$mq">
         <div class="level">
-            <progress-bar :progress="progress" />
+            <base-progress-bar :progress="progress" />
             <base-text type="p">Level {{ level }}</base-text>
         </div>
         <div class="coins">
@@ -13,14 +13,9 @@
 
 <script>
     import { mapGetters } from 'vuex';
-    import ProgressBar from './ProgressBar';
 
     export default {
         name: 'progress-section',
-
-        components: {
-            ProgressBar,
-        },
 
         computed: {
             ...mapGetters(['profile']),
@@ -51,7 +46,7 @@
             color: $dark-purple;
 
             &.tablet {
-                font-size: 18px;
+                font-size: 20px;
             }
         }
 

@@ -1,5 +1,5 @@
 <template>
-    <dashboard>
+    <base-dashboard>
         <base-loader :show="!profile || classes.length === 0" />
         <div v-if="profile && classes.length > 0" class="student-home">
             <section class="top-bar">
@@ -9,42 +9,28 @@
             <to-do-section />
             <upcoming-section />
             <schedule-section />
-            <section class="classes">
-                <dashboard-card
-                    v-for="(clas, index) in classes"
-                    :key="index"
-                    class="class-link"
-                    :to="{ path: `/student-class/${clas.id}` }"
-                    :background="`${clas.color}44`"
-                    :border="clas.color"
-                >
-                    <div class="teacher-img" />
-                    <base-text type="h4">{{ clas.name }}</base-text>
-                </dashboard-card>
-            </section>
+            <classes-section />
         </div>
-    </dashboard>
+    </base-dashboard>
 </template>
 
 <script>
     import { mapGetters } from 'vuex';
-    import Dashboard from '../../components/Dashboard';
     import ProgressSection from '../../components/ProgressSection';
-    import ToDoSection from '../../components/ToDoSection';
-    import ScheduleSection from '../../components/ScheduleSection';
-    import UpcomingSection from '../../components/UpcomingSection';
-    import DashboardCard from '../../components/DashboardCard';
+    import ToDoSection from '../../components/home/ToDoSection';
+    import UpcomingSection from '../../components/home/UpcomingSection';
+    import ScheduleSection from '../../components/home/ScheduleSection';
+    import ClassesSection from '../../components/home/ClassesSection';
 
     export default {
         name: 'student-home',
 
         components: {
-            Dashboard,
             ProgressSection,
             ToDoSection,
-            ScheduleSection,
             UpcomingSection,
-            DashboardCard,
+            ScheduleSection,
+            ClassesSection,
         },
 
         computed: {
@@ -87,32 +73,6 @@
 
     .classes {
         grid-area: classes;
-        overflow: scroll;
-        display: grid;
-        grid-template-rows: 100%;
-        grid-template-columns: repeat(5, 1fr);
-        grid-auto-flow: column;
-        text-align: center;
-        text-transform: capitalize;
-
-        .class-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
-            padding: 10px;
-
-            .teacher-img {
-                height: 90px;
-                width: 90px;
-                border-radius: 50%;
-                background-image: url('../../assets/images/placeholder-avatar.png');
-                background-size: cover;
-                background-position: center;
-                margin-bottom: 7px;
-            }
-        }
     }
 
     .schedule {

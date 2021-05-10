@@ -91,8 +91,9 @@
             .avatar {
                 width: 100px;
                 height: 100px;
+                border: 5px solid $yellow;
                 border-radius: 50%;
-                background-image: url('../assets/images/placeholder-avatar.png');
+                background-image: url('../../assets/images/placeholder-avatar.png');
                 background-size: cover;
                 margin-bottom: 20px;
             }
