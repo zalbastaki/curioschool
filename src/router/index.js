@@ -5,6 +5,7 @@ import firebase from 'firebase';
 import Login from '../views/Login.vue';
 import StudentHome from '../views/student/StudentHome';
 import StudentClass from '../views/student/StudentClass';
+import StudentAssessments from '../views/student/StudentAssessments';
 import StudentSettings from '../views/student/StudentSettings';
 import TeacherHome from '../views/teacher/TeacherHome';
 import PageNotFound from '../views/PageNotFound.vue';
@@ -29,6 +30,15 @@ const routes = [
         path: '/student-class/:id',
         name: 'student-class',
         component: StudentClass,
+        props: true,
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: '/student-assessments/:id/:type',
+        name: 'student-assessments',
+        component: StudentAssessments,
         props: true,
         meta: {
             requiresAuth: true,

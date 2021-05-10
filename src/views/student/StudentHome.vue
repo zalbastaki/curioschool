@@ -1,6 +1,7 @@
 <template>
     <dashboard>
-        <div class="student-home">
+        <base-loader :show="!profile || classes.length === 0" />
+        <div v-if="profile && classes.length > 0" class="student-home">
             <section class="top-bar">
                 <base-text type="h1">Hey {{ profile.first_name }}!</base-text>
                 <progress-section />

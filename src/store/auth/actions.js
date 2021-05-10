@@ -21,12 +21,9 @@ const actions = {
 
     goToDashboard(context) {
         const role = context.getters.role;
-        if (role === 'student' && router.currentRoute.name !== 'student-home') {
+        if (role === 'student' && router.currentRoute.name === 'login') {
             router.push('student-home');
-        } else if (
-            role === 'teacher' &&
-            router.currentRoute.name !== 'teacher-home'
-        ) {
+        } else if (role === 'teacher' && router.currentRoute.name === 'login') {
             router.push('teacher-home');
         }
     },
