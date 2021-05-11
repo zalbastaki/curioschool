@@ -9,10 +9,14 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
+    import { mapActions, mapGetters } from 'vuex';
 
     export default {
         name: 'admin-home',
+
+        computed: {
+            ...mapGetters(['adminUsers']),
+        },
 
         methods: {
             ...mapActions(['logout']),

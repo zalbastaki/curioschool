@@ -48,6 +48,8 @@ const actions = {
             context.getters.role === 'teacher'
         ) {
             await context.dispatch('addUserClassListeners');
+        } else if (context.getters.role === 'admin') {
+            await context.dispatch('getAdminData');
         }
     },
 
@@ -58,6 +60,8 @@ const actions = {
         ) {
             await context.dispatch('removeUserClassListeners');
             await context.commit('setClasses', []);
+        } else if (context.getters.role === 'admin') {
+            await context.dispatch('resetAdminData');
         }
         await context.commit('setRole', '');
         await context.dispatch('removeProfileListener');
