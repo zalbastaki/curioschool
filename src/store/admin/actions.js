@@ -7,8 +7,22 @@ const actions = {
             .collection(collection)
             .onSnapshot(data => {
                 data.docs.forEach(doc => {
+                    if (
+                        collection === 'users' &&
+                        doc.data()['role'] === 'admin'
+                    ) {
+                        return;
+                    }
+
+                    let varName = `admin_${collection}`;
+
+                    if (collection === 'users') {
+                        const role = doc.data()['role'];
+                        varName = `admin_${role}s`;
+                    }
+
                     context.commit('setDoc', {
-                        collection,
+                        varName,
                         newDoc: doc.data(),
                     });
                 });
@@ -33,7 +47,6 @@ const actions = {
 
     resetAdminData(context) {
         context.dispatch('removeCollectionListeners');
-        context.commit('setAdminUsers', []);
         context.commit('setAdminStudents', []);
         context.commit('setAdminTeachers', []);
         context.commit('setAdminClasses', []);

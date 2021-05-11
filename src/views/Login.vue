@@ -59,7 +59,7 @@
             return {
                 user: {
                     // TO DO: Delete after development
-                    email: 'zain.albastaki@gmail.com',
+                    email: 'zain.albastaki+admin@gmail.com',
                     password: 'test1234',
                 },
                 forgotPassword: false,

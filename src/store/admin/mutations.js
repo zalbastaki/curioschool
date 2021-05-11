@@ -1,8 +1,4 @@
 const mutations = {
-    setAdminUsers: (state, users) => {
-        state.admin_users = users;
-    },
-
     setAdminStudents: (state, students) => {
         state.admin_students = students;
     },
@@ -15,9 +11,8 @@ const mutations = {
         state.admin_classes = classes;
     },
 
-    setDoc: (state, { collection, newDoc }) => {
+    setDoc: (state, { varName, newDoc }) => {
         let exists = false;
-        const varName = `admin_${collection}`;
 
         // If the class exists, replace it
         state[varName].map((doc, index) => {

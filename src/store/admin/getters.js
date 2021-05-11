@@ -1,8 +1,4 @@
 const getters = {
-    adminUsers: state => {
-        return state.admin_users;
-    },
-
     adminStudents: state => {
         return state.admin_students;
     },
