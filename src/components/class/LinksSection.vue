@@ -20,9 +20,19 @@
     export default {
         name: 'links-section',
 
-        data() {
-            return {
-                links: [
+        computed: {
+            ...mapGetters(['currentClass']),
+
+            id() {
+                return this.currentClass.id;
+            },
+
+            color() {
+                return this.currentClass.color;
+            },
+
+            links() {
+                return [
                     {
                         label: 'homework',
                         icon: ['fas', 'home'],
@@ -48,19 +58,7 @@
                         icon: ['fas', 'file-alt'],
                         path: `/student-assessments/${this.id}/tests`,
                     },
-                ],
-            };
-        },
-
-        computed: {
-            ...mapGetters(['currentClass']),
-
-            id() {
-                return this.currentClass.id;
-            },
-
-            color() {
-                return this.currentClass.color;
+                ];
             },
         },
     };

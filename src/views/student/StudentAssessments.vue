@@ -1,24 +1,24 @@
 <template>
     <base-dashboard>
-        <base-loader :show="!clas" />
-        <div v-if="clas" class="student-assessments">
+        <base-loader :show="!currentClass" />
+        <div v-if="currentClass" class="student-assessments">
             <router-link
                 class="back-btn"
                 :to="`/student-class/${id}`"
                 :style="{
-                    background: `${clas.color}44`,
-                    borderColor: clas.color,
+                    background: `${currentClass.color}44`,
+                    borderColor: currentClass.color,
                 }"
             >
                 <fa-icon :icon="['fas', 'arrow-left']" aria-label="back" />
             </router-link>
-            <base-text type="h1">{{ clas.name }} {{ type }}</base-text>
+            <base-text type="h1">{{ currentClass.name }} {{ type }}</base-text>
         </div>
     </base-dashboard>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+    import { mapGetters, mapActions } from 'vuex';
 
     export default {
         name: 'student-assessments',
@@ -36,13 +36,15 @@
         },
 
         computed: {
-            ...mapGetters(['classes']),
+            ...mapGetters(['currentClass']),
+        },
 
-            clas() {
-                return this.classes.find(({ id }) => {
-                    return id === this.id;
-                });
-            },
+        created() {
+            this.updateCurrentClass();
+        },
+
+        methods: {
+            ...mapActions(['updateCurrentClass']),
         },
     };
 </script>

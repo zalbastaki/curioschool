@@ -82,6 +82,7 @@
             .heading {
                 background: $dark-purple;
                 color: $white;
+                border-color: $dark-purple;
             }
 
             .content {
@@ -93,6 +94,7 @@
             .heading {
                 background: $purple;
                 color: $white;
+                border-color: $purple;
             }
 
             .content {
@@ -104,6 +106,7 @@
             .heading {
                 background: $yellow;
                 color: $black;
+                border-color: $yellow;
             }
 
             .content {
@@ -115,6 +118,7 @@
             .heading {
                 background: $orange;
                 color: $white;
+                border-color: $orange;
             }
 
             .content {
@@ -126,6 +130,7 @@
             .heading {
                 background: $dark-orange;
                 color: $white;
+                border-color: $dark-orange;
             }
 
             .content {

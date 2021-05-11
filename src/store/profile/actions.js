@@ -73,6 +73,15 @@ const actions = {
         await context.commit('setTodoDoneValue', { id, value });
         await context.dispatch('updateProfile');
     },
+
+    async buyReward(context, reward) {
+        let profile = context.getters.profile;
+        profile.coins = Math.max(0, profile.coins - reward.price);
+        profile.rewards.push(reward);
+
+        await context.commit('setProfile', profile);
+        await context.dispatch('updateProfile');
+    },
 };
 
 export default actions;
