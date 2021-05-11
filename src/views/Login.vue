@@ -70,13 +70,9 @@
             ...mapActions(['login', 'sendPasswordResetEmail', 'goToDashboard']),
 
             userLogin() {
-                this.login(this.user)
-                    .then(() => {
-                        this.goToDashboard();
-                    })
-                    .catch(e => {
-                        this.handleError(e);
-                    });
+                this.login(this.user).catch(e => {
+                    this.handleError(e);
+                });
             },
 
             userForgotPassword() {

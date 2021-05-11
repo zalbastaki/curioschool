@@ -35,9 +35,20 @@ firebase.auth().onAuthStateChanged(async user => {
 
 firebase.getCurrentUser = () => {
     return new Promise((resolve, reject) => {
-        const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+        const unsubscribe = firebase.auth().onAuthStateChanged(async user => {
             unsubscribe();
-            resolve(user);
+            let role;
+            if (user) {
+                await firebase
+                    .firestore()
+                    .collection('users')
+                    .doc(user.uid)
+                    .get()
+                    .then(doc => {
+                        role = doc.data()['role'];
+                    });
+            }
+            resolve({ user, role });
         }, reject);
     });
 };

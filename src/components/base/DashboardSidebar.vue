@@ -1,7 +1,7 @@
 <template>
     <div class="sidebar" :class="$mq">
         <div>
-            <div class="profile">
+            <div v-if="profile" class="profile">
                 <div class="avatar" />
                 <div class="name">
                     {{ profile.first_name }} {{ profile.last_name }}

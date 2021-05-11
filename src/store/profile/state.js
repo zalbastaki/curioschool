@@ -1,6 +1,6 @@
 const state = {
     role: '',
-    profile: {},
+    profile: null,
     unsubscribeProfileListener: () => {},
 };
 

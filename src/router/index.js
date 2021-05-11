@@ -7,6 +7,7 @@ import StudentHome from '../views/student/StudentHome';
 import StudentClass from '../views/student/StudentClass';
 import StudentAssessments from '../views/student/StudentAssessments';
 import StudentRewards from '../views/student/StudentRewards';
+import AdminHome from '../views/admin/AdminHome';
 import TeacherHome from '../views/teacher/TeacherHome';
 import PageNotFound from '../views/PageNotFound.vue';
 
@@ -24,6 +25,7 @@ const routes = [
         component: StudentHome,
         meta: {
             requiresAuth: true,
+            role: 'student',
         },
     },
     {
@@ -33,6 +35,7 @@ const routes = [
         props: true,
         meta: {
             requiresAuth: true,
+            role: 'student',
         },
     },
     {
@@ -42,6 +45,7 @@ const routes = [
         props: true,
         meta: {
             requiresAuth: true,
+            role: 'student',
         },
     },
     {
@@ -50,6 +54,16 @@ const routes = [
         component: StudentRewards,
         meta: {
             requiresAuth: true,
+            role: 'student',
+        },
+    },
+    {
+        path: '/admin-home',
+        name: 'admin-home',
+        component: AdminHome,
+        meta: {
+            requiresAuth: true,
+            role: 'admin',
         },
     },
     {
@@ -58,6 +72,7 @@ const routes = [
         component: TeacherHome,
         meta: {
             requiresAuth: true,
+            role: 'teacher',
         },
     },
     {
@@ -74,9 +89,20 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-    if (requiresAuth && !(await firebase.getCurrentUser())) {
+    const requiresRole = to.matched.some(record => record.meta.role);
+    const role = to.matched.find(record => record.meta.role);
+    const user = await firebase.getCurrentUser();
+    if (requiresAuth && !user.user) {
         alert('You must be logged in to see this page.');
         next('/');
+    } else if (
+        requiresAuth &&
+        user.user &&
+        requiresRole &&
+        role.meta.role !== user.role
+    ) {
+        alert(`You must be a ${role.meta.role} to see this page.`);
+        next(`/${user.role}-home`);
     } else {
         next();
     }

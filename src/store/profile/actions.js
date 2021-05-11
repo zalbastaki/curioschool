@@ -43,15 +43,25 @@ const actions = {
     async getUserData(context) {
         await context.dispatch('getRole');
         await context.dispatch('addProfileListener');
-        await context.dispatch('addUserClassListeners');
+        if (
+            context.getters.role === 'student' ||
+            context.getters.role === 'teacher'
+        ) {
+            await context.dispatch('addUserClassListeners');
+        }
     },
 
     async resetUserData(context) {
+        if (
+            context.getters.role === 'student' ||
+            context.getters.role === 'teacher'
+        ) {
+            await context.dispatch('removeUserClassListeners');
+            await context.commit('setClasses', []);
+        }
         await context.commit('setRole', '');
-        await context.commit('setProfile', {});
-        await context.commit('setClasses', []);
         await context.dispatch('removeProfileListener');
-        await context.dispatch('removeUserClassListeners');
+        await context.commit('setProfile', {});
     },
 
     async updateProfile(context) {

@@ -1,6 +1,7 @@
 <template>
     <base-dashboard>
-        <div class="student-rewards">
+        <base-loader :show="!profile" />
+        <div v-if="profile" class="student-rewards">
             <section class="top-bar">
                 <base-text type="h1">Rewards</base-text>
                 <progress-section />
