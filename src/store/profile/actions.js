@@ -74,10 +74,17 @@ const actions = {
         await context.dispatch('updateProfile');
     },
 
-    async buyReward(context, reward) {
+    async buyReward(context, { reward, clas }) {
         let profile = context.getters.profile;
         profile.coins = Math.max(0, profile.coins - reward.price);
-        profile.rewards.push(reward);
+        profile.rewards.push({
+            ...reward,
+            class: {
+                id: clas.id,
+                name: clas.name,
+                color: clas.color,
+            },
+        });
 
         await context.commit('setProfile', profile);
         await context.dispatch('updateProfile');

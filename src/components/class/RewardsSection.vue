@@ -57,7 +57,7 @@
             ...mapActions(['buyReward']),
 
             buy(reward) {
-                this.buyReward(reward).then(() => {
+                this.buyReward({ reward, clas: this.currentClass }).then(() => {
                     this.$refs.rewardSuccess.openModal(
                         `Yay! You've bought the reward '${reward.label}' for ${reward.price} coins. Check your rewards page to see all of your rewards.`
                     );
