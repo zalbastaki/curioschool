@@ -57,8 +57,8 @@
                     },
                     ...classes,
                     {
-                        label: 'settings',
-                        path: '/student-settings',
+                        label: 'rewards',
+                        path: '/student-rewards',
                     },
                 ];
             },

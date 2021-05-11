@@ -6,7 +6,7 @@ import Login from '../views/Login.vue';
 import StudentHome from '../views/student/StudentHome';
 import StudentClass from '../views/student/StudentClass';
 import StudentAssessments from '../views/student/StudentAssessments';
-import StudentSettings from '../views/student/StudentSettings';
+import StudentRewards from '../views/student/StudentRewards';
 import TeacherHome from '../views/teacher/TeacherHome';
 import PageNotFound from '../views/PageNotFound.vue';
 
@@ -45,9 +45,9 @@ const routes = [
         },
     },
     {
-        path: '/student-settings',
-        name: 'student-settings',
-        component: StudentSettings,
+        path: '/student-rewards',
+        name: 'student-rewards',
+        component: StudentRewards,
         meta: {
             requiresAuth: true,
         },
