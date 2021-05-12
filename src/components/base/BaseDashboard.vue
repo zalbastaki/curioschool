@@ -1,6 +1,10 @@
 <template>
-    <div class="dashboard" :class="$mq">
-        <dashboard-sidebar />
+    <div class="dashboard" :class="[$mq, color]">
+        <dashboard-sidebar
+            :color="color"
+            :button-color="btnColor"
+            :text-color="textColor"
+        />
         <div class="page-content">
             <slot />
         </div>
@@ -18,8 +22,34 @@
             DashboardSidebar,
         },
 
+        props: {
+            color: {
+                type: String,
+                required: false,
+                default() {
+                    return 'purple';
+                },
+            },
+        },
+
         computed: {
             ...mapGetters(['role']),
+
+            btnColor() {
+                if (this.color === 'purple' || this.color === 'dark-purple') {
+                    return 'dark-orange';
+                }
+
+                return 'purple';
+            },
+
+            textColor() {
+                if (this.color === 'yellow') {
+                    return 'black';
+                }
+
+                return 'white';
+            },
         },
     };
 </script>
@@ -29,7 +59,26 @@
         display: flex;
         width: 100vw;
         height: 100vh;
-        background: $purple;
+
+        &.dark-purple {
+            background: $dark-purple;
+        }
+
+        &.purple {
+            background: $purple;
+        }
+
+        &.yellow {
+            background: $yellow;
+        }
+
+        &.orange {
+            background: $orange;
+        }
+
+        &.dark-orange {
+            background: $dark-orange;
+        }
 
         .page-content {
             flex: 1;

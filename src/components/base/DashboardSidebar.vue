@@ -1,8 +1,8 @@
 <template>
-    <div class="sidebar" :class="$mq">
+    <div class="sidebar" :class="[$mq, textColor]">
         <div>
             <div v-if="profile" class="profile">
-                <div class="avatar" />
+                <div class="avatar" :class="[buttonColor]" />
                 <div class="name">
                     {{ profile.first_name }} {{ profile.last_name }}
                 </div>
@@ -13,7 +13,11 @@
                     v-for="(item, index) in navItems"
                     :key="index"
                     class="nav-item"
-                    :class="[currentPath === item.path ? 'selected' : '']"
+                    :class="[
+                        currentPath === item.path ? 'selected' : '',
+                        color,
+                        textColor,
+                    ]"
                     :to="{ path: item.path }"
                 >
                     {{ item.label }}
@@ -25,7 +29,7 @@
             class="logout-btn"
             type="button"
             @click="logout"
-            color="dark-orange"
+            :color="buttonColor"
             :width="$mq === 'tablet' ? '160px' : '190px'"
         >
             Logout
@@ -39,10 +43,57 @@
     export default {
         name: 'sidebar',
 
+        props: {
+            color: {
+                type: String,
+                required: false,
+                default() {
+                    return 'purple';
+                },
+            },
+
+            buttonColor: {
+                type: String,
+                required: false,
+                default() {
+                    return 'dark-orange';
+                },
+            },
+
+            textColor: {
+                type: String,
+                required: false,
+                default() {
+                    return 'white';
+                },
+            },
+        },
+
         computed: {
-            ...mapGetters(['profile', 'classes']),
+            ...mapGetters(['role', 'profile', 'classes']),
 
             navItems() {
+                if (this.role === 'admin') {
+                    return [
+                        {
+                            label: 'home',
+                            path: '/admin-home',
+                        },
+                        {
+                            label: 'students',
+                            path: '/admin-students',
+                        },
+                        {
+                            label: 'teachers',
+                            path: '/admin-teachers',
+                        },
+                        {
+                            label: 'classes',
+                            path: '/admin-classes',
+                        },
+                    ];
+                }
+
                 const classes = this.classes.map(({ id, name }) => {
                     return {
                         label: name,
@@ -80,7 +131,14 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        color: $white;
+
+        &.white {
+            color: $white;
+        }
+
+        &.black {
+            color: $black;
+        }
 
         .profile {
             width: 100%;
@@ -91,11 +149,30 @@
             .avatar {
                 width: 100px;
                 height: 100px;
-                border: 5px solid $yellow;
                 border-radius: 50%;
                 background-image: url('../../assets/images/placeholder-avatar.png');
                 background-size: cover;
                 margin-bottom: 20px;
+
+                &.dark-purple {
+                    border: 5px solid $dark-purple;
+                }
+
+                &.purple {
+                    border: 5px solid $purple;
+                }
+
+                &.yellow {
+                    border: 5px solid $yellow;
+                }
+
+                &.orange {
+                    border: 5px solid $orange;
+                }
+
+                &.dark-orange {
+                    border: 5px solid $dark-orange;
+                }
             }
 
             .name {
@@ -113,28 +190,94 @@
                 font-size: 30px;
                 margin-right: 25px;
                 padding: 20px 0 20px 35px;
-                color: $white;
                 text-decoration: none;
+
+                &.white {
+                    color: $white;
+
+                    &.selected,
+                    &:hover {
+                        border-top: 3px solid $white;
+                        border-bottom: 3px solid $white;
+                        border-right: 3px solid $white;
+                    }
+                }
+
+                &.black {
+                    color: $black;
+
+                    &.selected,
+                    &:hover {
+                        border-top: 3px solid $black;
+                        border-bottom: 3px solid $black;
+                        border-right: 3px solid $black;
+                    }
+                }
 
                 &.selected,
                 &:hover {
-                    border-top: 3px solid $white;
-                    border-bottom: 3px solid $white;
-                    border-right: 3px solid $white;
                     border-top-right-radius: 50px;
                     border-bottom-right-radius: 50px;
                 }
 
                 &.selected {
-                    background: darken($purple, 10%);
+                    &.dark-purple {
+                        background: darken($dark-purple, 10%);
 
-                    &:hover {
+                        &:hover {
+                            background: darken($dark-purple, 10%);
+                        }
+                    }
+
+                    &.purple {
                         background: darken($purple, 10%);
+
+                        &:hover {
+                            background: darken($purple, 10%);
+                        }
+                    }
+
+                    &.yellow {
+                        background: darken($yellow, 10%);
+
+                        &:hover {
+                            background: darken($yellow, 10%);
+                        }
+                    }
+
+                    &.orange {
+                        background: darken($orange, 10%);
+
+                        &:hover {
+                            background: darken($orange, 10%);
+                        }
+                    }
+
+                    &.dark-orange {
+                        background: darken($dark-orange, 10%);
+
+                        &:hover {
+                            background: darken($dark-orange, 10%);
+                        }
                     }
                 }
 
                 &:hover {
-                    background: darken($purple, 5%);
+                    &.dark-purple {
+                        background: darken($dark-purple, 5%);
+                    }
+                    &.purple {
+                        background: darken($purple, 5%);
+                    }
+                    &.yellow {
+                        background: darken($yellow, 5%);
+                    }
+                    &.orange {
+                        background: darken($orange, 5%);
+                    }
+                    &.dark-orange {
+                        background: darken($dark-orange, 5%);
+                    }
                 }
             }
         }

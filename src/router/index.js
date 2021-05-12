@@ -8,6 +8,9 @@ import StudentClass from '../views/student/StudentClass';
 import StudentAssessments from '../views/student/StudentAssessments';
 import StudentRewards from '../views/student/StudentRewards';
 import AdminHome from '../views/admin/AdminHome';
+import AdminStudents from '../views/admin/AdminStudents';
+import AdminTeachers from '../views/admin/AdminTeachers';
+import AdminClasses from '../views/admin/AdminClasses';
 import TeacherHome from '../views/teacher/TeacherHome';
 import PageNotFound from '../views/PageNotFound.vue';
 
@@ -61,6 +64,33 @@ const routes = [
         path: '/admin-home',
         name: 'admin-home',
         component: AdminHome,
+        meta: {
+            requiresAuth: true,
+            role: 'admin',
+        },
+    },
+    {
+        path: '/admin-students',
+        name: 'admin-students',
+        component: AdminStudents,
+        meta: {
+            requiresAuth: true,
+            role: 'admin',
+        },
+    },
+    {
+        path: '/admin-teachers',
+        name: 'admin-teachers',
+        component: AdminTeachers,
+        meta: {
+            requiresAuth: true,
+            role: 'admin',
+        },
+    },
+    {
+        path: '/admin-classes',
+        name: 'admin-classes',
+        component: AdminClasses,
         meta: {
             requiresAuth: true,
             role: 'admin',
