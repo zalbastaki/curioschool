@@ -92,6 +92,7 @@
             }
 
             .announcement-content {
+                flex: 1;
                 padding: 8px;
                 display: flex;
                 flex-direction: column;

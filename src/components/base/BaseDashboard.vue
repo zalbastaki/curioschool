@@ -59,25 +59,33 @@
         display: flex;
         width: 100vw;
         height: 100vh;
+        max-width: 1950px;
+        max-height: 100vh;
+        margin: 0 auto;
 
         &.dark-purple {
             background: $dark-purple;
+            border-right: 3px solid $dark-purple;
         }
 
         &.purple {
             background: $purple;
+            border-right: 3px solid $purple;
         }
 
         &.yellow {
             background: $yellow;
+            border-right: 3px solid $yellow;
         }
 
         &.orange {
             background: $orange;
+            border-right: 3px solid $orange;
         }
 
         &.dark-orange {
             background: $dark-orange;
+            border-right: 3px solid $dark-orange;
         }
 
         .page-content {
@@ -86,6 +94,7 @@
             margin-top: 80px;
             padding: 30px;
             border-top-left-radius: 50px;
+            overflow: scroll;
         }
 
         &.tablet {

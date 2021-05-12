@@ -19,5 +19,6 @@
         font-family: $font-family;
         font-size: 16px;
         color: $black;
+        background: $white;
     }
 </style>
