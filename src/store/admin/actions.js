@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import router from '../../router';
 
 const actions = {
     addCollectionListener(context, collection) {
@@ -6,7 +7,7 @@ const actions = {
             .firestore()
             .collection(collection)
             .onSnapshot(data => {
-                data.docs.forEach(doc => {
+                data.docs.forEach(async doc => {
                     if (
                         collection === 'users' &&
                         doc.data()['role'] === 'admin'
@@ -21,11 +22,13 @@ const actions = {
                         varName = `admin_${role}s`;
                     }
 
-                    context.commit('setDoc', {
+                    await context.commit('setDoc', {
                         varName,
                         newDoc: doc.data(),
                     });
                 });
+                context.dispatch('updateCurrentAdminStudents');
+                context.dispatch('updateCurrentAdminStudent');
             });
         context.commit('addUnsubscribeCollectionListener', unsubscribe);
     },
@@ -50,6 +53,40 @@ const actions = {
         context.commit('setAdminStudents', []);
         context.commit('setAdminTeachers', []);
         context.commit('setAdminClasses', []);
+    },
+
+    async updateAdminStudentLevelSelected(context, selectedLevel) {
+        await context.commit('setAdminLevelSelected', selectedLevel);
+        context.dispatch('updateCurrentAdminStudents');
+    },
+
+    updateCurrentAdminStudents(context) {
+        if (context.getters.adminLevelSelected === 'all') {
+            return context.commit(
+                'setCurrentAdminStudents',
+                context.getters.adminStudents
+            );
+        }
+
+        const currentAdminStudents = context.getters.adminStudents.filter(
+            ({ profile }) => {
+                return profile.level === context.getters.adminLevelSelected;
+            }
+        );
+        context.commit('setCurrentAdminStudents', currentAdminStudents);
+    },
+
+    updateCurrentAdminStudent(context) {
+        if (!router.currentRoute.params.id) {
+            return;
+        }
+
+        const currentAdminStudent = context.getters.adminStudents.find(
+            ({ id }) => {
+                return id === router.currentRoute.params.id;
+            }
+        );
+        context.commit('setCurrentAdminStudent', currentAdminStudent);
     },
 };
 

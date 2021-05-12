@@ -35,6 +35,18 @@ const mutations = {
     removeUnsubscribeCollectionListener: (state, index) => {
         state.unsubscribeCollectionListeners.splice(index, 1);
     },
+
+    setAdminLevelSelected: (state, adminLevelSelected) => {
+        state.adminLevelSelected = adminLevelSelected;
+    },
+
+    setCurrentAdminStudents: (state, currentAdminStudents) => {
+        state.currentAdminStudents = [...currentAdminStudents];
+    },
+
+    setCurrentAdminStudent: (state, currentAdminStudent) => {
+        state.currentAdminStudent = currentAdminStudent;
+    },
 };
 
 export default mutations;

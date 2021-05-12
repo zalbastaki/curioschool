@@ -9,6 +9,7 @@ import StudentAssessments from '../views/student/StudentAssessments';
 import StudentRewards from '../views/student/StudentRewards';
 import AdminHome from '../views/admin/AdminHome';
 import AdminStudents from '../views/admin/AdminStudents';
+import AdminStudent from '../views/admin/AdminStudent';
 import AdminTeachers from '../views/admin/AdminTeachers';
 import AdminClasses from '../views/admin/AdminClasses';
 import TeacherHome from '../views/teacher/TeacherHome';
@@ -73,6 +74,16 @@ const routes = [
         path: '/admin-students',
         name: 'admin-students',
         component: AdminStudents,
+        meta: {
+            requiresAuth: true,
+            role: 'admin',
+        },
+    },
+    {
+        path: '/admin-student/:id',
+        name: 'admin-student',
+        component: AdminStudent,
+        props: true,
         meta: {
             requiresAuth: true,
             role: 'admin',
