@@ -37,6 +37,15 @@
                         {{ level }}
                     </option>
                 </base-input>
+                <base-multi-select
+                    :value="classes"
+                    @input="handleClassInput"
+                    :options="adminClasses"
+                    label="name"
+                    track-by="id"
+                    input-label="classes"
+                    class="classes-input"
+                />
                 <base-input
                     type="number"
                     name="coins"
@@ -122,6 +131,12 @@
                 const student = this.$store.getters.currentAdminStudent.profile;
                 return `${student.first_name} ${student.last_name}`;
             },
+
+            classes() {
+                return this.currentAdminStudent.profile.classes.map(clas => {
+                    return this.adminClasses.find(({ id }) => id === clas);
+                });
+            },
         },
 
         mounted() {
@@ -130,6 +145,11 @@
 
         methods: {
             ...mapActions(['updateCurrentAdminStudent', 'updateStudentDoc']),
+
+            handleClassInput(value) {
+                const classes = value.map(({ id }) => id);
+                this.currentAdminStudent.profile.classes = [...classes];
+            },
 
             addReward() {
                 this.currentAdminStudent.profile.rewards.push({
@@ -208,6 +228,10 @@
                     width: 100%;
                 }
             }
+        }
+
+        .classes-input {
+            margin-top: 15px;
         }
 
         .add-reward-btn {
