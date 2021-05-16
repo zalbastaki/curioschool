@@ -3,6 +3,7 @@ const state = {
     admin_teachers: [],
     admin_classes: [],
     unsubscribeCollectionListeners: [],
+    levels: [],
     adminLevelSelected: 'all',
     currentAdminStudents: [],
     currentAdminStudent: null,

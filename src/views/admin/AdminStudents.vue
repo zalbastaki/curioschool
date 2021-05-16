@@ -58,25 +58,8 @@
                 'adminStudents',
                 'adminLevelSelected',
                 'currentAdminStudents',
+                'levels',
             ]),
-
-            levels() {
-                let levels = [];
-
-                this.adminStudents.forEach(({ profile }) => {
-                    const exists = levels.find(
-                        level => level === profile.level
-                    );
-
-                    if (exists) {
-                        return;
-                    }
-
-                    return levels.push(profile.level);
-                });
-
-                return levels;
-            },
 
             selectedLevel: {
                 get() {

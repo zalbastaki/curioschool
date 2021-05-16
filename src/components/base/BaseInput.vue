@@ -1,10 +1,13 @@
 <template>
     <div class="base-input">
+        <label v-if="label && type !== 'checkbox'" class="label" :for="name">
+            {{ label }}
+        </label>
         <component
             ref="input"
             class="input"
             :class="[type]"
-            :is="type === 'textarea' ? 'textarea' : 'input'"
+            :is="component"
             :type="type === 'textarea' ? null : type"
             :name="name"
             :id="name"
@@ -12,7 +15,9 @@
             :value="value"
             :checked="type === 'checkbox' ? value : null"
             @input="emitInput"
-        />
+        >
+            <slot />
+        </component>
         <label
             v-if="label && type === 'checkbox'"
             class="checkbox-label"
@@ -66,6 +71,14 @@
             },
         },
 
+        computed: {
+            component() {
+                if (this.type === 'textarea') return 'textarea';
+                if (this.type === 'select') return 'select';
+                return 'input';
+            },
+        },
+
         methods: {
             emitInput() {
                 const input = this.$refs.input;
@@ -79,12 +92,19 @@
 
 <style lang="scss" scoped>
     .base-input {
+        .label {
+            display: block;
+            font-weight: bold;
+            text-transform: capitalize;
+            margin-bottom: 8px;
+        }
+
         .input {
             padding: 15px 12px;
             border-radius: $border-radius;
             border: $black solid 2px;
             font-size: 20px;
-            background: #f7f7f7;
+            background: #eeeeee;
             width: 100%;
 
             &::placeholder {
@@ -100,6 +120,10 @@
                 display: inline-block;
                 margin: 0;
                 width: unset;
+            }
+
+            &.select {
+                text-transform: capitalize;
             }
         }
 

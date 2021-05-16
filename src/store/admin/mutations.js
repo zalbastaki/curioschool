@@ -36,6 +36,10 @@ const mutations = {
         state.unsubscribeCollectionListeners.splice(index, 1);
     },
 
+    setLevels: (state, levels) => {
+        state.levels = levels;
+    },
+
     setAdminLevelSelected: (state, adminLevelSelected) => {
         state.adminLevelSelected = adminLevelSelected;
     },

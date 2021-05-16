@@ -5,19 +5,103 @@
             <router-link class="back-btn" :to="`/admin-students`">
                 <fa-icon :icon="['fas', 'arrow-left']" aria-label="back" />
             </router-link>
-            <base-text type="h3"
-                >{{ currentAdminStudent.profile.first_name }}
-                {{ currentAdminStudent.profile.last_name }}</base-text
-            >
+            <base-text type="h3">{{ name }}</base-text>
+            <form @submit.prevent="updateStudentDoc">
+                <base-input
+                    type="text"
+                    name="first_name"
+                    id="first_name"
+                    label="first name"
+                    placeholder="first name"
+                    v-model="currentAdminStudent.profile.first_name"
+                />
+                <base-input
+                    type="text"
+                    name="last_name"
+                    label="last name"
+                    placeholder="last name"
+                    v-model="currentAdminStudent.profile.last_name"
+                />
+                <base-input
+                    type="select"
+                    name="level"
+                    label="level"
+                    placeholder="level"
+                    v-model="currentAdminStudent.profile.level"
+                >
+                    <option
+                        v-for="(level, index) in levels"
+                        :key="index"
+                        :value="level"
+                    >
+                        {{ level }}
+                    </option>
+                </base-input>
+                <base-input
+                    type="number"
+                    name="coins"
+                    label="coins"
+                    placeholder="coins"
+                    v-model="currentAdminStudent.profile.coins"
+                />
+                <base-input
+                    type="number"
+                    name="points"
+                    label="points"
+                    placeholder="points"
+                    v-model="currentAdminStudent.profile.points"
+                />
+                <reward-input
+                    v-for="(reward, index) in currentAdminStudent.profile
+                        .rewards"
+                    :key="`reward-${index}`"
+                    v-model="currentAdminStudent.profile.rewards[index]"
+                    @delete="deleteReward(index)"
+                />
+                <base-button
+                    type="button"
+                    width="100%"
+                    height="30px"
+                    class="add-reward-btn"
+                    @click="addReward"
+                >
+                    + Add a reward
+                </base-button>
+                <to-do-input
+                    v-for="(todo, index) in currentAdminStudent.profile.todos"
+                    :key="`todo-${index}`"
+                    v-model="currentAdminStudent.profile.todos[index]"
+                    @delete="deleteToDo(index)"
+                />
+                <base-button
+                    type="button"
+                    width="100%"
+                    height="30px"
+                    class="add-to-do-btn"
+                    @click="addToDo"
+                >
+                    + Add a to-do
+                </base-button>
+                <base-button type="button" button-type="submit" color="orange">
+                    Save
+                </base-button>
+            </form>
         </div>
     </base-dashboard>
 </template>
 
 <script>
     import { mapGetters, mapActions } from 'vuex';
+    import RewardInput from '../../components/admin/RewardInput';
+    import ToDoInput from '../../components/admin/ToDoInput';
 
     export default {
         name: 'admin-student',
+
+        components: {
+            RewardInput,
+            ToDoInput,
+        },
 
         props: {
             id: {
@@ -27,7 +111,17 @@
         },
 
         computed: {
-            ...mapGetters(['currentAdminStudent', 'adminStudents']),
+            ...mapGetters([
+                'currentAdminStudent',
+                'adminStudents',
+                'adminClasses',
+                'levels',
+            ]),
+
+            name() {
+                const student = this.$store.getters.currentAdminStudent.profile;
+                return `${student.first_name} ${student.last_name}`;
+            },
         },
 
         mounted() {
@@ -35,7 +129,37 @@
         },
 
         methods: {
-            ...mapActions(['updateCurrentAdminStudent']),
+            ...mapActions(['updateCurrentAdminStudent', 'updateStudentDoc']),
+
+            addReward() {
+                this.currentAdminStudent.profile.rewards.push({
+                    class: {
+                        id: this.adminClasses[0].id,
+                        name: this.adminClasses[0].name,
+                        color: this.adminClasses[0].color,
+                    },
+                    label: '',
+                    price: 0,
+                });
+            },
+
+            deleteReward(index) {
+                this.currentAdminStudent.profile.rewards.splice(index, 1);
+            },
+
+            addToDo() {
+                this.currentAdminStudent.profile.todos.push({
+                    id: this.currentAdminStudent.profile.todos.length,
+                    label: '',
+                    classColor: this.adminClasses[0].color,
+                    date: new Date(),
+                    done: false,
+                });
+            },
+
+            deleteToDo(index) {
+                this.currentAdminStudent.profile.todos.splice(index, 1);
+            },
         },
     };
 </script>
@@ -62,6 +186,40 @@
 
         .h3 {
             text-transform: capitalize;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+
+            .button {
+                align-self: center;
+                margin-top: 15px;
+            }
+        }
+
+        .base-input {
+            margin-top: 15px;
+
+            /deep/ .input {
+                width: calc(100% - 30px);
+
+                &.select {
+                    width: 100%;
+                }
+            }
+        }
+
+        .add-reward-btn {
+            margin-top: 15px;
+            font-size: 18px;
+            text-transform: none;
+        }
+
+        .add-to-do-btn {
+            margin-top: 15px;
+            font-size: 18px;
+            text-transform: none;
         }
     }
 </style>

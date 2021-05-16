@@ -15,6 +15,10 @@ const getters = {
         return state.unsubscribeCollectionListeners;
     },
 
+    levels: state => {
+        return state.levels;
+    },
+
     adminLevelSelected: state => {
         return state.adminLevelSelected;
     },
