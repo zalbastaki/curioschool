@@ -1,11 +1,10 @@
 <template>
     <base-dashboard color="yellow">
-        <base-loader :show="currentAdminStudents.length === 0" />
-        <div v-if="currentAdminStudents.length > 0" class="admin-students">
+        <base-loader :show="!currentAdminStudents" />
+        <div v-if="currentAdminStudents" class="admin-students">
             <div class="top-bar">
                 <base-text type="h2">Students</base-text>
                 <select
-                    v-if="currentAdminStudents.length > 0"
                     v-model="selectedLevel"
                     class="level-select"
                     name="levels"
@@ -43,6 +42,9 @@
                     </router-link>
                 </section>
             </template>
+            <base-button type="button" @click="addStudent" width="300px">
+                + Add Student
+            </base-button>
         </div>
     </base-dashboard>
 </template>
@@ -67,7 +69,7 @@
                 },
 
                 set(val) {
-                    this.updateAdminStudentLevelSelected(val);
+                    this.updateAdminLevelSelected(val);
                 },
             },
         },
@@ -79,8 +81,12 @@
         methods: {
             ...mapActions([
                 'updateCurrentAdminStudents',
-                'updateAdminStudentLevelSelected',
+                'updateAdminLevelSelected',
             ]),
+
+            addStudent() {
+                // TO DO
+            },
         },
     };
 </script>
@@ -149,6 +155,11 @@
                     background: lighten($orange, 15%);
                 }
             }
+        }
+
+        .button {
+            margin-top: 20px;
+            align-self: center;
         }
     }
 </style>

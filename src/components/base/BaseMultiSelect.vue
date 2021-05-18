@@ -8,6 +8,7 @@
             :searchable="false"
             :options="options"
             :label="label"
+            :customLabel="customLabel"
             :track-by="trackBy"
             class="multiselect-input"
         />
@@ -44,6 +45,14 @@
 
             label: {
                 type: String,
+                required: false,
+                default() {
+                    return null;
+                },
+            },
+
+            customLabel: {
+                type: Function,
                 required: false,
                 default() {
                     return null;

@@ -17,7 +17,7 @@
                     </button>
                 </div>
 
-                <div class="body">
+                <div v-if="message" class="body">
                     <slot name="body" />
                     <base-text type="p">{{ message }}</base-text>
                 </div>

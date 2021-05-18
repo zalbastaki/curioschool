@@ -51,6 +51,14 @@ const mutations = {
     setCurrentAdminStudent: (state, currentAdminStudent) => {
         state.currentAdminStudent = currentAdminStudent;
     },
+
+    setCurrentAdminTeachers: (state, currentAdminTeachers) => {
+        state.currentAdminTeachers = [...currentAdminTeachers];
+    },
+
+    setCurrentAdminTeacher: (state, currentAdminTeacher) => {
+        state.currentAdminTeacher = currentAdminTeacher;
+    },
 };
 
 export default mutations;

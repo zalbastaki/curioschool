@@ -7,6 +7,8 @@ const state = {
     adminLevelSelected: 'all',
     currentAdminStudents: [],
     currentAdminStudent: null,
+    currentAdminTeachers: [],
+    currentAdminTeacher: null,
 };
 
 export default state;

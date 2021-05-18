@@ -6,7 +6,7 @@
                 <fa-icon :icon="['fas', 'arrow-left']" aria-label="back" />
             </router-link>
             <base-text type="h3">{{ name }}</base-text>
-            <form @submit.prevent="updateStudentDoc">
+            <form @submit.prevent="handleSubmit">
                 <base-input
                     type="text"
                     name="first_name"
@@ -33,6 +33,7 @@
                         v-for="(level, index) in levels"
                         :key="index"
                         :value="level"
+                        :selected="level === currentAdminStudent.profile.level"
                     >
                         {{ level }}
                     </option>
@@ -40,7 +41,7 @@
                 <base-multi-select
                     :value="classes"
                     @input="handleClassInput"
-                    :options="adminClasses"
+                    :options="classOptions"
                     label="name"
                     track-by="id"
                     input-label="classes"
@@ -96,6 +97,11 @@
                 </base-button>
             </form>
         </div>
+        <base-modal
+            ref="saveSuccess"
+            heading="Successfully saved changes."
+            button-color="yellow"
+        />
     </base-dashboard>
 </template>
 
@@ -120,21 +126,22 @@
         },
 
         computed: {
-            ...mapGetters([
-                'currentAdminStudent',
-                'adminStudents',
-                'adminClasses',
-                'levels',
-            ]),
+            ...mapGetters(['currentAdminStudent', 'adminClasses', 'levels']),
 
             name() {
-                const student = this.$store.getters.currentAdminStudent.profile;
+                const student = this.currentAdminStudent.profile;
                 return `${student.first_name} ${student.last_name}`;
             },
 
             classes() {
                 return this.currentAdminStudent.profile.classes.map(clas => {
                     return this.adminClasses.find(({ id }) => id === clas);
+                });
+            },
+
+            classOptions() {
+                return this.adminClasses.filter(({ level }) => {
+                    return level === this.currentAdminStudent.profile.level;
                 });
             },
         },
@@ -179,6 +186,12 @@
 
             deleteToDo(index) {
                 this.currentAdminStudent.profile.todos.splice(index, 1);
+            },
+
+            handleSubmit() {
+                this.updateStudentDoc().then(() => {
+                    this.$refs.saveSuccess.openModal();
+                });
             },
         },
     };

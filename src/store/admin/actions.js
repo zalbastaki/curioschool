@@ -29,6 +29,8 @@ const actions = {
                 });
                 await context.dispatch('updateCurrentAdminStudents');
                 await context.dispatch('updateCurrentAdminStudent');
+                await context.dispatch('updateCurrentAdminTeachers');
+                await context.dispatch('updateCurrentAdminTeacher');
                 await context.dispatch('getLevels');
             });
         context.commit('addUnsubscribeCollectionListener', unsubscribe);
@@ -70,27 +72,53 @@ const actions = {
             return levels.push(profile.level);
         });
 
+        const teachers = [...context.getters.adminTeachers];
+
+        teachers.forEach(({ profile }) => {
+            profile.levels.forEach(level => {
+                const exists = levels.find(ilevel => ilevel === level);
+
+                if (exists) {
+                    return;
+                }
+
+                return levels.push(level);
+            });
+        });
+
+        levels.sort();
+
         context.commit('setLevels', levels);
     },
 
-    async updateAdminStudentLevelSelected(context, selectedLevel) {
+    async updateAdminLevelSelected(context, selectedLevel) {
         await context.commit('setAdminLevelSelected', selectedLevel);
         context.dispatch('updateCurrentAdminStudents');
+        context.dispatch('updateCurrentAdminTeachers');
     },
 
     updateCurrentAdminStudents(context) {
+        let currentAdminStudents = [];
         if (context.getters.adminLevelSelected === 'all') {
-            return context.commit(
-                'setCurrentAdminStudents',
-                context.getters.adminStudents
+            currentAdminStudents = [...context.getters.adminStudents];
+        } else {
+            currentAdminStudents = context.getters.adminStudents.filter(
+                ({ profile }) => {
+                    return profile.level === context.getters.adminLevelSelected;
+                }
             );
         }
 
-        const currentAdminStudents = context.getters.adminStudents.filter(
-            ({ profile }) => {
-                return profile.level === context.getters.adminLevelSelected;
+        currentAdminStudents.sort((a, b) => {
+            if (a.profile.first_name < b.profile.first_name) {
+                return -1;
             }
-        );
+            if (a.profile.first_name > b.profile.first_name) {
+                return 1;
+            }
+            return 0;
+        });
+
         context.commit('setCurrentAdminStudents', currentAdminStudents);
     },
 
@@ -104,6 +132,7 @@ const actions = {
                 return id === router.currentRoute.params.id;
             }
         );
+
         context.commit('setCurrentAdminStudent', currentAdminStudent);
     },
 
@@ -115,6 +144,60 @@ const actions = {
             .collection('users')
             .doc(student.id)
             .set(student)
+            .catch(e => {
+                throw e;
+            });
+    },
+
+    updateCurrentAdminTeachers(context) {
+        let currentAdminTeachers = [];
+        if (context.getters.adminLevelSelected === 'all') {
+            currentAdminTeachers = [...context.getters.adminTeachers];
+        } else {
+            currentAdminTeachers = context.getters.adminTeachers.filter(
+                ({ profile }) => {
+                    return profile.levels.find(
+                        level => level === context.getters.adminLevelSelected
+                    );
+                }
+            );
+        }
+
+        currentAdminTeachers.sort((a, b) => {
+            if (a.profile.first_name < b.profile.first_name) {
+                return -1;
+            }
+            if (a.profile.first_name > b.profile.first_name) {
+                return 1;
+            }
+            return 0;
+        });
+
+        context.commit('setCurrentAdminTeachers', currentAdminTeachers);
+    },
+
+    updateCurrentAdminTeacher(context) {
+        if (!router.currentRoute.params.id) {
+            return;
+        }
+
+        const currentAdminTeacher = context.getters.adminTeachers.find(
+            ({ id }) => {
+                return id === router.currentRoute.params.id;
+            }
+        );
+
+        context.commit('setCurrentAdminTeacher', currentAdminTeacher);
+    },
+
+    async updateTeacherDoc(context) {
+        const teacher = context.getters.currentAdminTeacher;
+        await context.commit('setCurrentAdminTeacher', teacher);
+        await firebase
+            .firestore()
+            .collection('users')
+            .doc(teacher.id)
+            .set(teacher)
             .catch(e => {
                 throw e;
             });
