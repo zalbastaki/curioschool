@@ -1,10 +1,19 @@
 <template>
     <div class="reward-input">
-        <label class="label" for="class">
+        <label class="label" for="label">
             Reward
         </label>
         <div class="inputs-container">
             <base-input
+                type="text"
+                name="label"
+                label="label"
+                placeholder="label"
+                :value="value.label"
+                @input="val => emitInput(val, 'label')"
+            />
+            <base-input
+                v-if="includeClass"
                 type="select"
                 name="class"
                 label="class"
@@ -21,14 +30,6 @@
                     {{ clas.name }}
                 </option>
             </base-input>
-            <base-input
-                type="text"
-                name="label"
-                label="label"
-                placeholder="label"
-                :value="value.label"
-                @input="val => emitInput(val, 'label')"
-            />
             <base-input
                 type="number"
                 name="price"
@@ -55,6 +56,14 @@
                 type: Object,
                 required: true,
             },
+
+            includeClass: {
+                type: Boolean,
+                required: false,
+                default() {
+                    return true;
+                },
+            },
         },
 
         computed: {
@@ -63,6 +72,15 @@
 
         methods: {
             emitInput(val, fieldName) {
+                if (!this.includeClass) {
+                    const value = {
+                        label: this.value.label,
+                        price: this.value.price,
+                    };
+                    value[fieldName] = val;
+                    return this.$emit('input', value);
+                }
+
                 const value = {
                     class: this.value.class,
                     label: this.value.label,

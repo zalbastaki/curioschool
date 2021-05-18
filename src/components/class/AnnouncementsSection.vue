@@ -53,18 +53,24 @@
         },
 
         methods: {
+            getDate(date) {
+                let datejs = new Date(date);
+                if (isNaN(datejs)) datejs = date.toDate();
+                return datejs;
+            },
+
             getDay(timestamp) {
-                const date = timestamp.toDate();
+                const date = this.getDate(timestamp);
                 return moment(date).format('DD');
             },
 
             getMonth(timestamp) {
-                const date = timestamp.toDate();
+                const date = this.getDate(timestamp);
                 return moment(date).format('MMM');
             },
 
             getTime(timestamp) {
-                const date = timestamp.toDate();
+                const date = this.getDate(timestamp);
                 return moment(date).format('h:mm a');
             },
         },

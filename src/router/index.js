@@ -13,6 +13,7 @@ import AdminStudent from '../views/admin/AdminStudent';
 import AdminTeachers from '../views/admin/AdminTeachers';
 import AdminTeacher from '../views/admin/AdminTeacher';
 import AdminClasses from '../views/admin/AdminClasses';
+import AdminClass from '../views/admin/AdminClass';
 import TeacherHome from '../views/teacher/TeacherHome';
 import PageNotFound from '../views/PageNotFound.vue';
 
@@ -113,6 +114,16 @@ const routes = [
         path: '/admin-classes',
         name: 'admin-classes',
         component: AdminClasses,
+        meta: {
+            requiresAuth: true,
+            role: 'admin',
+        },
+    },
+    {
+        path: '/admin-class/:id',
+        name: 'admin-class',
+        component: AdminClass,
+        props: true,
         meta: {
             requiresAuth: true,
             role: 'admin',

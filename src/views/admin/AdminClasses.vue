@@ -29,7 +29,7 @@
                         v-for="(clas, index) in currentAdminClasses"
                         :key="index"
                         class="clas"
-                        :to="`/admin-clas/${clas.id}`"
+                        :to="`/admin-class/${clas.id}`"
                     >
                         <div class="avatar" />
                         <base-text type="p">{{ clas.level }}</base-text>

@@ -42,7 +42,7 @@
                     :value="classes"
                     @input="handleClassInput"
                     :options="classOptions"
-                    label="name"
+                    :customLabel="({ name }) => name"
                     track-by="id"
                     input-label="classes"
                     class="classes-input"
@@ -70,9 +70,10 @@
                 />
                 <base-button
                     type="button"
+                    button-type="button"
                     width="100%"
                     height="30px"
-                    class="add-reward-btn"
+                    class="add-btn"
                     @click="addReward"
                 >
                     + Add a reward
@@ -85,9 +86,10 @@
                 />
                 <base-button
                     type="button"
+                    button-type="button"
                     width="100%"
                     height="30px"
-                    class="add-to-do-btn"
+                    class="add-btn"
                     @click="addToDo"
                 >
                     + Add a to-do
@@ -247,13 +249,7 @@
             margin-top: 15px;
         }
 
-        .add-reward-btn {
-            margin-top: 15px;
-            font-size: 18px;
-            text-transform: none;
-        }
-
-        .add-to-do-btn {
+        .add-btn {
             margin-top: 15px;
             font-size: 18px;
             text-transform: none;

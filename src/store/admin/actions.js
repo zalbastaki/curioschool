@@ -258,7 +258,7 @@ const actions = {
         await context.commit('setCurrentAdminClass', clas);
         await firebase
             .firestore()
-            .collection('users')
+            .collection('classes')
             .doc(clas.id)
             .set(clas)
             .catch(e => {

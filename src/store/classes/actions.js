@@ -36,7 +36,8 @@ const actions = {
 
             times.forEach(time => {
                 const today = new Date();
-                const date = time.start_time.toDate();
+                let date = new Date(time.start_time);
+                if (isNaN(date)) date = time.start_time.toDate();
 
                 if (
                     today.setHours(0, 0, 0, 0) === date.setHours(0, 0, 0, 0) ||
@@ -46,11 +47,18 @@ const actions = {
                     (time.repeats === 'monthly' &&
                         today.getDate() === date.getDate())
                 ) {
+                    let start_time = new Date(time.start_time);
+                    if (isNaN(start_time))
+                        start_time = time.start_time.toDate();
+
+                    let end_time = new Date(time.end_time);
+                    if (isNaN(end_time)) end_time = time.end_time.toDate();
+
                     schedule.push({
                         class: clas.name,
                         color: clas.color,
-                        start_time: time.start_time.toDate(),
-                        end_time: time.end_time.toDate(),
+                        start_time,
+                        end_time,
                     });
                 }
             });
@@ -63,6 +71,15 @@ const actions = {
         const currentClass = context.getters.classes.find(
             ({ id }) => id === router.currentRoute.params.id
         );
+        if (!currentClass) return;
+        currentClass.announcements.sort((a, b) => {
+            let date_a = new Date(a.timestamp);
+            if (isNaN(date_a)) date_a = a.timestamp.toDate();
+            let date_b = new Date(b.timestamp);
+            if (isNaN(date_b)) date_b = b.timestamp.toDate();
+
+            return date_b - date_a;
+        });
         context.commit('setCurrentClass', currentClass);
     },
 };
