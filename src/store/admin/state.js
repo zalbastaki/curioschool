@@ -9,6 +9,8 @@ const state = {
     currentAdminStudent: null,
     currentAdminTeachers: [],
     currentAdminTeacher: null,
+    currentAdminClasses: [],
+    currentAdminClass: null,
 };
 
 export default state;

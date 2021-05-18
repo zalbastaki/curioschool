@@ -38,6 +38,14 @@ const getters = {
     currentAdminTeacher: state => {
         return state.currentAdminTeacher;
     },
+
+    currentAdminClasses: state => {
+        return state.currentAdminClasses;
+    },
+
+    currentAdminClass: state => {
+        return state.currentAdminClass;
+    },
 };
 
 export default getters;

@@ -31,6 +31,8 @@ const actions = {
                 await context.dispatch('updateCurrentAdminStudent');
                 await context.dispatch('updateCurrentAdminTeachers');
                 await context.dispatch('updateCurrentAdminTeacher');
+                await context.dispatch('updateCurrentAdminClasses');
+                await context.dispatch('updateCurrentAdminClass');
                 await context.dispatch('getLevels');
             });
         context.commit('addUnsubscribeCollectionListener', unsubscribe);
@@ -95,6 +97,7 @@ const actions = {
         await context.commit('setAdminLevelSelected', selectedLevel);
         context.dispatch('updateCurrentAdminStudents');
         context.dispatch('updateCurrentAdminTeachers');
+        context.dispatch('updateCurrentAdminClasses');
     },
 
     updateCurrentAdminStudents(context) {
@@ -198,6 +201,66 @@ const actions = {
             .collection('users')
             .doc(teacher.id)
             .set(teacher)
+            .catch(e => {
+                throw e;
+            });
+    },
+
+    updateCurrentAdminClasses(context) {
+        let currentAdminClasses = [];
+        if (context.getters.adminLevelSelected === 'all') {
+            currentAdminClasses = [...context.getters.adminClasses];
+        } else {
+            currentAdminClasses = context.getters.adminClasses.filter(
+                ({ level }) => level === context.getters.adminLevelSelected
+            );
+        }
+
+        currentAdminClasses.sort((a, b) => {
+            if (a.name < b.name) {
+                return -1;
+            }
+            if (a.name > b.name) {
+                return 1;
+            }
+            return 0;
+        });
+
+        currentAdminClasses.sort((a, b) => {
+            if (a.level < b.level) {
+                return -1;
+            }
+            if (a.level > b.level) {
+                return 1;
+            }
+            return 0;
+        });
+
+        context.commit('setCurrentAdminClasses', currentAdminClasses);
+    },
+
+    updateCurrentAdminClass(context) {
+        if (!router.currentRoute.params.id) {
+            return;
+        }
+
+        const currentAdminClass = context.getters.adminClasses.find(
+            ({ id }) => {
+                return id === router.currentRoute.params.id;
+            }
+        );
+
+        context.commit('setCurrentAdminClass', currentAdminClass);
+    },
+
+    async updateClassDoc(context) {
+        const clas = context.getters.currentAdminClass;
+        await context.commit('setCurrentAdminClass', clas);
+        await firebase
+            .firestore()
+            .collection('users')
+            .doc(clas.id)
+            .set(clas)
             .catch(e => {
                 throw e;
             });
