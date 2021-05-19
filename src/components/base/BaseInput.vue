@@ -133,6 +133,12 @@
                 background: #e1e1e1;
             }
 
+            &.textarea,
+            &.date,
+            &.datetime-local {
+                font-family: $font-family;
+            }
+
             &.checkbox {
                 display: inline-block;
                 margin: 0;

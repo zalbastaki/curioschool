@@ -11,6 +11,10 @@ const getters = {
         return state.schedule;
     },
 
+    upcomingAssessments: state => {
+        return state.upcomingAssessments;
+    },
+
     currentClass: state => {
         return state.currentClass;
     },

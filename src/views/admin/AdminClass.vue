@@ -115,7 +115,7 @@
                 <assessment-input
                     v-for="(assessment, index) in currentAdminClass.assessments"
                     :key="`assessment-${index}`"
-                    :index="index"
+                    :assessment-index="index"
                     v-model="currentAdminClass.assessments[index]"
                     @delete="deleteAssessment(index)"
                 />

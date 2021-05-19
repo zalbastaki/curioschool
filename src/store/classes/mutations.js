@@ -32,6 +32,10 @@ const mutations = {
         state.schedule = schedule;
     },
 
+    setUpcomingAssessments: (state, upcomingAssessments) => {
+        state.upcomingAssessments = upcomingAssessments;
+    },
+
     setCurrentClass: (state, currentClass) => {
         state.currentClass = currentClass;
     },

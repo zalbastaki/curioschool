@@ -6,7 +6,7 @@
         <div class="inputs-container">
             <base-input
                 type="text"
-                :name="`question-${index}`"
+                :name="`question-${index}-${assessmentIndex}`"
                 label="question"
                 placeholder="question"
                 :value="value.question"
@@ -14,7 +14,7 @@
             />
             <base-input
                 type="number"
-                :name="`order-${index}`"
+                :name="`order-${index}-${assessmentIndex}`"
                 label="question order"
                 placeholder="question order"
                 :value="value.order"
@@ -22,14 +22,14 @@
             />
             <base-input
                 type="checkbox"
-                :name="`required-${index}`"
+                :name="`required-${index}-${assessmentIndex}`"
                 label="Required"
                 :value="value.required"
                 @input="val => emitInput(val, 'required')"
             />
             <base-input
                 type="select"
-                :name="`type-${index}`"
+                :name="`type-${index}-${assessmentIndex}`"
                 label="question type"
                 placeholder="question type"
                 :value="value.type"
@@ -47,7 +47,7 @@
             <base-input
                 v-if="value.type !== 'select'"
                 type="text"
-                :name="`placeholder-${index}`"
+                :name="`placeholder-${index}-${assessmentIndex}`"
                 label="placeholder"
                 placeholder="placeholder"
                 :value="value.placeholder"
@@ -59,12 +59,12 @@
                 </label>
                 <div
                     v-for="(option, index) in value.options"
-                    :key="`${value.options[index]}-${index}`"
+                    :key="`${value.options[index]}-${index}-${assessmentIndex}`"
                     class="option"
                 >
                     <base-input
                         type="text"
-                        :name="`option-${index}`"
+                        :name="`option-${index}-${assessmentIndex}`"
                         :label="`Option ${index + 1}`"
                         :placeholder="`Option ${index + 1}`"
                         :value="value.options[index]"
@@ -95,7 +95,7 @@
             <base-input
                 v-if="value.type === 'select'"
                 type="checkbox"
-                :name="`multi-${index}`"
+                :name="`multi-${index}-${assessmentIndex}`"
                 label="Multiple choice"
                 :value="value.multi"
                 @input="val => emitInput(val, 'multi')"
@@ -103,7 +103,7 @@
             <base-input
                 v-if="value.type === 'select' && value.multi"
                 type="number"
-                :name="`limit-${index}`"
+                :name="`limit-${index}-${assessmentIndex}`"
                 label="choice limit"
                 placeholder="choice limit"
                 :value="value.limit"
@@ -127,6 +127,11 @@
             },
 
             index: {
+                type: Number,
+                required: true,
+            },
+
+            assessmentIndex: {
                 type: Number,
                 required: true,
             },

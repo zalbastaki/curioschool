@@ -11,6 +11,7 @@ const actions = {
                 .onSnapshot(async doc => {
                     await context.commit('setClass', doc.data());
                     context.dispatch('getSchedule');
+                    context.dispatch('getUpcomingAssessments');
                     context.dispatch('updateCurrentClass');
                 });
             context.commit('addUnsubscribeClassListener', unsubscribe);
@@ -65,6 +66,45 @@ const actions = {
         });
 
         context.commit('setSchedule', schedule);
+    },
+
+    getUpcomingAssessments(context) {
+        let upcomingAssessments = {
+            homework: [],
+            classwork: [],
+            project: [],
+            quiz: [],
+            test: [],
+        };
+        const classes = [...context.getters.classes];
+
+        classes.forEach(clas => {
+            const assessments = [...clas.assessments];
+
+            assessments.forEach(assessment => {
+                let due_date = new Date(assessment.due_date);
+                if (isNaN(due_date)) {
+                    due_date = assessment.due_date.toDate();
+                }
+                const now = new Date();
+
+                if (due_date > now) {
+                    upcomingAssessments[assessment.type].push({
+                        name: assessment.name,
+                        due_date: due_date,
+                        color: clas.color,
+                    });
+                }
+            });
+        });
+
+        upcomingAssessments.homework.sort((a, b) => a.due_date - b.due_date);
+        upcomingAssessments.classwork.sort((a, b) => a.due_date - b.due_date);
+        upcomingAssessments.project.sort((a, b) => a.due_date - b.due_date);
+        upcomingAssessments.quiz.sort((a, b) => a.due_date - b.due_date);
+        upcomingAssessments.test.sort((a, b) => a.due_date - b.due_date);
+
+        context.commit('setUpcomingAssessments', upcomingAssessments);
     },
 
     updateCurrentClass(context) {

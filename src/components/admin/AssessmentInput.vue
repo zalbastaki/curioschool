@@ -6,7 +6,7 @@
         <div class="inputs-container">
             <base-input
                 type="text"
-                :name="`name-${index}`"
+                :name="`name-${assessmentIndex}`"
                 label="name"
                 placeholder="assessment name"
                 :value="value.name"
@@ -14,7 +14,7 @@
             />
             <base-input
                 type="textarea"
-                :name="`description-${index}`"
+                :name="`description-${assessmentIndex}`"
                 label="description"
                 placeholder="assessment description"
                 :value="value.description"
@@ -22,7 +22,7 @@
             />
             <base-input
                 type="select"
-                :name="`type-${index}`"
+                :name="`type-${assessmentIndex}`"
                 label="type"
                 placeholder="type"
                 :value="value.type"
@@ -39,7 +39,7 @@
             </base-input>
             <base-input
                 type="datetime-local"
-                :name="`due_date-${index}`"
+                :name="`due_date-${assessmentIndex}`"
                 label="due date"
                 placeholder="due date"
                 :value="formatDate(value.due_date)"
@@ -47,7 +47,7 @@
             />
             <base-input
                 type="number"
-                :name="`total_grade-${index}`"
+                :name="`total_grade-${assessmentIndex}`"
                 :min="1"
                 label="highest possible grade"
                 placeholder="Highest possible grade"
@@ -56,14 +56,15 @@
             />
             <base-input
                 type="number"
-                :name="`weight-${index}`"
-                :min="1"
+                :name="`weight-${assessmentIndex}`"
+                :min="0"
                 label="weighting"
                 placeholder="Weighting"
                 :value="value.weight"
                 @input="val => emitInput(val, 'weight')"
             />
             <assessment-question-input
+                :assessmentIndex="assessmentIndex"
                 v-for="(question, index) in value.questions"
                 :key="`question-${index}`"
                 :index="index"
@@ -104,7 +105,7 @@
                 required: true,
             },
 
-            index: {
+            assessmentIndex: {
                 type: Number,
                 required: true,
             },
