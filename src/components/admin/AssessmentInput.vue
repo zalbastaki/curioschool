@@ -13,6 +13,14 @@
                 @input="val => emitInput(val, 'name')"
             />
             <base-input
+                type="textarea"
+                :name="`description-${index}`"
+                label="description"
+                placeholder="assessment description"
+                :value="value.description"
+                @input="val => emitInput(val, 'description')"
+            />
+            <base-input
                 type="select"
                 :name="`type-${index}`"
                 label="type"
@@ -146,6 +154,7 @@
                 const value = {
                     id: this.value.id,
                     name: this.value.name,
+                    description: this.value.description,
                     type: this.value.type,
                     due_date: this.formatDate(this.value.due_date),
                     total_grade: parseInt(this.value.total_grade),
@@ -188,6 +197,7 @@
 
         .base-input {
             margin-top: 10px;
+            resize: vertical;
 
             /deep/ .input {
                 width: calc(100% - 30px);

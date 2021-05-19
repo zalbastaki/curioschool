@@ -278,6 +278,7 @@
                 this.currentAdminClass.assessments.push({
                     id: id,
                     name: '',
+                    description: '',
                     type: 'homework',
                     due_date: new Date(),
                     total_grade: 1,
