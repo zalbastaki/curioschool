@@ -11,10 +11,12 @@
             :type="type === 'textarea' ? null : type"
             :name="name"
             :id="name"
+            :min="min"
             :placeholder="placeholder"
             :value="value"
             :checked="type === 'checkbox' ? value : null"
             @input="emitInput"
+            @blur="emitBlur"
         >
             <slot />
         </component>
@@ -41,6 +43,14 @@
 
             name: {
                 type: String,
+                required: false,
+                default() {
+                    return null;
+                },
+            },
+
+            min: {
+                type: Number,
                 required: false,
                 default() {
                     return null;
@@ -85,6 +95,13 @@
                 const isCheckbox = this.type === 'checkbox';
                 const newValue = isCheckbox ? input.checked : input.value;
                 this.$emit('input', newValue);
+            },
+
+            emitBlur() {
+                const input = this.$refs.input;
+                const isCheckbox = this.type === 'checkbox';
+                const newValue = isCheckbox ? input.checked : input.value;
+                this.$emit('blur', newValue);
             },
         },
     };
@@ -133,10 +150,6 @@
 
             &:hover {
                 cursor: pointer;
-            }
-
-            &.done {
-                text-decoration: line-through;
             }
         }
     }

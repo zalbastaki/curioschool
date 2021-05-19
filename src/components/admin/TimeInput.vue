@@ -6,21 +6,21 @@
         <div class="inputs-container">
             <base-input
                 type="datetime-local"
-                name="start_time"
+                :name="`start_time-${index}`"
                 label="start time"
                 :value="formatDate(value.start_time)"
                 @input="val => emitInput(val, 'start_time')"
             />
             <base-input
                 type="datetime-local"
-                name="end_time"
+                :name="`end_time-${index}`"
                 label="end time"
                 :value="formatDate(value.end_time)"
                 @input="val => emitInput(val, 'end_time')"
             />
             <base-input
                 type="select"
-                name="repeats"
+                :name="`repeats-${index}`"
                 label="repeats"
                 placeholder="repeats"
                 :value="value.repeats"
@@ -35,7 +35,7 @@
                     {{ val }}
                 </option>
             </base-input>
-            <button class="delete-btn" @click="$emit('delete')">
+            <button class="delete-btn" type="button" @click="$emit('delete')">
                 <fa-icon :icon="['fas', 'trash-alt']" aria-label="delete" />
             </button>
         </div>
@@ -51,6 +51,11 @@
         props: {
             value: {
                 type: Object,
+                required: true,
+            },
+
+            index: {
+                type: Number,
                 required: true,
             },
         },

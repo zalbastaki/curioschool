@@ -6,7 +6,7 @@
         <div class="inputs-container">
             <base-input
                 type="text"
-                name="label"
+                :name="`label-${index}`"
                 label="label"
                 placeholder="label"
                 :value="value.label"
@@ -14,7 +14,7 @@
             />
             <base-input
                 type="select"
-                name="classColor"
+                :name="`classColor-${index}`"
                 label="class"
                 placeholder="class"
                 :value="value.classColor"
@@ -31,7 +31,7 @@
             </base-input>
             <base-input
                 type="date"
-                name="date"
+                :name="`date-${index}`"
                 label="date"
                 placeholder="date"
                 :value="formatDate(value.date)"
@@ -39,12 +39,12 @@
             />
             <base-input
                 type="checkbox"
-                name="done"
+                :name="`done-${index}`"
                 label="Done"
                 :value="value.done"
                 @input="val => emitInput(val, 'done')"
             />
-            <button class="delete-btn" @click="$emit('delete')">
+            <button class="delete-btn" type="button" @click="$emit('delete')">
                 <fa-icon :icon="['fas', 'trash-alt']" aria-label="delete" />
             </button>
         </div>
@@ -61,6 +61,11 @@
         props: {
             value: {
                 type: Object,
+                required: true,
+            },
+
+            index: {
+                type: Number,
                 required: true,
             },
         },

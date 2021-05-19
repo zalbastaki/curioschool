@@ -6,7 +6,7 @@
         <div class="inputs-container">
             <base-input
                 type="text"
-                name="label"
+                :name="`label-${index}`"
                 label="label"
                 placeholder="label"
                 :value="value.label"
@@ -15,7 +15,7 @@
             <base-input
                 v-if="includeClass"
                 type="select"
-                name="class"
+                :name="`class-${index}`"
                 label="class"
                 placeholder="class"
                 :value="value.class.id"
@@ -32,13 +32,13 @@
             </base-input>
             <base-input
                 type="number"
-                name="price"
+                :name="`price-${index}`"
                 label="price"
                 placeholder="price"
                 :value="value.price"
                 @input="val => emitInput(val, 'price')"
             />
-            <button class="delete-btn" @click="$emit('delete')">
+            <button class="delete-btn" type="button" @click="$emit('delete')">
                 <fa-icon :icon="['fas', 'trash-alt']" aria-label="delete" />
             </button>
         </div>
@@ -54,6 +54,11 @@
         props: {
             value: {
                 type: Object,
+                required: true,
+            },
+
+            index: {
+                type: Number,
                 required: true,
             },
 
@@ -77,14 +82,18 @@
                         label: this.value.label,
                         price: this.value.price,
                     };
-                    value[fieldName] = val;
+                    if (fieldName === 'price') {
+                        value[fieldName] = val ? parseInt(val) : val;
+                    } else {
+                        value[fieldName] = val;
+                    }
                     return this.$emit('input', value);
                 }
 
                 const value = {
                     class: this.value.class,
                     label: this.value.label,
-                    price: this.value.price,
+                    price: parseInt(this.value.price),
                 };
                 if (fieldName === 'class') {
                     const clas = this.adminClasses.find(({ id }) => id === val);
@@ -93,6 +102,8 @@
                         name: clas.name,
                         color: clas.color,
                     };
+                } else if (fieldName === 'price') {
+                    value[fieldName] = val ? parseInt(val) : val;
                 } else {
                     value[fieldName] = val;
                 }

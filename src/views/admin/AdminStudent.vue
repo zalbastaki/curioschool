@@ -52,19 +52,28 @@
                     name="coins"
                     label="coins"
                     placeholder="coins"
-                    v-model="currentAdminStudent.profile.coins"
+                    :value="currentAdminStudent.profile.coins"
+                    @input="
+                        val =>
+                            (currentAdminStudent.profile.coins = parseInt(val))
+                    "
                 />
                 <base-input
                     type="number"
                     name="points"
                     label="points"
                     placeholder="points"
-                    v-model="currentAdminStudent.profile.points"
+                    :value="currentAdminStudent.profile.points"
+                    @input="
+                        val =>
+                            (currentAdminStudent.profile.points = parseInt(val))
+                    "
                 />
                 <reward-input
                     v-for="(reward, index) in currentAdminStudent.profile
                         .rewards"
                     :key="`reward-${index}`"
+                    :index="index"
                     v-model="currentAdminStudent.profile.rewards[index]"
                     @delete="deleteReward(index)"
                 />
@@ -81,6 +90,7 @@
                 <to-do-input
                     v-for="(todo, index) in currentAdminStudent.profile.todos"
                     :key="`todo-${index}`"
+                    :index="index"
                     v-model="currentAdminStudent.profile.todos[index]"
                     @delete="deleteToDo(index)"
                 />

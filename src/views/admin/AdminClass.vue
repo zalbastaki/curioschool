@@ -62,6 +62,7 @@
                 <reward-input
                     v-for="(reward, index) in currentAdminClass.rewards"
                     :key="`reward-${index}`"
+                    :index="index"
                     v-model="currentAdminClass.rewards[index]"
                     :include-class="false"
                     @delete="deleteReward(index)"
@@ -80,6 +81,7 @@
                     v-for="(announcement,
                     index) in currentAdminClass.announcements"
                     :key="`announcement-${index}`"
+                    :index="index"
                     v-model="currentAdminClass.announcements[index]"
                     @delete="deleteAnnouncement(index)"
                 />
@@ -96,6 +98,7 @@
                 <time-input
                     v-for="(time, index) in currentAdminClass.times"
                     :key="`time-${index}`"
+                    :index="index"
                     v-model="currentAdminClass.times[index]"
                     @delete="deleteTime(index)"
                 />
@@ -108,6 +111,23 @@
                     @click="addTime"
                 >
                     + Add a time
+                </base-button>
+                <assessment-input
+                    v-for="(assessment, index) in currentAdminClass.assessments"
+                    :key="`assessment-${index}`"
+                    :index="index"
+                    v-model="currentAdminClass.assessments[index]"
+                    @delete="deleteAssessment(index)"
+                />
+                <base-button
+                    type="button"
+                    button-type="button"
+                    width="100%"
+                    height="30px"
+                    class="add-btn"
+                    @click="addAssessment"
+                >
+                    + Add an assessment
                 </base-button>
                 <base-button type="button" button-type="submit" color="orange">
                     Save
@@ -127,6 +147,7 @@
     import RewardInput from '../../components/admin/RewardInput';
     import AnnouncementInput from '../../components/admin/AnnouncementInput';
     import TimeInput from '../../components/admin/TimeInput';
+    import AssessmentInput from '../../components/admin/AssessmentInput';
 
     export default {
         name: 'admin-class',
@@ -135,6 +156,7 @@
             RewardInput,
             AnnouncementInput,
             TimeInput,
+            AssessmentInput,
         },
 
         props: {
@@ -249,6 +271,23 @@
 
             deleteTime(index) {
                 this.currentAdminClass.times.splice(index, 1);
+            },
+
+            addAssessment() {
+                const id = Date.now();
+                this.currentAdminClass.assessments.push({
+                    id: id,
+                    name: '',
+                    type: 'homework',
+                    due_date: new Date(),
+                    total_grade: 1,
+                    weight: 1,
+                    questions: [],
+                });
+            },
+
+            deleteAssessment(index) {
+                this.currentAdminClass.assessments.splice(index, 1);
             },
 
             handleSubmit() {

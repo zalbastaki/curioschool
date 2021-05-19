@@ -72,4 +72,12 @@
         padding: 5px;
         border-radius: 10px;
     }
+
+    .base-input {
+        .checkbox-label {
+            &.done {
+                text-decoration: line-through;
+            }
+        }
+    }
 </style>

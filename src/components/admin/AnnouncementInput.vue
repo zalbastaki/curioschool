@@ -6,7 +6,7 @@
         <div class="inputs-container">
             <base-input
                 type="text"
-                name="label"
+                :name="`label-${index}`"
                 label="label"
                 placeholder="label"
                 :value="value.label"
@@ -14,13 +14,13 @@
             />
             <base-input
                 type="datetime-local"
-                name="timestamp"
+                :name="`timestamp-${index}`"
                 label="timestamp"
                 placeholder="timestamp"
                 :value="formatDate(value.timestamp)"
                 @input="val => emitInput(val, 'timestamp')"
             />
-            <button class="delete-btn" @click="$emit('delete')">
+            <button class="delete-btn" type="button" @click="$emit('delete')">
                 <fa-icon :icon="['fas', 'trash-alt']" aria-label="delete" />
             </button>
         </div>
@@ -36,6 +36,11 @@
         props: {
             value: {
                 type: Object,
+                required: true,
+            },
+
+            index: {
+                type: Number,
                 required: true,
             },
         },
