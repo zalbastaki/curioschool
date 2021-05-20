@@ -234,7 +234,15 @@ const actions = {
         context.commit('setCurrentAssessment', currentAssessment);
 
         let profile = context.getters.profile;
-        profile.submissions = currentAssessment.submissions;
+        const otherSubmissions = profile.submissions.filter(
+            ({ assessmentId }) => {
+                return assessmentId !== currentAssessment.id;
+            }
+        );
+        profile.submissions = [
+            ...otherSubmissions,
+            ...currentAssessment.submissions,
+        ];
         await context.commit('setProfile', profile);
         await context.dispatch('updateProfile');
     },

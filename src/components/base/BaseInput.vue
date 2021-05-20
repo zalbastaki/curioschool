@@ -18,6 +18,7 @@
             @input="emitInput"
             @blur="emitBlur"
         >
+            {{ type === 'textarea' ? value : '' }}
             <slot />
         </component>
         <label

@@ -10,23 +10,56 @@
                     <base-text class="title" type="h4"
                         >Question {{ index + 1 }}</base-text
                     >
-                    <base-text class="question" type="h3">{{
-                        question.question
-                    }}</base-text>
+                    <base-text class="question" type="h3">
+                        {{ question.question }}
+                    </base-text>
                     <base-input
                         v-if="question.type === 'short_answer'"
                         type="text"
-                        :name="question.id"
+                        :name="index.toString()"
                         :placeholder="question.placeholder || 'Answer...'"
                         v-model="submission.answers[index].answer"
                     />
                     <base-input
                         v-if="question.type === 'long_answer'"
                         type="textarea"
-                        :name="question.id"
+                        :name="index.toString()"
                         :placeholder="question.placeholder || 'Answer...'"
                         v-model="submission.answers[index].answer"
                     />
+                    <div v-if="question.type === 'select' && !question.multi">
+                        <div
+                            v-for="(option, i) in question.options"
+                            :key="`option-${i}`"
+                            class="option"
+                        >
+                            <input
+                                type="radio"
+                                :id="option"
+                                :name="index.toString()"
+                                v-model="submission.answers[index].answer"
+                                :value="option"
+                            />
+                            <label :for="option">{{ option }}</label>
+                        </div>
+                    </div>
+                    <div v-if="question.type === 'select' && question.multi">
+                        <div
+                            v-for="(option, i) in question.options"
+                            :key="`option-${i}`"
+                            class="option"
+                        >
+                            <input
+                                type="checkbox"
+                                :id="option"
+                                :name="`${index.toString()}-${i.toString()}`"
+                                v-model="submission.answers[index].answer"
+                                :value="option"
+                                @input="e => handleMutliSelectInput(e, index)"
+                            />
+                            <label :for="option">{{ option }}</label>
+                        </div>
+                    </div>
                 </div>
                 <div class="buttons">
                     <base-button
@@ -65,7 +98,7 @@
                     class="finish-btn"
                     color="dark-orange"
                     width="400px"
-                    @click="currentQuestion++"
+                    @click="finish"
                 >
                     Finish Assessment!
                 </base-button>
@@ -103,7 +136,7 @@
             this.currentAssessment.questions.forEach(question => {
                 this.submission.answers.push({
                     question: question.question,
-                    answer: '',
+                    answer: question.multi ? [] : '',
                 });
             });
             this.updateSubmission(this.submission);
@@ -112,9 +145,30 @@
         methods: {
             ...mapActions(['updateCurrentAssessment', 'updateSubmission']),
 
+            handleMutliSelectInput(e, index) {
+                let submission = this.submission;
+                let exists = false;
+
+                submission.answers[index].answer.forEach((answer, i) => {
+                    if (answer === e.target.value) {
+                        exists = true;
+                        this.submission.answers[index].answer.splice(i, 1);
+                    }
+                });
+
+                if (!exists) {
+                    this.submission.answers[index].answer.push(e.target.value);
+                }
+            },
+
             next() {
                 this.updateSubmission(this.submission);
                 this.currentQuestion++;
+            },
+
+            finish() {
+                this.updateSubmission(this.submission);
+                this.$router.go();
             },
         },
     };
@@ -145,6 +199,17 @@
                         resize: vertical;
                         min-height: 80px;
                     }
+                }
+            }
+
+            .option {
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+
+                label {
+                    font-size: 25px;
+                    margin-left: 5px;
                 }
             }
 
