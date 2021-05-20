@@ -4,6 +4,7 @@
             v-for="(link, index) in links"
             :key="index"
             class="link"
+            :class="$mq"
             :to="{ path: link.path }"
             :background="`${color}44`"
             :border="color"
@@ -81,6 +82,10 @@
             justify-content: center;
             margin-bottom: 10px;
             padding: 15px;
+
+            &.tablet {
+                margin-bottom: 5px;
+            }
 
             .icon {
                 font-size: 40px;

@@ -25,10 +25,10 @@
                 type="button"
                 @click="buy(reward)"
                 color="yellow"
-                :width="$mq === 'tablet' ? '100px' : '140px'"
+                :width="$mq === 'tablet' ? '80px' : '100px'"
                 height="40px"
             >
-                Buy Reward
+                Buy
             </base-button>
         </div>
         <base-modal

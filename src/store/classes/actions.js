@@ -203,9 +203,40 @@ const actions = {
 
         currentAssessment.class = currentClass;
 
-        // TO DO: Get the student's submissions for this assessment
+        currentAssessment.questions.sort((a, b) => a.order - b.order);
+
+        currentAssessment.submissions = context.getters.profile.submissions.filter(
+            submission => {
+                return submission.assessmentId === currentAssessment.id;
+            }
+        );
 
         context.commit('setCurrentAssessment', currentAssessment);
+    },
+
+    async updateSubmission(context, updatedSubmission) {
+        let currentAssessment = { ...context.getters.currentAssessment };
+        let exists;
+
+        updatedSubmission.assessmentId = currentAssessment.id;
+
+        currentAssessment.submissions.forEach((submission, index) => {
+            if (submission.id === updatedSubmission.id) {
+                exists = true;
+                currentAssessment.submissions[index] = updatedSubmission;
+            }
+        });
+
+        if (!exists) {
+            currentAssessment.submissions.push(updatedSubmission);
+        }
+
+        context.commit('setCurrentAssessment', currentAssessment);
+
+        let profile = context.getters.profile;
+        profile.submissions = currentAssessment.submissions;
+        await context.commit('setProfile', profile);
+        await context.dispatch('updateProfile');
     },
 };
 

@@ -9,6 +9,7 @@ import {
     faFileAlt,
     faStickyNote,
     faArrowLeft,
+    faArrowRight,
     faClock,
     faTrashAlt,
     faCalendarDay,
@@ -26,6 +27,7 @@ export default () => {
     library.add(faFileAlt);
     library.add(faStickyNote);
     library.add(faArrowLeft);
+    library.add(faArrowRight);
     library.add(faClock);
     library.add(faTrashAlt);
     library.add(faCalendarDay);

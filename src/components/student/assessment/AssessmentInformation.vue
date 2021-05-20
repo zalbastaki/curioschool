@@ -28,7 +28,7 @@
                                 color: currentAssessment.class.color,
                             }"
                         />
-                        This is due on the
+                        This {{ isPast ? 'was' : 'is' }} due on the
                         <strong>
                             {{ formatDate(currentAssessment.due_date) }}</strong
                         >
@@ -41,12 +41,12 @@
                                 color: currentAssessment.class.color,
                             }"
                         />
-                        The full mark is
+                        The full mark {{ isPast ? 'was' : 'is' }}
                         <strong> {{ currentAssessment.total_grade }}</strong>
                     </base-text>
                 </div>
                 <base-button
-                    v-if="canStart"
+                    v-if="!isPast"
                     type="button"
                     button-type="button"
                     color="yellow"
@@ -63,12 +63,37 @@
                 :border="currentAssessment.class.color"
             >
                 <base-text
-                    v-if="!currentAssessment.submissions"
+                    v-if="
+                        !currentAssessment.submissions ||
+                            currentAssessment.submissions.length === 0
+                    "
                     class="no-submissions"
                     type="p"
                 >
                     You have no submissions for this assessment.
                 </base-text>
+                <div
+                    v-for="(submission, index) in currentAssessment.submissions"
+                    :key="`submission-${index}`"
+                    class="submission-preview"
+                    :style="{
+                        borderColor: currentAssessment.class.color,
+                    }"
+                >
+                    <div
+                        class="submission-date"
+                        :style="{
+                            borderColor: currentAssessment.class.color,
+                        }"
+                    >
+                        {{ formatDate(submission.datetime) }}
+                    </div>
+                    <div class="submission-grade">
+                        {{ submission.grade }}/{{
+                            currentAssessment.total_grade
+                        }}
+                    </div>
+                </div>
             </base-section>
         </div>
     </div>
@@ -84,14 +109,14 @@
         computed: {
             ...mapGetters(['currentAssessment']),
 
-            canStart() {
+            isPast() {
                 let due_date = new Date(this.currentAssessment.due_date);
                 if (isNaN(due_date)) {
                     due_date = this.currentAssessment.due_date.toDate();
                 }
                 const now = new Date();
 
-                return due_date > now;
+                return due_date < now;
             },
         },
 
@@ -180,10 +205,36 @@
             .submissions {
                 grid-area: submissions;
 
+                /deep/ .content {
+                    padding: 0;
+                }
+
                 .no-submissions {
                     opacity: 60%;
                     font-size: 16px;
                     font-style: italic;
+                    padding: 10px 15px;
+                }
+
+                .submission-preview {
+                    border-bottom-width: 4px;
+                    border-bottom-style: solid;
+                    display: flex;
+                    align-items: center;
+
+                    .submission-date {
+                        padding: 10px 15px;
+                        min-width: 180px;
+                        border-right-width: 2px;
+                        border-right-style: solid;
+                    }
+
+                    .submission-grade {
+                        flex: 1;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
                 }
             }
         }

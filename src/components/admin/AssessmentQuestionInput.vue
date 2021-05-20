@@ -13,14 +13,6 @@
                 @input="val => emitInput(val, 'question')"
             />
             <base-input
-                type="number"
-                :name="`order-${index}-${assessmentIndex}`"
-                label="question order"
-                placeholder="question order"
-                :value="value.order"
-                @input="val => emitInput(val, 'order')"
-            />
-            <base-input
                 type="checkbox"
                 :name="`required-${index}-${assessmentIndex}`"
                 label="Required"
@@ -168,7 +160,7 @@
             emitInput(val, fieldName) {
                 let value = {
                     question: this.value.question,
-                    order: parseInt(this.value.order),
+                    order: this.value.order,
                     required: this.value.required,
                     type: this.value.type,
                     placeholder: this.value.placeholder,
@@ -177,7 +169,7 @@
                     limit: parseInt(this.value.limit),
                 };
 
-                if (fieldName === 'order' || fieldName === 'limit') {
+                if (fieldName === 'limit') {
                     value[fieldName] = val ? parseInt(val) : val;
                 } else {
                     value[fieldName] = val;

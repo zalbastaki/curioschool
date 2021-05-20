@@ -47,12 +47,10 @@
                     <div class="name">{{ assessment.name }}</div>
                 </router-link>
             </template>
-            <template v-else>
-                <base-text class="empty-msg" type="p"
-                    >You have no upcoming {{ currentClass.name }}
-                    {{ type }}.</base-text
-                >
-            </template>
+            <base-text v-else type="p"
+                >You have no upcoming {{ currentClass.name }}
+                {{ type }}.</base-text
+            >
             <template
                 v-if="
                     currentClass.pastAssessments &&
@@ -182,6 +180,7 @@
         .h1 {
             font-size: 50px;
             text-transform: capitalize;
+            margin-bottom: 20px;
 
             &.tablet {
                 font-size: 45px;
@@ -224,10 +223,6 @@
                 margin-left: 10px;
                 font-size: 16px;
             }
-        }
-
-        .empty-msg {
-            margin-top: 20px;
         }
 
         .past-heading {
