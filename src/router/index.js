@@ -6,6 +6,7 @@ import Login from '../views/Login.vue';
 import StudentHome from '../views/student/StudentHome';
 import StudentClass from '../views/student/StudentClass';
 import StudentAssessments from '../views/student/StudentAssessments';
+import StudentAssessment from '../views/student/StudentAssessment';
 import StudentRewards from '../views/student/StudentRewards';
 import AdminHome from '../views/admin/AdminHome';
 import AdminStudents from '../views/admin/AdminStudents';
@@ -48,6 +49,16 @@ const routes = [
         path: '/student-assessments/:id/:type',
         name: 'student-assessments',
         component: StudentAssessments,
+        props: true,
+        meta: {
+            requiresAuth: true,
+            role: 'student',
+        },
+    },
+    {
+        path: '/student-assessment/:classId/:id',
+        name: 'student-assessment',
+        component: StudentAssessment,
         props: true,
         meta: {
             requiresAuth: true,

@@ -4,6 +4,7 @@ const state = {
     schedule: [],
     upcomingAssessments: [],
     currentClass: null,
+    currentAssessment: null,
 };
 
 export default state;

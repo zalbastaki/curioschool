@@ -16,11 +16,11 @@
 
 <script>
     import { mapGetters } from 'vuex';
-    import ProgressSection from '../../components/ProgressSection';
-    import ToDoSection from '../../components/home/ToDoSection';
-    import UpcomingSection from '../../components/home/UpcomingSection';
-    import ScheduleSection from '../../components/home/ScheduleSection';
-    import ClassesSection from '../../components/home/ClassesSection';
+    import ProgressSection from '../../components/student/ProgressSection';
+    import ToDoSection from '../../components/student/home/ToDoSection';
+    import UpcomingSection from '../../components/student/home/UpcomingSection';
+    import ScheduleSection from '../../components/student/home/ScheduleSection';
+    import ClassesSection from '../../components/student/home/ClassesSection';
 
     export default {
         name: 'student-home',

@@ -18,6 +18,10 @@ const getters = {
     currentClass: state => {
         return state.currentClass;
     },
+
+    currentAssessment: state => {
+        return state.currentAssessment;
+    },
 };
 
 export default getters;

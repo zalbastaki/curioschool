@@ -48,7 +48,7 @@
                 height: 90px;
                 width: 90px;
                 border-radius: 50%;
-                background-image: url('../../assets/images/placeholder-avatar.png');
+                background-image: url('../../../assets/images/placeholder-avatar.png');
                 background-size: cover;
                 background-position: center;
                 margin-bottom: 7px;

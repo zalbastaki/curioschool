@@ -26,7 +26,7 @@
 
 <script>
     import { mapGetters } from 'vuex';
-    import ProgressSection from '../../components/ProgressSection';
+    import ProgressSection from '../../components/student/ProgressSection';
 
     export default {
         name: 'student-rewards',

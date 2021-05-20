@@ -13,6 +13,7 @@ const actions = {
                     context.dispatch('getSchedule');
                     context.dispatch('getUpcomingAssessments');
                     context.dispatch('updateCurrentClass');
+                    context.dispatch('updateCurrentAssessment');
                 });
             context.commit('addUnsubscribeClassListener', unsubscribe);
         });
@@ -107,11 +108,67 @@ const actions = {
         context.commit('setUpcomingAssessments', upcomingAssessments);
     },
 
-    updateCurrentClass(context) {
+    getCurrentClassUpcomingAssessments(context, currentClass) {
+        let upcomingAssessments = {
+            homework: [],
+            classwork: [],
+            project: [],
+            quiz: [],
+            test: [],
+        };
+        currentClass.assessments.forEach(assessment => {
+            let due_date = new Date(assessment.due_date);
+            if (isNaN(due_date)) {
+                due_date = assessment.due_date.toDate();
+            }
+            const now = new Date();
+
+            if (due_date > now) {
+                upcomingAssessments[assessment.type].push(assessment);
+            }
+        });
+        upcomingAssessments.homework.sort((a, b) => a.due_date - b.due_date);
+        upcomingAssessments.classwork.sort((a, b) => a.due_date - b.due_date);
+        upcomingAssessments.project.sort((a, b) => a.due_date - b.due_date);
+        upcomingAssessments.quiz.sort((a, b) => a.due_date - b.due_date);
+        upcomingAssessments.test.sort((a, b) => a.due_date - b.due_date);
+        return upcomingAssessments;
+    },
+
+    getCurrentClassPastAssessments(context, currentClass) {
+        let pastAssessments = {
+            homework: [],
+            classwork: [],
+            project: [],
+            quiz: [],
+            test: [],
+        };
+        currentClass.assessments.forEach(assessment => {
+            let due_date = new Date(assessment.due_date);
+            if (isNaN(due_date)) {
+                due_date = assessment.due_date.toDate();
+            }
+            const now = new Date();
+
+            if (due_date < now) {
+                pastAssessments[assessment.type].push(assessment);
+            }
+        });
+        pastAssessments.homework.sort((a, b) => b.due_date - a.due_date);
+        pastAssessments.classwork.sort((a, b) => b.due_date - a.due_date);
+        pastAssessments.project.sort((a, b) => b.due_date - a.due_date);
+        pastAssessments.quiz.sort((a, b) => b.due_date - a.due_date);
+        pastAssessments.test.sort((a, b) => b.due_date - a.due_date);
+        return pastAssessments;
+    },
+
+    async updateCurrentClass(context) {
         const currentClass = context.getters.classes.find(
             ({ id }) => id === router.currentRoute.params.id
         );
         if (!currentClass) return;
+
+        // ANNOUNCEMENTS
         currentClass.announcements.sort((a, b) => {
             let date_a = new Date(a.timestamp);
             if (isNaN(date_a)) date_a = a.timestamp.toDate();
@@ -120,7 +177,35 @@ const actions = {
 
             return date_b - date_a;
         });
+
+        currentClass.upcomingAssessments = await context.dispatch(
+            'getCurrentClassUpcomingAssessments',
+            currentClass
+        );
+        currentClass.pastAssessments = await context.dispatch(
+            'getCurrentClassPastAssessments',
+            currentClass
+        );
+
         context.commit('setCurrentClass', currentClass);
+    },
+
+    updateCurrentAssessment(context) {
+        const currentClass = context.getters.classes.find(
+            ({ id }) => id === router.currentRoute.params.classId
+        );
+        if (!currentClass) return;
+
+        const currentAssessment = currentClass.assessments.find(({ id }) => {
+            return parseInt(id) === parseInt(router.currentRoute.params.id);
+        });
+        if (!currentAssessment) return;
+
+        currentAssessment.class = currentClass;
+
+        // TO DO: Get the student's submissions for this assessment
+
+        context.commit('setCurrentAssessment', currentAssessment);
     },
 };
 

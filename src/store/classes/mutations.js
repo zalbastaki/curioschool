@@ -39,6 +39,10 @@ const mutations = {
     setCurrentClass: (state, currentClass) => {
         state.currentClass = currentClass;
     },
+
+    setCurrentAssessment: (state, currentAssessment) => {
+        state.currentAssessment = currentAssessment;
+    },
 };
 
 export default mutations;

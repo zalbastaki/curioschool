@@ -23,12 +23,12 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
-    import ProgressSection from '../../components/ProgressSection';
-    import LinksSection from '../../components/class/LinksSection';
-    import AnnouncementsSection from '../../components/class/AnnouncementsSection';
-    import ChatSection from '../../components/class/ChatSection';
-    import LeaderboardSection from '../../components/class/LeaderboardSection';
-    import RewardsSection from '../../components/class/RewardsSection';
+    import ProgressSection from '../../components/student/ProgressSection';
+    import LinksSection from '../../components/student/class/LinksSection';
+    import AnnouncementsSection from '../../components/student/class/AnnouncementsSection';
+    import ChatSection from '../../components/student/class/ChatSection';
+    import LeaderboardSection from '../../components/student/class/LeaderboardSection';
+    import RewardsSection from '../../components/student/class/RewardsSection';
 
     export default {
         name: 'student-class',
