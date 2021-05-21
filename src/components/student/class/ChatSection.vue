@@ -6,6 +6,7 @@
         :border="color"
     >
         <!-- TO DO -->
+        <base-text type="p">Coming soon!</base-text>
     </base-section>
 </template>
 

@@ -7,6 +7,8 @@ import StudentHome from '../views/student/StudentHome';
 import StudentClass from '../views/student/StudentClass';
 import StudentAssessments from '../views/student/StudentAssessments';
 import StudentAssessment from '../views/student/StudentAssessment';
+import StudentAttendance from '../views/student/StudentAttendance';
+import StudentGrades from '../views/student/StudentGrades';
 import StudentRewards from '../views/student/StudentRewards';
 import AdminHome from '../views/admin/AdminHome';
 import AdminStudents from '../views/admin/AdminStudents';
@@ -60,6 +62,24 @@ const routes = [
         name: 'student-assessment',
         component: StudentAssessment,
         props: true,
+        meta: {
+            requiresAuth: true,
+            role: 'student',
+        },
+    },
+    {
+        path: '/student-attendance',
+        name: 'student-attendance',
+        component: StudentAttendance,
+        meta: {
+            requiresAuth: true,
+            role: 'student',
+        },
+    },
+    {
+        path: '/student-grades',
+        name: 'student-grades',
+        component: StudentGrades,
         meta: {
             requiresAuth: true,
             role: 'student',

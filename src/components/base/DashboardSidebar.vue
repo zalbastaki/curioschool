@@ -108,6 +108,14 @@
                     },
                     ...classes,
                     {
+                        label: 'attendance',
+                        path: '/student-attendance',
+                    },
+                    {
+                        label: 'grades',
+                        path: '/student-grades',
+                    },
+                    {
                         label: 'rewards',
                         path: '/student-rewards',
                     },
@@ -187,9 +195,9 @@
                 display: block;
                 text-transform: uppercase;
                 font-weight: bold;
-                font-size: 30px;
+                font-size: 22px;
                 margin-right: 25px;
-                padding: 20px 0 20px 35px;
+                padding: 15px 0 15px 35px;
                 text-decoration: none;
 
                 &.white {
@@ -305,7 +313,7 @@
                 margin-top: 20px;
 
                 .nav-item {
-                    font-size: 25px;
+                    font-size: 20px;
                     margin-right: 20px;
                     padding: 15px 0 15px 25px;
                 }
