@@ -5,6 +5,20 @@
         :background="`${color}44`"
         :border="color"
     >
+        <template v-if="role === 'teacher'">
+            <base-button
+                type="button"
+                button-type="button"
+                color="yellow"
+                class="add-btn"
+                height="40px"
+                width="100%"
+                @click="openAddModal"
+            >
+                Add an announcement
+            </base-button>
+            <announcement-input-modal ref="addModal" />
+        </template>
         <div
             v-for="(announcement, index) in currentClass.announcements"
             :key="index"
@@ -40,12 +54,17 @@
 <script>
     import { mapGetters } from 'vuex';
     import moment from 'moment';
+    import AnnouncementInputModal from '../../teacher/class/AnnouncementInputModal';
 
     export default {
         name: 'announcements-section',
 
+        components: {
+            AnnouncementInputModal,
+        },
+
         computed: {
-            ...mapGetters(['currentClass']),
+            ...mapGetters(['currentClass', 'role']),
 
             color() {
                 return this.currentClass.color;
@@ -73,12 +92,22 @@
                 const date = this.getDate(timestamp);
                 return moment(date).format('h:mm a');
             },
+
+            openAddModal() {
+                this.$refs.addModal.openModal();
+            },
         },
     };
 </script>
 
 <style lang="scss" scoped>
     .announcements {
+        .add-btn {
+            font-size: 16px;
+            text-transform: none;
+            margin-bottom: 10px;
+        }
+
         .announcement {
             display: flex;
             border-width: 2px;

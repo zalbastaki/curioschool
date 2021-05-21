@@ -20,7 +20,12 @@
                 :value="formatDate(value.timestamp)"
                 @input="val => emitInput(val, 'timestamp')"
             />
-            <button class="delete-btn" type="button" @click="$emit('delete')">
+            <button
+                v-if="allowDelete"
+                class="delete-btn"
+                type="button"
+                @click="$emit('delete')"
+            >
                 <fa-icon :icon="['fas', 'trash-alt']" aria-label="delete" />
             </button>
         </div>
@@ -42,6 +47,14 @@
             index: {
                 type: Number,
                 required: true,
+            },
+
+            allowDelete: {
+                type: Boolean,
+                required: false,
+                default() {
+                    return true;
+                },
             },
         },
 

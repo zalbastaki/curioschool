@@ -252,6 +252,17 @@ const actions = {
         await context.commit('setProfile', profile);
         await context.dispatch('updateProfile');
     },
+
+    updateClassDoc(context, clas) {
+        firebase
+            .firestore()
+            .collection('classes')
+            .doc(clas.id)
+            .set(clas)
+            .catch(e => {
+                throw e;
+            });
+    },
 };
 
 export default actions;
