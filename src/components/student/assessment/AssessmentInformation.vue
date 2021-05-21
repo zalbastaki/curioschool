@@ -188,7 +188,11 @@
             },
 
             canStart() {
-                return !this.isPast && !this.submissionLimitReached;
+                return (
+                    !this.isPast &&
+                    !this.submissionLimitReached &&
+                    this.currentAssessment.questions.length > 0
+                );
             },
         },
 
