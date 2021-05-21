@@ -97,29 +97,34 @@
                 const classes = this.classes.map(({ id, name }) => {
                     return {
                         label: name,
-                        path: `/student-class/${id}`,
+                        path: `/${this.role}-class/${id}`,
                     };
                 });
 
-                return [
+                let sidebar = [
                     {
                         label: 'home',
-                        path: '/student-home',
+                        path: `/${this.role}-home`,
                     },
                     ...classes,
                     {
                         label: 'attendance',
-                        path: '/student-attendance',
+                        path: `/${this.role}-attendance`,
                     },
                     {
                         label: 'grades',
-                        path: '/student-grades',
-                    },
-                    {
-                        label: 'rewards',
-                        path: '/student-rewards',
+                        path: `/${this.role}-grades`,
                     },
                 ];
+
+                if (this.role === 'teacher') return sidebar;
+
+                sidebar.push({
+                    label: 'rewards',
+                    path: '/student-rewards',
+                });
+
+                return sidebar;
             },
 
             currentPath() {

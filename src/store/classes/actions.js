@@ -209,11 +209,13 @@ const actions = {
 
         currentAssessment.questions.sort((a, b) => a.order - b.order);
 
-        currentAssessment.submissions = context.getters.profile.submissions.filter(
-            submission => {
-                return submission.assessmentId === currentAssessment.id;
-            }
-        );
+        if (context.getters.role === 'student') {
+            currentAssessment.submissions = context.getters.profile.submissions.filter(
+                submission => {
+                    return submission.assessmentId === currentAssessment.id;
+                }
+            );
+        }
 
         context.commit('setCurrentAssessment', currentAssessment);
     },

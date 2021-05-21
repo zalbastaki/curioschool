@@ -21,6 +21,7 @@
                 {{ reward.price }}
             </div>
             <base-button
+                v-if="role === 'student'"
                 class="buy-btn"
                 type="button"
                 @click="buy(reward)"
@@ -46,7 +47,7 @@
         name: 'rewards-section',
 
         computed: {
-            ...mapGetters(['currentClass']),
+            ...mapGetters(['currentClass', 'role']),
 
             color() {
                 return this.currentClass.color;

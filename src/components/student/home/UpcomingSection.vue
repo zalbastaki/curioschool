@@ -13,7 +13,7 @@
                     v-for="(assessment, index) in upcomingAssessments[type]"
                     :key="`${type}-${index}`"
                     :to="
-                        `/student-assessment/${assessment.classId}/${assessment.id}`
+                        `/${role}-assessment/${assessment.classId}/${assessment.id}`
                     "
                     class="assessment"
                     :style="{
@@ -59,7 +59,7 @@
         },
 
         computed: {
-            ...mapGetters(['upcomingAssessments']),
+            ...mapGetters(['upcomingAssessments', 'role']),
         },
 
         methods: {

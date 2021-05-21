@@ -18,6 +18,9 @@ import AdminTeacher from '../views/admin/AdminTeacher';
 import AdminClasses from '../views/admin/AdminClasses';
 import AdminClass from '../views/admin/AdminClass';
 import TeacherHome from '../views/teacher/TeacherHome';
+import TeacherClass from '../views/teacher/TeacherClass';
+import TeacherAssessments from '../views/teacher/TeacherAssessments';
+import TeacherAssessment from '../views/teacher/TeacherAssessment';
 import PageNotFound from '../views/PageNotFound.vue';
 
 Vue.use(VueRouter);
@@ -164,6 +167,36 @@ const routes = [
         path: '/teacher-home',
         name: 'teacher-home',
         component: TeacherHome,
+        meta: {
+            requiresAuth: true,
+            role: 'teacher',
+        },
+    },
+    {
+        path: '/teacher-class/:id',
+        name: 'teacher-class',
+        component: TeacherClass,
+        props: true,
+        meta: {
+            requiresAuth: true,
+            role: 'teacher',
+        },
+    },
+    {
+        path: '/teacher-assessments/:id/:type',
+        name: 'teacher-assessments',
+        component: TeacherAssessments,
+        props: true,
+        meta: {
+            requiresAuth: true,
+            role: 'teacher',
+        },
+    },
+    {
+        path: '/teacher-assessment/:classId/:id',
+        name: 'teacher-assessment',
+        component: TeacherAssessment,
+        props: true,
         meta: {
             requiresAuth: true,
             role: 'teacher',

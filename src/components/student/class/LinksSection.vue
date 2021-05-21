@@ -22,7 +22,7 @@
         name: 'links-section',
 
         computed: {
-            ...mapGetters(['currentClass']),
+            ...mapGetters(['currentClass', 'role']),
 
             id() {
                 return this.currentClass.id;
@@ -37,27 +37,27 @@
                     {
                         label: 'homework',
                         icon: ['fas', 'home'],
-                        path: `/student-assessments/${this.id}/homework`,
+                        path: `/${this.role}-assessments/${this.id}/homework`,
                     },
                     {
                         label: 'classwork',
                         icon: ['fas', 'chalkboard-teacher'],
-                        path: `/student-assessments/${this.id}/classwork`,
+                        path: `/${this.role}-assessments/${this.id}/classwork`,
                     },
                     {
                         label: 'projects',
                         icon: ['fas', 'project-diagram'],
-                        path: `/student-assessments/${this.id}/projects`,
+                        path: `/${this.role}-assessments/${this.id}/projects`,
                     },
                     {
                         label: 'quizzes',
                         icon: ['fas', 'sticky-note'],
-                        path: `/student-assessments/${this.id}/quizzes`,
+                        path: `/${this.role}-assessments/${this.id}/quizzes`,
                     },
                     {
                         label: 'tests',
                         icon: ['fas', 'file-alt'],
-                        path: `/student-assessments/${this.id}/tests`,
+                        path: `/${this.role}-assessments/${this.id}/tests`,
                     },
                 ];
             },
