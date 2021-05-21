@@ -82,6 +82,7 @@
                         button-type="button"
                         color="purple"
                         @click="next"
+                        :disabled="question.required && (!submission.answers[index].answer || submission.answers[index].answer.length === 0)"
                     >
                         Next
                         <fa-icon

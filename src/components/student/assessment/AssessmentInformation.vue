@@ -106,7 +106,7 @@
                     </base-text>
                 </div>
                 <base-button
-                    v-if="!isPast"
+                    v-if="canStart"
                     type="button"
                     button-type="button"
                     color="yellow"
@@ -177,6 +177,14 @@
                 const now = new Date();
 
                 return due_date < now;
+            },
+
+            submissionLimitReached() {
+                return this.currentAssessment.submissions_limit !== 0 && this.currentAssessment.submissions_limit <= this.currentAssessment.submissions.length;
+            },
+
+            canStart() {
+                return !this.isPast && !this.submissionLimitReached;
             },
         },
 
