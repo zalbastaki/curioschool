@@ -152,8 +152,8 @@
         }
 
         .checkbox-label {
-            display: inline-block;
-            margin-left: 5px;
+            display: inline;
+            margin-left: 2px;
 
             &:hover {
                 cursor: pointer;

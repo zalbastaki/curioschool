@@ -30,8 +30,8 @@
                         />
                         This {{ isPast ? 'was' : 'is' }} due on the
                         <strong>
-                            {{ formatDate(currentAssessment.due_date) }}</strong
-                        >
+                            {{ formatDate(currentAssessment.due_date) }}
+                        </strong>
                     </base-text>
                     <base-text type="p">
                         <fa-icon
@@ -43,6 +43,66 @@
                         />
                         The full mark {{ isPast ? 'was' : 'is' }}
                         <strong> {{ currentAssessment.total_grade }}</strong>
+                    </base-text>
+                    <base-text v-if="currentAssessment.coins > 0" type="p">
+                        <fa-icon
+                            :icon="['fas', 'coins']"
+                            class="icon"
+                            :style="{
+                                color: currentAssessment.class.color,
+                            }"
+                        />
+                        You can get up to
+                        <strong> {{ currentAssessment.coins }} coins</strong>
+                    </base-text>
+                    <base-text v-if="currentAssessment.points > 0" type="p">
+                        <fa-icon
+                            :icon="['fas', 'star']"
+                            class="icon"
+                            :style="{
+                                color: currentAssessment.class.color,
+                            }"
+                        />
+                        You can get up to
+                        <strong> {{ currentAssessment.points }} points</strong>
+                    </base-text>
+                    <base-text
+                        v-if="currentAssessment.submissions_limit > 0"
+                        type="p"
+                    >
+                        <fa-icon
+                            :icon="['fas', 'copy']"
+                            class="icon"
+                            :style="{
+                                color: currentAssessment.class.color,
+                            }"
+                        />
+                        You can submit
+                        <strong>
+                            {{ currentAssessment.submissions_limit }} time{{
+                                currentAssessment.submissions_limit > 1
+                                    ? 's'
+                                    : ''
+                            }}
+                        </strong>
+                    </base-text>
+                    <base-text v-if="currentAssessment.time_limit > 0" type="p">
+                        <fa-icon
+                            :icon="['fas', 'stopwatch']"
+                            class="icon"
+                            :style="{
+                                color: currentAssessment.class.color,
+                            }"
+                        />
+                        You have
+                        <strong>
+                            {{ currentAssessment.time_limit }} minute{{
+                                currentAssessment.submissions_limit > 1
+                                    ? 's'
+                                    : ''
+                            }}
+                        </strong>
+                        to complete this
                     </base-text>
                 </div>
                 <base-button

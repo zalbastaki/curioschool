@@ -15,6 +15,9 @@ import {
     faCalendarDay,
     faClipboard,
     faBalanceScaleRight,
+    faStar,
+    faStopwatch,
+    faCopy,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -33,6 +36,9 @@ export default () => {
     library.add(faCalendarDay);
     library.add(faClipboard);
     library.add(faBalanceScaleRight);
+    library.add(faStar);
+    library.add(faStopwatch);
+    library.add(faCopy);
 
     Vue.component('fa-icon', FontAwesomeIcon);
 };

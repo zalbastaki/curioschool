@@ -282,7 +282,11 @@
                     type: 'homework',
                     due_date: new Date(),
                     total_grade: 1,
-                    weight: 1,
+                    weight: 0,
+                    coins: 0,
+                    points: 0,
+                    submissions_limit: 1,
+                    time_limit: 1,
                     questions: [],
                 });
             },

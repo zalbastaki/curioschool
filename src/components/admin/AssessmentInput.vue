@@ -63,6 +63,42 @@
                 :value="value.weight"
                 @input="val => emitInput(val, 'weight')"
             />
+            <base-input
+                type="number"
+                :name="`coins-${assessmentIndex}`"
+                :min="0"
+                label="highest possible coins"
+                placeholder="Highest possible coins"
+                :value="value.coins"
+                @input="val => emitInput(val, 'coins')"
+            />
+            <base-input
+                type="number"
+                :name="`points-${assessmentIndex}`"
+                :min="0"
+                label="highest possible points"
+                placeholder="Highest possible points"
+                :value="value.points"
+                @input="val => emitInput(val, 'points')"
+            />
+            <base-input
+                type="number"
+                :name="`submissions-limit-${assessmentIndex}`"
+                :min="0"
+                label="how many times can a student submit? (enter 0 for unlimited)"
+                placeholder="Submissions limit"
+                :value="value.submissions_limit"
+                @input="val => emitInput(val, 'submissions_limit')"
+            />
+            <base-input
+                type="number"
+                :name="`time-limit-${assessmentIndex}`"
+                :min="0"
+                label="time limit (in minutes) (0 for unlimited)"
+                placeholder="Time limit (minutes)"
+                :value="value.time_limit"
+                @input="val => emitInput(val, 'time_limit')"
+            />
             <assessment-question-input
                 :assessmentIndex="assessmentIndex"
                 v-for="(question, index) in value.questions"
@@ -160,13 +196,21 @@
                     due_date: this.formatDate(this.value.due_date),
                     total_grade: parseInt(this.value.total_grade),
                     weight: parseInt(this.value.weight),
+                    coins: parseInt(this.value.coins),
+                    points: parseInt(this.value.points),
+                    submissions_limit: parseInt(this.value.submissions_limit),
+                    time_limit: parseInt(this.value.submissions_limit),
                     questions: this.value.questions,
                 };
                 if (fieldName === 'due_date') {
                     value[fieldName] = this.formatDate(val);
                 } else if (
                     fieldName === 'total_grade' ||
-                    fieldName === 'weight'
+                    fieldName === 'weight' ||
+                    fieldName === 'coins' ||
+                    fieldName === 'points' ||
+                    fieldName === 'submissions_limit' ||
+                    fieldName === 'time_limit'
                 ) {
                     value[fieldName] = val ? parseInt(val) : val;
                 } else {
