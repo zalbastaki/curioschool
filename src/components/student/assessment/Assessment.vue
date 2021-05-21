@@ -1,6 +1,8 @@
 <template>
     <div class="assessment">
-        <div class="timer">Time remaining: {{ formattedTime }}</div>
+        <div v-if="currentAssessment.time_limit > 0" class="timer">
+            Time remaining: {{ formattedTime }}
+        </div>
         <template v-for="(question, index) in currentAssessment.questions">
             <div
                 v-if="currentQuestion === index"
@@ -8,9 +10,10 @@
                 class="current-question"
             >
                 <div>
-                    <base-text class="title" type="h4"
-                        >Question {{ index + 1 }}</base-text
-                    >
+                    <base-text class="title" type="h4">
+                        Question {{ index + 1 }} /
+                        {{ currentAssessment.questions.length }}
+                    </base-text>
                     <base-text class="question" type="h3">
                         {{ question.question }}
                     </base-text>
