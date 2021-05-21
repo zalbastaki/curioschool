@@ -24,22 +24,35 @@
                 There are currently no classes registered!
             </base-text>
             <template v-else>
-                <section class="classes">
-                    <router-link
-                        v-for="(clas, index) in currentAdminClasses"
-                        :key="index"
-                        class="clas"
-                        :to="`/admin-class/${clas.id}`"
-                    >
-                        <div class="avatar" />
-                        <base-text type="p">{{ clas.level }}</base-text>
-                        <base-text type="p">{{ clas.name }}</base-text>
-                    </router-link>
+                <section class="classes" :key="currentAdminClasses.length">
+                    <template v-for="(clas, index) in currentAdminClasses">
+                        <div v-if="clas.id" :key="index" class="clas-container">
+                            <router-link
+                                class="clas"
+                                :to="`/admin-class/${clas.id}`"
+                            >
+                                <div class="avatar" />
+                                <base-text type="p">{{ clas.level }}</base-text>
+                                <base-text type="p">{{ clas.name }}</base-text>
+                            </router-link>
+                            <button
+                                class="delete-btn"
+                                type="button"
+                                @click.stop="deleteClass(clas.id)"
+                            >
+                                <fa-icon
+                                    :icon="['fas', 'trash-alt']"
+                                    aria-label="delete"
+                                />
+                            </button>
+                        </div>
+                    </template>
                 </section>
             </template>
             <base-button type="button" @click="addClass" width="300px">
                 + Add Class
             </base-button>
+            <base-modal ref="error" heading="Oops!" />
         </div>
     </base-dashboard>
 </template>
@@ -77,10 +90,24 @@
             ...mapActions([
                 'updateCurrentAdminClasses',
                 'updateAdminLevelSelected',
+                'addClassDoc',
+                'deleteRecord',
             ]),
 
             addClass() {
-                // TO DO
+                this.addClassDoc()
+                    .then(id => {
+                        this.$router.push(`/admin-class/${id}`);
+                    })
+                    .catch(e => {
+                        this.$refs.error.openModal(e.message);
+                    });
+            },
+
+            deleteClass(id) {
+                this.deleteRecord({ collection: 'classes', id }).then(() => {
+                    this.$router.go();
+                });
             },
         },
     };
@@ -119,6 +146,25 @@
             grid-template-columns: repeat(6, 1fr);
             gap: 10px;
 
+            .clas-container {
+                position: relative;
+
+                .delete-btn {
+                    cursor: pointer;
+                    position: absolute;
+                    top: 7px;
+                    right: 5px;
+                    background: none;
+                    border: none;
+                    font-size: 16px;
+                    color: $black;
+
+                    &:hover {
+                        color: $dark-orange;
+                    }
+                }
+            }
+
             .clas {
                 display: flex;
                 flex-direction: column;
@@ -131,6 +177,7 @@
                 text-align: center;
                 color: $black;
                 text-decoration: none;
+                height: calc(100% - 46px);
 
                 .avatar {
                     width: 100px;

@@ -8,6 +8,7 @@ const actions = {
             .collection(collection)
             .onSnapshot(async data => {
                 data.docs.forEach(async doc => {
+                    if (!doc.exists) return;
                     if (
                         collection === 'users' &&
                         doc.data()['role'] === 'admin'
@@ -261,6 +262,104 @@ const actions = {
             .collection('classes')
             .doc(clas.id)
             .set(clas)
+            .catch(e => {
+                throw e;
+            });
+    },
+
+    async addStudentDoc(context, uid) {
+        const student = {
+            id: uid,
+            role: 'student',
+            profile: {
+                first_name: '',
+                last_name: '',
+                coins: 0,
+                points: 0,
+                level: '',
+                classes: [],
+                rewards: [],
+                todos: [],
+                submissions: [],
+            },
+        };
+
+        await firebase
+            .firestore()
+            .collection('users')
+            .doc(uid)
+            .set(student)
+            .catch(e => {
+                throw e;
+            });
+    },
+
+    async addTeacherDoc(context, uid) {
+        const teacher = {
+            id: uid,
+            role: 'teacher',
+            profile: {
+                first_name: '',
+                last_name: '',
+                levels: [],
+                classes: [],
+                todos: [],
+            },
+        };
+
+        await firebase
+            .firestore()
+            .collection('users')
+            .doc(uid)
+            .set(teacher)
+            .catch(e => {
+                throw e;
+            });
+    },
+
+    async addClassDoc() {
+        const clas = {
+            announcements: [],
+            assessments: [],
+            color: '',
+            id: '',
+            name: '',
+            level: '',
+            rewards: [],
+            students: [],
+            teachers: [],
+            times: [],
+        };
+
+        await firebase
+            .firestore()
+            .collection('classes')
+            .add(clas)
+            .then(docRef => {
+                clas.id = docRef.id;
+                firebase
+                    .firestore()
+                    .collection('classes')
+                    .doc(docRef.id)
+                    .set(clas)
+                    .then(() => {
+                        router.push(`/admin-class/${docRef.id}`);
+                    })
+                    .catch(e => {
+                        throw e;
+                    });
+            })
+            .catch(e => {
+                throw e;
+            });
+    },
+
+    async deleteRecord(context, { collection, id }) {
+        await firebase
+            .firestore()
+            .collection(collection)
+            .doc(id)
+            .delete()
             .catch(e => {
                 throw e;
             });

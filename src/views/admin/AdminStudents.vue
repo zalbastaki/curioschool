@@ -25,26 +25,66 @@
             </base-text>
             <template v-else>
                 <section class="students">
-                    <router-link
+                    <div
                         v-for="(student, index) in currentAdminStudents"
                         :key="index"
-                        class="student"
-                        :to="`/admin-student/${student.id}`"
+                        class="student-container"
                     >
-                        <div class="avatar" />
-                        <base-text type="p">
-                            {{
-                                student.profile.first_name +
-                                    ' ' +
-                                    student.profile.last_name
-                            }}
-                        </base-text>
-                    </router-link>
+                        <router-link
+                            class="student"
+                            :to="`/admin-student/${student.id}`"
+                        >
+                            <div class="avatar" />
+                            <base-text type="p">
+                                {{
+                                    student.profile.first_name +
+                                        ' ' +
+                                        student.profile.last_name
+                                }}
+                            </base-text>
+                        </router-link>
+                        <button
+                            class="delete-btn"
+                            type="button"
+                            @click.stop="deleteStudent(student.id)"
+                        >
+                            <fa-icon
+                                :icon="['fas', 'trash-alt']"
+                                aria-label="delete"
+                            />
+                        </button>
+                    </div>
                 </section>
             </template>
-            <base-button type="button" @click="addStudent" width="300px">
-                + Add Student
+            <base-button type="button" @click="openAddModal" width="500px">
+                + Add Student Record
             </base-button>
+            <base-modal ref="addStudent" heading="Student's Firebase UID">
+                <template v-slot:body>
+                    <base-input
+                        type="text"
+                        name="uid"
+                        id="uid"
+                        placeholder="Firebase uid"
+                        v-model="uid"
+                    />
+                    <div class="msg">
+                        Register a user in the firebase console and copy their
+                        uid here.
+                    </div>
+                </template>
+                <template v-slot:footer>
+                    <base-button
+                        type="button"
+                        button-type="submit"
+                        color="dark-orange"
+                        @click="addStudent"
+                    >
+                        Add
+                    </base-button>
+                </template>
+            </base-modal>
+            <base-modal ref="error" heading="Oops!" />
         </div>
     </base-dashboard>
 </template>
@@ -54,6 +94,12 @@
 
     export default {
         name: 'admin-students',
+
+        data() {
+            return {
+                uid: '',
+            };
+        },
 
         computed: {
             ...mapGetters([
@@ -82,10 +128,30 @@
             ...mapActions([
                 'updateCurrentAdminStudents',
                 'updateAdminLevelSelected',
+                'addStudentDoc',
+                'deleteRecord',
             ]),
 
+            openAddModal() {
+                this.$refs.addStudent.openModal();
+            },
+
             addStudent() {
-                // TO DO
+                this.addStudentDoc(this.uid)
+                    .then(() => {
+                        this.$refs.addStudent.closeModal();
+                        this.$router.push(`/admin-student/${this.uid}`);
+                    })
+                    .catch(e => {
+                        this.$refs.addStudent.closeModal();
+                        this.$refs.error.openModal(e.message);
+                    });
+            },
+
+            deleteStudent(id) {
+                this.deleteRecord({ collection: 'users', id }).then(() => {
+                    this.$router.go();
+                });
             },
         },
     };
@@ -124,6 +190,25 @@
             grid-template-columns: repeat(6, 1fr);
             gap: 10px;
 
+            .student-container {
+                position: relative;
+
+                .delete-btn {
+                    cursor: pointer;
+                    position: absolute;
+                    top: 7px;
+                    right: 5px;
+                    background: none;
+                    border: none;
+                    font-size: 16px;
+                    color: $black;
+
+                    &:hover {
+                        color: $dark-orange;
+                    }
+                }
+            }
+
             .student {
                 display: flex;
                 flex-direction: column;
@@ -136,6 +221,7 @@
                 text-align: center;
                 color: $black;
                 text-decoration: none;
+                height: calc(100% - 46px);
 
                 .avatar {
                     width: 100px;
@@ -160,6 +246,18 @@
         .button {
             margin-top: 20px;
             align-self: center;
+        }
+
+        .modal {
+            .msg {
+                font-weight: bold;
+                text-align: center;
+                margin-top: 5px;
+            }
+
+            .button {
+                margin-top: 0;
+            }
         }
     }
 </style>

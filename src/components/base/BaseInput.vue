@@ -123,7 +123,7 @@
             border: $black solid 2px;
             font-size: 20px;
             background: #eeeeee;
-            width: 100%;
+            width: calc(100% - 24px);
 
             &::placeholder {
                 font-family: $font-family;
