@@ -91,6 +91,8 @@ const actions = {
 
                 if (due_date > now) {
                     upcomingAssessments[assessment.type].push({
+                        id: assessment.id,
+                        classId: clas.id,
                         name: assessment.name,
                         due_date: due_date,
                         color: clas.color,

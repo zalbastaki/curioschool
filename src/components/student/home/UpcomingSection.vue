@@ -9,9 +9,12 @@
                 :key="`type-${index}`"
             >
                 <base-text type="h5">{{ type }}:</base-text>
-                <div
+                <router-link
                     v-for="(assessment, index) in upcomingAssessments[type]"
                     :key="`${type}-${index}`"
+                    :to="
+                        `/student-assessment/${assessment.classId}/${assessment.id}`
+                    "
                     class="assessment"
                     :style="{
                         background: `${assessment.color}44`,
@@ -30,7 +33,7 @@
                         </div>
                     </div>
                     <div class="name">{{ assessment.name }}</div>
-                </div>
+                </router-link>
             </section>
         </template>
     </base-section>
@@ -85,6 +88,8 @@
             border-width: 2px;
             border-style: solid;
             margin: 8px 0;
+            color: $black;
+            text-decoration: none;
 
             .due-date {
                 min-width: 65px;

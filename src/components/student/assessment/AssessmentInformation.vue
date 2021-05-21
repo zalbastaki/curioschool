@@ -180,7 +180,11 @@
             },
 
             submissionLimitReached() {
-                return this.currentAssessment.submissions_limit !== 0 && this.currentAssessment.submissions_limit <= this.currentAssessment.submissions.length;
+                return (
+                    this.currentAssessment.submissions_limit !== 0 &&
+                    this.currentAssessment.submissions_limit <=
+                        this.currentAssessment.submissions.length
+                );
             },
 
             canStart() {

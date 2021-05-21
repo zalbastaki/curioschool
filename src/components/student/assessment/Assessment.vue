@@ -1,5 +1,6 @@
 <template>
     <div class="assessment">
+        <div class="timer">Time remaining: {{ formattedTime }}</div>
         <template v-for="(question, index) in currentAssessment.questions">
             <div
                 v-if="currentQuestion === index"
@@ -82,7 +83,12 @@
                         button-type="button"
                         color="purple"
                         @click="next"
-                        :disabled="question.required && (!submission.answers[index].answer || submission.answers[index].answer.length === 0)"
+                        :disabled="
+                            question.required &&
+                                (!submission.answers[index].answer ||
+                                    submission.answers[index].answer.length ===
+                                        0)
+                        "
                     >
                         Next
                         <fa-icon
@@ -116,6 +122,9 @@
 
         data() {
             return {
+                isRunning: false,
+                timer: null,
+                time: 0,
                 currentQuestion: 0,
                 submission: {
                     id: Date.now(),
@@ -130,6 +139,19 @@
 
         computed: {
             ...mapGetters(['currentAssessment']),
+
+            formattedTime() {
+                let time = this.time / 60;
+                let hours = parseInt(time / 60);
+                let minutes = parseInt(time - hours * 60);
+                let seconds = Math.round((time - minutes - hours * 60) * 60);
+                if (seconds < 10) seconds = `0${seconds}`;
+                if (hours > 0) {
+                    if (minutes < 10) minutes = `0${minutes}`;
+                    return `${hours}:${minutes}:${seconds}`;
+                }
+                return `${minutes}:${seconds}`;
+            },
         },
 
         created() {
@@ -141,6 +163,13 @@
                 });
             });
             this.updateSubmission(this.submission);
+        },
+
+        mounted() {
+            if (this.currentAssessment.time_limit > 0) {
+                this.time = this.currentAssessment.time_limit * 60;
+                this.startTimer();
+            }
         },
 
         methods: {
@@ -162,6 +191,31 @@
                 }
             },
 
+            startTimer() {
+                this.isRunning = true;
+                if (!this.timer) {
+                    this.timer = setInterval(() => {
+                        if (this.time > 0) {
+                            this.time--;
+                        } else {
+                            clearInterval(this.timer);
+                            this.finish();
+                        }
+                    }, 1000);
+                }
+            },
+
+            stopTimer() {
+                this.isRunning = false;
+                clearInterval(this.timer);
+                this.timer = null;
+            },
+
+            resetTimer() {
+                this.stopTimer();
+                this.time = 0;
+            },
+
             next() {
                 this.updateSubmission(this.submission);
                 this.currentQuestion++;
@@ -169,6 +223,7 @@
 
             finish() {
                 this.updateSubmission(this.submission);
+                this.resetTimer();
                 this.$router.go();
             },
         },
@@ -178,6 +233,14 @@
 <style lang="scss" scoped>
     .assessment {
         height: 100%;
+        position: relative;
+
+        .timer {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            font-size: 20px;
+        }
 
         .current-question {
             height: 100%;
