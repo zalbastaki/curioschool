@@ -6,6 +6,9 @@
                 <base-text type="h1">Rewards</base-text>
                 <progress-section />
             </section>
+            <base-text v-if="profile.rewards.length === 0" type="p">
+                You don't have any rewards in your inventory!
+            </base-text>
             <section class="rewards">
                 <div
                     v-for="(reward, index) in profile.rewards"

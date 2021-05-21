@@ -242,7 +242,6 @@
 
         .base-input {
             margin-top: 10px;
-            resize: vertical;
 
             /deep/ .input {
                 width: calc(100% - 30px);

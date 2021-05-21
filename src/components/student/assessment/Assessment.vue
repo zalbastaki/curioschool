@@ -54,9 +54,15 @@
                                 type="checkbox"
                                 :id="option"
                                 :name="`${index.toString()}-${i.toString()}`"
-                                v-model="submission.answers[index].answer"
                                 :value="option"
-                                @input="e => handleMutliSelectInput(e, index)"
+                                @input="
+                                    e =>
+                                        handleMutliSelectInput(
+                                            e,
+                                            index,
+                                            question.limit
+                                        )
+                                "
                             />
                             <label :for="option">{{ option }}</label>
                         </div>
@@ -175,7 +181,10 @@
         methods: {
             ...mapActions(['updateCurrentAssessment', 'updateSubmission']),
 
-            handleMutliSelectInput(e, index) {
+            handleMutliSelectInput(e, index, limit) {
+                const limitReached =
+                    limit > 0 &&
+                    this.submission.answers[index].answer.length >= limit;
                 let submission = this.submission;
                 let exists = false;
 
@@ -186,7 +195,9 @@
                     }
                 });
 
-                if (!exists) {
+                if (limitReached) return (e.target.checked = false);
+
+                if (!exists && !limitReached) {
                     this.submission.answers[index].answer.push(e.target.value);
                 }
             },

@@ -66,6 +66,8 @@ const actions = {
             });
         });
 
+        schedule.sort((a, b) => a.start_time - b.start_time);
+
         context.commit('setSchedule', schedule);
     },
 

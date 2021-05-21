@@ -58,9 +58,8 @@
         data() {
             return {
                 user: {
-                    // TO DO: Delete after development
-                    email: 'zain.albastaki@gmail.com',
-                    password: 'test1234',
+                    email: '',
+                    password: '',
                 },
                 forgotPassword: false,
             };

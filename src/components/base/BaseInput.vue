@@ -149,6 +149,10 @@
             &.select {
                 text-transform: capitalize;
             }
+
+            &.textarea {
+                resize: vertical;
+            }
         }
 
         .checkbox-label {

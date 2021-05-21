@@ -18,6 +18,13 @@
                     v-model="currentAdminClass.name"
                 />
                 <base-input
+                    type="text"
+                    name="level"
+                    label="level"
+                    placeholder="level"
+                    v-model="currentAdminClass.level"
+                />
+                <!-- <base-input
                     type="select"
                     name="level"
                     label="level"
@@ -32,7 +39,7 @@
                     >
                         {{ level }}
                     </option>
-                </base-input>
+                </base-input> -->
                 <base-input
                     type="text"
                     name="color"
