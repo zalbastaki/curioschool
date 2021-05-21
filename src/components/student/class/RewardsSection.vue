@@ -5,6 +5,20 @@
         :background="`${color}44`"
         :border="color"
     >
+        <template v-if="role === 'teacher'">
+            <base-button
+                type="button"
+                button-type="button"
+                color="yellow"
+                class="add-btn"
+                height="40px"
+                width="100%"
+                @click="openAddModal"
+            >
+                Add a reward
+            </base-button>
+            <reward-input-modal ref="addModal" />
+        </template>
         <div
             v-for="(reward, index) in currentClass.rewards"
             :key="index"
@@ -31,6 +45,17 @@
             >
                 Buy
             </base-button>
+            <base-button
+                v-if="role === 'teacher'"
+                class="buy-btn"
+                type="button"
+                @click="deleteReward(index)"
+                color="dark-orange"
+                :width="$mq === 'tablet' ? '80px' : '100px'"
+                height="30px"
+            >
+                Delete
+            </base-button>
         </div>
         <base-modal
             ref="rewardSuccess"
@@ -42,9 +67,14 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
+    import RewardInputModal from '../../teacher/class/RewardInputModal';
 
     export default {
         name: 'rewards-section',
+
+        components: {
+            RewardInputModal,
+        },
 
         computed: {
             ...mapGetters(['currentClass', 'role']),
@@ -55,7 +85,7 @@
         },
 
         methods: {
-            ...mapActions(['buyReward']),
+            ...mapActions(['buyReward', 'updateClassDoc']),
 
             buy(reward) {
                 this.buyReward({ reward, clas: this.currentClass }).then(() => {
@@ -64,12 +94,28 @@
                     );
                 });
             },
+
+            openAddModal() {
+                this.$refs.addModal.openModal();
+            },
+
+            deleteReward(index) {
+                const clas = this.currentClass;
+                clas.rewards.splice(index, 1);
+                this.updateClassDoc(clas);
+            },
         },
     };
 </script>
 
 <style lang="scss" scoped>
     .rewards {
+        .add-btn {
+            font-size: 16px;
+            text-transform: none;
+            margin-bottom: 10px;
+        }
+
         .reward {
             display: flex;
             flex-direction: column;
