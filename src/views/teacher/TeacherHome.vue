@@ -5,7 +5,7 @@
             <section class="top-bar">
                 <base-text type="h1">Hey {{ profile.first_name }}!</base-text>
             </section>
-            <teacher-to-do-section />
+            <to-do-section />
             <upcoming-section />
             <schedule-section />
         </div>
@@ -14,7 +14,7 @@
 
 <script>
     import { mapGetters } from 'vuex';
-    import TeacherToDoSection from '../../components/teacher/home/TeacherToDoSection';
+    import ToDoSection from '../../components/student/home/ToDoSection';
     import UpcomingSection from '../../components/student/home/UpcomingSection';
     import ScheduleSection from '../../components/student/home/ScheduleSection';
 
@@ -22,7 +22,7 @@
         name: 'teacher-home',
 
         components: {
-            TeacherToDoSection,
+            ToDoSection,
             UpcomingSection,
             ScheduleSection,
         },

@@ -40,17 +40,36 @@
             @input="value => editTodoDoneValue({ id: todo.id, value })"
             :style="todo.classColor ? style(todo.classColor) : ''"
         />
+        <template v-if="role === 'teacher'">
+            <base-button
+                type="button"
+                button-type="button"
+                color="yellow"
+                class="add-btn"
+                height="40px"
+                width="100%"
+                @click="openAddModal"
+            >
+                Add a todo
+            </base-button>
+            <to-do-input-modal ref="addModal" />
+        </template>
     </base-section>
 </template>
 
 <script>
     import { mapGetters, mapActions } from 'vuex';
+    import ToDoInputModal from '../../teacher/home/ToDoInputModal';
 
     export default {
         name: 'to-do-section',
 
+        components: {
+            ToDoInputModal,
+        },
+
         computed: {
-            ...mapGetters(['todos', 'lateTodos']),
+            ...mapGetters(['todos', 'lateTodos', 'role']),
         },
 
         methods: {
@@ -62,22 +81,34 @@
                     border: `2px solid ${color}`,
                 };
             },
+
+            openAddModal() {
+                this.$refs.addModal.openModal();
+            },
         },
     };
 </script>
 
 <style lang="scss" scoped>
-    .todo {
-        margin: 8px 0;
-        padding: 5px;
-        border-radius: 10px;
-    }
+    .todos {
+        .todo {
+            margin: 8px 0;
+            padding: 5px;
+            border-radius: 10px;
+        }
 
-    .base-input {
-        .checkbox-label {
-            &.done {
-                text-decoration: line-through;
+        .base-input {
+            /deep/ .checkbox-label {
+                &.done {
+                    text-decoration: line-through;
+                }
             }
+        }
+
+        .add-btn {
+            font-size: 16px;
+            text-transform: none;
+            margin-top: 10px;
         }
     }
 </style>

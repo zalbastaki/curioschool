@@ -17,7 +17,7 @@
                 {{ ' ' + currentAssessment.name }}
             </base-text>
             <!-- TO DO -->
-            <base-text type="p">This is the teacher assessment page</base-text>
+            <base-text type="p">This feature is coming soon!</base-text>
         </div>
     </base-dashboard>
 </template>
