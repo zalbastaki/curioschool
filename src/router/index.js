@@ -21,6 +21,8 @@ import TeacherHome from '../views/teacher/TeacherHome';
 import TeacherClass from '../views/teacher/TeacherClass';
 import TeacherAssessments from '../views/teacher/TeacherAssessments';
 import TeacherAssessment from '../views/teacher/TeacherAssessment';
+import TeacherAttendance from '../views/teacher/TeacherAttendance';
+import TeacherGrades from '../views/teacher/TeacherGrades';
 import PageNotFound from '../views/PageNotFound.vue';
 
 Vue.use(VueRouter);
@@ -197,6 +199,24 @@ const routes = [
         name: 'teacher-assessment',
         component: TeacherAssessment,
         props: true,
+        meta: {
+            requiresAuth: true,
+            role: 'teacher',
+        },
+    },
+    {
+        path: '/teacher-attendance',
+        name: 'teacher-attendance',
+        component: TeacherAttendance,
+        meta: {
+            requiresAuth: true,
+            role: 'teacher',
+        },
+    },
+    {
+        path: '/teacher-grades',
+        name: 'teacher-grades',
+        component: TeacherGrades,
         meta: {
             requiresAuth: true,
             role: 'teacher',

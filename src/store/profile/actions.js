@@ -43,21 +43,23 @@ const actions = {
     async getUserData(context) {
         await context.dispatch('getRole');
         await context.dispatch('addProfileListener');
-        if (
-            context.getters.role === 'student' ||
-            context.getters.role === 'teacher'
-        ) {
+        if (context.getters.role === 'student') {
             await context.dispatch('addUserClassListeners');
+        } else if (context.getters.role === 'teacher') {
+            await context.dispatch('addUserClassListeners');
+            await context.dispatch('addTeacherStudentListeners');
         } else if (context.getters.role === 'admin') {
             await context.dispatch('getAdminData');
         }
     },
 
     async resetUserData(context) {
-        if (
-            context.getters.role === 'student' ||
-            context.getters.role === 'teacher'
-        ) {
+        if (context.getters.role === 'student') {
+            await context.dispatch('removeUserClassListeners');
+            await context.commit('setClasses', []);
+        } else if (context.getters.role === 'teacher') {
+            await context.dispatch('removeTeacherStudentListeners');
+            await context.commit('setTeacherStudents', []);
             await context.dispatch('removeUserClassListeners');
             await context.commit('setClasses', []);
         } else if (context.getters.role === 'admin') {

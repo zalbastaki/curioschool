@@ -67,7 +67,7 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
-    import RewardInputModal from '../../teacher/class/RewardInputModal';
+    import RewardInputModal from '../../teacher/RewardInputModal';
 
     export default {
         name: 'rewards-section',

@@ -117,7 +117,12 @@
             >
                 + Add a question
             </base-button>
-            <button class="delete-btn" type="button" @click="$emit('delete')">
+            <button
+                v-if="allowDelete"
+                class="delete-btn"
+                type="button"
+                @click="$emit('delete')"
+            >
                 <fa-icon :icon="['fas', 'trash-alt']" aria-label="delete" />
             </button>
         </div>
@@ -144,6 +149,14 @@
             assessmentIndex: {
                 type: Number,
                 required: true,
+            },
+
+            allowDelete: {
+                type: Boolean,
+                required: false,
+                default() {
+                    return true;
+                },
             },
         },
 

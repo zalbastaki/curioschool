@@ -1,7 +1,7 @@
 <template>
     <base-section
         class="leaderboard"
-        heading="leaderboard"
+        :heading="role === 'student' ? 'leaderboard' : 'students'"
         :background="`${color}44`"
         :border="color"
     >
@@ -10,6 +10,7 @@
             :key="index"
             class="leaderboard-item"
             :style="{ borderColor: color }"
+            @click="openStudentModal"
         >
             <div
                 class="rank"
@@ -28,13 +29,13 @@
 </template>
 
 <script>
-    import { mapActions, mapGetters } from 'vuex';
+    import { mapGetters } from 'vuex';
 
     export default {
         name: 'leaderboard-section',
 
         computed: {
-            ...mapGetters(['currentClass']),
+            ...mapGetters(['currentClass', 'role', 'currentStudents']),
 
             leaderboard() {
                 const students = this.currentClass.students;
@@ -50,7 +51,9 @@
         },
 
         methods: {
-            ...mapActions(['getUserProfile']),
+            openStudentModal() {
+                // TO DO
+            },
         },
     };
 </script>
@@ -66,6 +69,7 @@
             border-bottom-style: solid;
             display: flex;
             justify-content: space-between;
+            cursor: pointer;
 
             .rank {
                 border-right-width: 2px;
@@ -74,6 +78,7 @@
                 font-weight: bold;
                 display: flex;
                 align-items: center;
+                justify-content: center;
             }
 
             .name {
@@ -91,6 +96,7 @@
                 padding: 8px;
                 display: flex;
                 align-items: center;
+                justify-content: center;
             }
         }
     }

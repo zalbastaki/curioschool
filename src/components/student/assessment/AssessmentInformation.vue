@@ -122,38 +122,76 @@
                 :background="`${currentAssessment.class.color}44`"
                 :border="currentAssessment.class.color"
             >
-                <base-text
-                    v-if="
-                        !currentAssessment.submissions ||
-                            currentAssessment.submissions.length === 0
-                    "
-                    class="no-submissions"
-                    type="p"
-                >
-                    You have no submissions for this assessment.
-                </base-text>
-                <div
-                    v-for="(submission, index) in currentAssessment.submissions"
-                    :key="`submission-${index}`"
-                    class="submission-preview"
-                    :style="{
-                        borderColor: currentAssessment.class.color,
-                    }"
-                >
+                <template v-if="role === 'student'">
+                    <base-text
+                        v-if="
+                            !currentAssessment.submissions ||
+                                currentAssessment.submissions.length === 0
+                        "
+                        class="no-submissions"
+                        type="p"
+                    >
+                        You have no submissions for this assessment.
+                    </base-text>
                     <div
-                        class="submission-date"
+                        v-for="(submission,
+                        index) in currentAssessment.submissions"
+                        :key="`submission-${index}`"
+                        class="submission-preview"
                         :style="{
                             borderColor: currentAssessment.class.color,
                         }"
                     >
-                        {{ formatDate(submission.datetime) }}
+                        <div
+                            class="submission-date"
+                            :style="{
+                                borderColor: currentAssessment.class.color,
+                            }"
+                        >
+                            {{ formatDate(submission.datetime) }}
+                        </div>
+                        <div class="submission-grade">
+                            {{ submission.grade }}/{{
+                                currentAssessment.total_grade
+                            }}
+                        </div>
                     </div>
-                    <div class="submission-grade">
-                        {{ submission.grade }}/{{
-                            currentAssessment.total_grade
-                        }}
+                </template>
+                <template v-if="role === 'teacher'">
+                    <base-text
+                        v-if="currentSubmissions.length === 0"
+                        class="no-submissions"
+                        type="p"
+                    >
+                        There are no submissions for this assessment.
+                    </base-text>
+                    <div
+                        v-for="(submission, index) in currentSubmissions"
+                        :key="`submission-${index}`"
+                        class="submission-preview"
+                        :style="{
+                            borderColor: currentAssessment.class.color,
+                            cursor: 'pointer',
+                        }"
+                        @click="openSubmissionModal"
+                    >
+                        <div
+                            class="submission-date"
+                            :style="{
+                                borderColor: currentAssessment.class.color,
+                            }"
+                        >
+                            {{ submission.student.first_name }}
+                            {{ submission.student.last_name }} on
+                            {{ formatDate(submission.datetime) }}
+                        </div>
+                        <div class="submission-grade">
+                            {{ submission.grade }}/{{
+                                currentAssessment.total_grade
+                            }}
+                        </div>
                     </div>
-                </div>
+                </template>
             </base-section>
         </div>
     </div>
@@ -167,7 +205,7 @@
         name: 'assessment-information',
 
         computed: {
-            ...mapGetters(['currentAssessment']),
+            ...mapGetters(['currentAssessment', 'currentSubmissions', 'role']),
 
             isPast() {
                 let due_date = new Date(this.currentAssessment.due_date);
@@ -191,8 +229,13 @@
                 return (
                     !this.isPast &&
                     !this.submissionLimitReached &&
-                    this.currentAssessment.questions.length > 0
+                    this.currentAssessment.questions.length > 0 &&
+                    this.role === 'student'
                 );
+            },
+
+            canEdit() {
+                return this.role === 'teacher';
             },
         },
 
@@ -209,6 +252,10 @@
                     datejs = date.toDate();
                 }
                 return moment(datejs).format('Do [of] MMM [at] h:mm a');
+            },
+
+            openSubmissionModal() {
+                // TO DO
             },
         },
     };
@@ -310,6 +357,7 @@
                         display: flex;
                         align-items: center;
                         justify-content: center;
+                        min-width: 80px;
                     }
                 }
             }

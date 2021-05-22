@@ -59,7 +59,7 @@
 
 <script>
     import { mapGetters, mapActions } from 'vuex';
-    import ToDoInputModal from '../../teacher/home/ToDoInputModal';
+    import ToDoInputModal from '../../teacher/ToDoInputModal';
 
     export default {
         name: 'to-do-section',

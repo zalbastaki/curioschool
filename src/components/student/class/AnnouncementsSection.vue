@@ -54,7 +54,7 @@
 <script>
     import { mapGetters } from 'vuex';
     import moment from 'moment';
-    import AnnouncementInputModal from '../../teacher/class/AnnouncementInputModal';
+    import AnnouncementInputModal from '../../teacher/AnnouncementInputModal';
 
     export default {
         name: 'announcements-section',

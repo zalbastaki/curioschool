@@ -1,43 +1,35 @@
 <template>
-    <base-dashboard color="orange">
+    <base-dashboard color="dark-orange">
         <base-loader :show="!currentAssessment" />
-        <div v-if="currentAssessment" class="teacher-assessment">
-            <a
-                class="back-btn"
-                @click="$router.go(-1)"
-                :style="{
-                    background: `${currentAssessment.class.color}44`,
-                    borderColor: currentAssessment.class.color,
-                }"
-            >
-                <fa-icon :icon="['fas', 'arrow-left']" aria-label="back" />
-            </a>
-            <base-text class="title" type="h3">
-                {{ currentAssessment.type }}:
-                {{ ' ' + currentAssessment.name }}
-            </base-text>
-            <!-- TO DO -->
-            <base-text type="p">This feature is coming soon!</base-text>
-        </div>
+        <assessment-information v-if="currentAssessment" />
     </base-dashboard>
 </template>
 
 <script>
     import { mapGetters, mapActions } from 'vuex';
+    import AssessmentInformation from '../../components/student/assessment/AssessmentInformation';
 
     export default {
         name: 'teacher-assessment',
 
+        components: {
+            AssessmentInformation,
+        },
+
         computed: {
-            ...mapGetters(['currentAssessment']),
+            ...mapGetters(['currentAssessment', 'currentSubmissions']),
         },
 
         created() {
             this.updateCurrentAssessment();
+            this.updateCurrentSubmissions();
         },
 
         methods: {
-            ...mapActions(['updateCurrentAssessment']),
+            ...mapActions([
+                'updateCurrentAssessment',
+                'updateCurrentSubmissions',
+            ]),
         },
     };
 </script>

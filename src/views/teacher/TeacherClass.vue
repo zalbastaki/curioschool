@@ -2,15 +2,9 @@
     <base-dashboard color="dark-orange">
         <base-loader :show="!currentClass" />
         <div v-if="currentClass" class="teacher-class">
-            <section class="top-bar">
-                <div class="class-title">
-                    <div
-                        class="teacher-img"
-                        :style="{ borderColor: currentClass.color }"
-                    />
-                    <base-text type="h1">{{ currentClass.name }}</base-text>
-                </div>
-            </section>
+            <base-text class="class-title" type="h1">
+                {{ currentClass.name }}
+            </base-text>
             <links-section />
             <announcements-section />
             <chat-section />
@@ -40,15 +34,16 @@
         },
 
         computed: {
-            ...mapGetters(['currentClass']),
+            ...mapGetters(['currentClass', 'currentStudents']),
         },
 
         created() {
             this.updateCurrentClass();
+            this.updateCurrentStudents();
         },
 
         methods: {
-            ...mapActions(['updateCurrentClass']),
+            ...mapActions(['updateCurrentClass', 'updateCurrentStudents']),
         },
     };
 </script>
@@ -67,33 +62,10 @@
             'links chat leaderboard rewards';
     }
 
-    .top-bar {
+    .class-title {
         grid-area: top-bar;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .class-title {
-            display: flex;
-            align-items: center;
-        }
-
-        .teacher-img {
-            height: 60px;
-            width: 60px;
-            border-radius: 50%;
-            background-image: url('../../assets/images/placeholder-avatar.png');
-            background-size: cover;
-            background-position: center;
-            border-width: 3px;
-            border-style: solid;
-            margin-right: 10px;
-        }
-
-        .h1 {
-            font-size: 50px;
-            text-transform: capitalize;
-        }
+        font-size: 50px;
+        text-transform: capitalize;
     }
 
     .links {

@@ -20,38 +20,64 @@
                             0
                 "
             >
-                <router-link
+                <div
                     v-for="(assessment, index) in currentClass
                         .upcomingAssessments[singularType]"
                     :key="`upcoming-${index}`"
-                    :to="
-                        `/teacher-assessment/${currentClass.id}/${assessment.id}`
-                    "
-                    class="assessment"
-                    :style="{
-                        background: `${currentClass.color}44`,
-                        borderColor: currentClass.color,
-                    }"
+                    class="assessment-container"
                 >
-                    <div
-                        class="due-date"
-                        :style="{ borderColor: currentClass.color }"
+                    <router-link
+                        :to="
+                            `/teacher-assessment/${currentClass.id}/${assessment.id}`
+                        "
+                        class="assessment"
+                        :style="{
+                            background: `${currentClass.color}44`,
+                            borderColor: currentClass.color,
+                        }"
                     >
-                        <div class="day">
-                            {{ getDate(assessment.due_date) }}
+                        <div
+                            class="due-date"
+                            :style="{ borderColor: currentClass.color }"
+                        >
+                            <div class="day">
+                                {{ getDate(assessment.due_date) }}
+                            </div>
+                            <div class="time">
+                                {{ getTime(assessment.due_date) }}
+                            </div>
                         </div>
-                        <div class="time">
-                            {{ getTime(assessment.due_date) }}
-                        </div>
-                    </div>
-                    <div class="name">{{ assessment.name }}</div>
-                </router-link>
+                        <div class="name">{{ assessment.name }}</div>
+                    </router-link>
+                    <button
+                        class="delete-btn"
+                        type="button"
+                        @click="deleteAssessment(assessment.id)"
+                    >
+                        <fa-icon
+                            :icon="['fas', 'trash-alt']"
+                            aria-label="delete"
+                        />
+                    </button>
+                </div>
             </template>
             <base-text v-else type="p">
                 There
                 {{ type === 'homework' || type === 'classwork' ? 'is' : 'are' }}
                 no upcoming {{ currentClass.name }} {{ type }}.
             </base-text>
+            <base-button
+                type="button"
+                button-type="button"
+                color="yellow"
+                class="add-btn"
+                height="40px"
+                width="100%"
+                @click="openAddModal"
+            >
+                Add an assessment
+            </base-button>
+            <assessment-input-modal ref="addModal" />
             <template
                 v-if="
                     currentClass.pastAssessments &&
@@ -61,33 +87,47 @@
                 <base-text class="past-heading" type="h4">
                     Past {{ type }}:
                 </base-text>
-                <router-link
+                <div
                     v-for="(assessment, index) in currentClass.pastAssessments[
                         singularType
                     ]"
                     :key="`past-${index}`"
-                    :to="
-                        `/teacher-assessment/${currentClass.id}/${assessment.id}`
-                    "
-                    class="assessment"
-                    :style="{
-                        background: `${currentClass.color}44`,
-                        borderColor: currentClass.color,
-                    }"
+                    class="assessment-container"
                 >
-                    <div
-                        class="due-date"
-                        :style="{ borderColor: currentClass.color }"
+                    <router-link
+                        :to="
+                            `/teacher-assessment/${currentClass.id}/${assessment.id}`
+                        "
+                        class="assessment"
+                        :style="{
+                            background: `${currentClass.color}44`,
+                            borderColor: currentClass.color,
+                        }"
                     >
-                        <div class="day">
-                            {{ getDate(assessment.due_date) }}
+                        <div
+                            class="due-date"
+                            :style="{ borderColor: currentClass.color }"
+                        >
+                            <div class="day">
+                                {{ getDate(assessment.due_date) }}
+                            </div>
+                            <div class="time">
+                                {{ getTime(assessment.due_date) }}
+                            </div>
                         </div>
-                        <div class="time">
-                            {{ getTime(assessment.due_date) }}
-                        </div>
-                    </div>
-                    <div class="name">{{ assessment.name }}</div>
-                </router-link>
+                        <div class="name">{{ assessment.name }}</div>
+                    </router-link>
+                    <button
+                        class="delete-btn"
+                        type="button"
+                        @click="deleteAssessment(assessment.id)"
+                    >
+                        <fa-icon
+                            :icon="['fas', 'trash-alt']"
+                            aria-label="delete"
+                        />
+                    </button>
+                </div>
             </template>
         </div>
     </base-dashboard>
@@ -96,9 +136,14 @@
 <script>
     import { mapGetters, mapActions } from 'vuex';
     import moment from 'moment';
+    import AssessmentInputModal from '../../components/teacher/AssessmentInputModal';
 
     export default {
         name: 'teacher-assessments',
+
+        components: {
+            AssessmentInputModal,
+        },
 
         props: {
             id: {
@@ -128,7 +173,7 @@
         },
 
         methods: {
-            ...mapActions(['updateCurrentClass']),
+            ...mapActions(['updateCurrentClass', 'updateClassDoc']),
 
             getDate(date) {
                 let datejs = new Date(date);
@@ -153,6 +198,19 @@
                 }
                 const now = new Date();
                 return datejs < now;
+            },
+
+            deleteAssessment(assessmentId) {
+                const clas = this.currentClass;
+                const index = clas.assessments.findIndex(({ id }) => {
+                    return id === assessmentId;
+                });
+                clas.assessments.splice(index, 1);
+                this.updateClassDoc(clas);
+            },
+
+            openAddModal() {
+                this.$refs.addModal.openModal();
             },
         },
     };
@@ -185,6 +243,31 @@
 
             &.tablet {
                 font-size: 45px;
+            }
+        }
+
+        .add-btn {
+            font-size: 16px;
+            text-transform: none;
+            margin-top: 10px;
+        }
+
+        .assessment-container {
+            position: relative;
+
+            .delete-btn {
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: none;
+                border: none;
+                font-size: 18px;
+                cursor: pointer;
+
+                &:hover {
+                    color: $dark-orange;
+                }
             }
         }
 

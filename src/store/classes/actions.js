@@ -258,10 +258,7 @@ const actions = {
             .firestore()
             .collection('classes')
             .doc(clas.id)
-            .set(clas)
-            .catch(e => {
-                throw e;
-            });
+            .set(clas);
     },
 };
 
