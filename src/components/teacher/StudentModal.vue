@@ -117,6 +117,8 @@
             },
 
             addCoinsPoints() {
+                if (!this.data.coins) this.data.coins = 0;
+                if (!this.data.points) this.data.points = 0;
                 this.addStudentCoinsPoints({
                     studentId: this.student.id,
                     data: this.data,
@@ -168,6 +170,7 @@
                     font-size: 16px;
                     font-style: italic;
                     padding: 10px;
+                    border-top: 2px solid $black;
                 }
 
                 .reward {
