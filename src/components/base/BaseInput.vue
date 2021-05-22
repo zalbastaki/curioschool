@@ -12,6 +12,7 @@
             :name="name"
             :id="name"
             :min="min"
+            :max="max"
             :placeholder="placeholder"
             :value="value"
             :checked="type === 'checkbox' ? value : null"
@@ -51,6 +52,14 @@
             },
 
             min: {
+                type: Number,
+                required: false,
+                default() {
+                    return null;
+                },
+            },
+
+            max: {
                 type: Number,
                 required: false,
                 default() {

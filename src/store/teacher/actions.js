@@ -60,8 +60,8 @@ const actions = {
     updateCurrentSubmissions(context) {
         let currentSubmissions = [];
 
-        context.getters.students.forEach(({ profile }) => {
-            const submissions = profile.submissions.filter(
+        context.getters.students.forEach(student => {
+            const submissions = student.profile.submissions.filter(
                 ({ assessmentId }) => {
                     return (
                         assessmentId === parseInt(router.currentRoute.params.id)
@@ -70,7 +70,7 @@ const actions = {
             );
 
             submissions.forEach(submission => {
-                submission.student = profile;
+                submission.student = student;
             });
 
             currentSubmissions.push(...submissions);
@@ -78,6 +78,31 @@ const actions = {
         if (!currentSubmissions) return;
 
         context.commit('setCurrentSubmissions', currentSubmissions);
+    },
+
+    addStudentGrade(context, { studentId, submissionId, data }) {
+        firebase
+            .firestore()
+            .collection('users')
+            .doc(studentId)
+            .get()
+            .then(doc => {
+                let student = doc.data();
+                student.profile.coins =
+                    parseInt(student.profile.coins) + parseInt(data.coins);
+                student.profile.points =
+                    parseInt(student.profile.points) + parseInt(data.points);
+                let index = student.profile.submissions.findIndex(
+                    ({ id }) => id === submissionId
+                );
+                student.profile.submissions[index].grade = data.grade;
+                student.profile.submissions[index].feedback = data.feedback;
+                firebase
+                    .firestore()
+                    .collection('users')
+                    .doc(studentId)
+                    .set(student);
+            });
     },
 };
 

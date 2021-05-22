@@ -57,10 +57,18 @@
                 clas.rewards.push(this.reward);
                 this.updateClassDoc(clas);
                 this.$refs.addReward.closeModal();
+                this.reset();
             },
 
             openModal() {
                 this.$refs.addReward.openModal();
+            },
+
+            reset() {
+                this.reward = {
+                    label: '',
+                    price: 0,
+                };
             },
         },
     };

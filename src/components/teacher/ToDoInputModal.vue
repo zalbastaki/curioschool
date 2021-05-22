@@ -83,10 +83,21 @@
                 await this.setProfile(profile);
                 this.updateProfile();
                 this.$refs.addAnnouncement.closeModal();
+                this.reset();
             },
 
             openModal() {
                 this.$refs.addAnnouncement.openModal();
+            },
+
+            reset() {
+                this.todo = {
+                    id: '',
+                    label: '',
+                    date: moment().format('YYYY-MM-DD'),
+                    classColor: '',
+                    done: false,
+                };
             },
         },
     };

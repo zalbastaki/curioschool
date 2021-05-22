@@ -48,10 +48,18 @@
                 clas.announcements.push(this.announcement);
                 this.updateClassDoc(clas);
                 this.$refs.addAnnouncement.closeModal();
+                this.reset();
             },
 
             openModal() {
                 this.$refs.addAnnouncement.openModal();
+            },
+
+            reset() {
+                this.announcement = {
+                    timestamp: new Date(),
+                    label: '',
+                };
             },
         },
     };

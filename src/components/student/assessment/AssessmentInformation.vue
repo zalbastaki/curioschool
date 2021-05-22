@@ -147,6 +147,7 @@
                             :style="{
                                 borderColor: currentAssessment.class.color,
                             }"
+                            @click="openSubmissionModal(index)"
                         >
                             {{ formatDate(submission.datetime) }}
                         </div>
@@ -155,6 +156,11 @@
                                 currentAssessment.total_grade
                             }}
                         </div>
+                        <submission-modal
+                            ref="submissionModal"
+                            :assessment="currentAssessment"
+                            :submission="submission"
+                        />
                     </div>
                 </template>
                 <template v-if="role === 'teacher'">
@@ -171,18 +177,17 @@
                         class="submission-preview"
                         :style="{
                             borderColor: currentAssessment.class.color,
-                            cursor: 'pointer',
                         }"
-                        @click="openSubmissionModal"
                     >
                         <div
                             class="submission-date"
                             :style="{
                                 borderColor: currentAssessment.class.color,
                             }"
+                            @click="openSubmissionModal(index)"
                         >
-                            {{ submission.student.first_name }}
-                            {{ submission.student.last_name }} on
+                            {{ submission.student.profile.first_name }}
+                            {{ submission.student.profile.last_name }} on
                             {{ formatDate(submission.datetime) }}
                         </div>
                         <div class="submission-grade">
@@ -190,6 +195,11 @@
                                 currentAssessment.total_grade
                             }}
                         </div>
+                        <submission-modal
+                            ref="submissionModal"
+                            :assessment="currentAssessment"
+                            :submission="submission"
+                        />
                     </div>
                 </template>
             </base-section>
@@ -200,9 +210,14 @@
 <script>
     import { mapActions, mapGetters } from 'vuex';
     import moment from 'moment';
+    import SubmissionModal from './SubmissionModal';
 
     export default {
         name: 'assessment-information',
+
+        components: {
+            SubmissionModal,
+        },
 
         computed: {
             ...mapGetters(['currentAssessment', 'currentSubmissions', 'role']),
@@ -254,8 +269,8 @@
                 return moment(datejs).format('Do [of] MMM [at] h:mm a');
             },
 
-            openSubmissionModal() {
-                // TO DO
+            openSubmissionModal(index) {
+                this.$refs.submissionModal[index].$refs.submission.openModal();
             },
         },
     };
@@ -350,6 +365,11 @@
                         min-width: 180px;
                         border-right-width: 2px;
                         border-right-style: solid;
+                        cursor: pointer;
+
+                        &:hover {
+                            text-decoration: underline;
+                        }
                     }
 
                     .submission-grade {

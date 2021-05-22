@@ -1,5 +1,9 @@
 <template>
-    <base-modal ref="addAssessment" heading="Add Assessment">
+    <base-modal
+        ref="addAssessment"
+        class="assessment-modal"
+        heading="Add Assessment"
+    >
         <template v-slot:body>
             <assessment-input
                 :assessment-index="0"
@@ -73,13 +77,39 @@
                 clas.assessments.push(this.assessment);
                 this.updateClassDoc(clas);
                 this.$refs.addAssessment.closeModal();
+                this.reset();
             },
 
             openModal() {
                 this.$refs.addAssessment.openModal();
             },
+
+            reset() {
+                this.assessment = {
+                    id: Date.now(),
+                    name: '',
+                    description: '',
+                    type: this.type(),
+                    due_date: moment()
+                        .add(1, 'days')
+                        .format('YYYY-MM-DD'),
+                    total_grade: 1,
+                    weight: 0,
+                    coins: 0,
+                    points: 0,
+                    submissions_limit: 0,
+                    time_limit: 0,
+                    questions: [],
+                };
+            },
         },
     };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+    .assessment-modal {
+        /deep/ .dialog {
+            width: 800px !important;
+        }
+    }
+</style>
