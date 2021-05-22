@@ -10,6 +10,7 @@
             :label="label"
             :customLabel="customLabel"
             :track-by="trackBy"
+            :closeOnSelect="closeOnSelect"
             class="multiselect-input"
         />
     </div>
@@ -64,6 +65,14 @@
                 required: false,
                 default() {
                     return null;
+                },
+            },
+
+            closeOnSelect: {
+                type: Boolean,
+                required: false,
+                default() {
+                    return true;
                 },
             },
         },

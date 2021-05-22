@@ -51,7 +51,6 @@
 
             leaderboard() {
                 let students = [];
-
                 if (this.role === 'teacher') {
                     students = this.currentStudents;
                     students.forEach(student => {
@@ -60,13 +59,16 @@
                         ).points;
                         student.classPoints = classPoints;
                     });
+                    return students.sort((a, b) => {
+                        return b.classPoints - a.classPoints;
+                    });
                 } else if (this.role === 'student') {
                     students = this.currentClass.students;
+                    return students.sort((a, b) => {
+                        return b.points - a.points;
+                    });
                 }
-
-                return students.sort((a, b) => {
-                    return b.points - a.points;
-                });
+                return students;
             },
 
             color() {
@@ -90,11 +92,14 @@
         }
 
         .leaderboard-item {
-            border-bottom-width: 2px;
-            border-bottom-style: solid;
             display: flex;
             justify-content: space-between;
             cursor: pointer;
+
+            &:not(:last-of-type) {
+                border-bottom-width: 2px;
+                border-bottom-style: solid;
+            }
 
             .rank {
                 border-right-width: 2px;
@@ -104,6 +109,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                width: calc(20% - 18px);
             }
 
             .name {
@@ -111,6 +117,7 @@
                 padding: 5px 8px;
                 display: flex;
                 align-items: center;
+                width: calc(60% - 16px);
 
                 .p {
                     font-size: 18px;
@@ -133,6 +140,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                width: calc(20% - 18px);
             }
         }
     }

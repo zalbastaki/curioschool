@@ -24,22 +24,6 @@
                     placeholder="level"
                     v-model="currentAdminClass.level"
                 />
-                <!-- <base-input
-                    type="select"
-                    name="level"
-                    label="level"
-                    placeholder="level"
-                    v-model="currentAdminClass.level"
-                >
-                    <option
-                        v-for="(level, index) in levels"
-                        :key="index"
-                        :value="level"
-                        :selected="level === currentAdminClass.level"
-                    >
-                        {{ level }}
-                    </option>
-                </base-input> -->
                 <base-input
                     type="text"
                     name="color"
@@ -62,6 +46,7 @@
                     @input="handleStudentInput"
                     :options="studentOptions"
                     :customLabel="userLabel"
+                    :closeOnSelect="false"
                     track-by="id"
                     input-label="students"
                     class="students-input"
@@ -150,7 +135,7 @@
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex';
+    import { mapGetters, mapActions, mapMutations } from 'vuex';
     import RewardInput from '../../components/admin/RewardInput';
     import AnnouncementInput from '../../components/admin/AnnouncementInput';
     import TimeInput from '../../components/admin/TimeInput';
@@ -217,7 +202,9 @@
         },
 
         methods: {
-            ...mapActions(['updateCurrentAdminClass', 'updateClassDoc']),
+            ...mapMutations(['setCurrentAdminClass']),
+
+            ...mapActions(['updateCurrentAdminClass', 'adminUpdateClassDoc']),
 
             userLabel({ profile }) {
                 return `${profile.first_name} ${profile.last_name}`;
@@ -231,7 +218,9 @@
                         last_name: teacher.profile.last_name,
                     };
                 });
-                this.currentAdminClass.teachers = [...teachers];
+                let clas = { ...this.currentAdminClass };
+                clas.teachers = [...teachers];
+                this.setCurrentAdminClass(clas);
             },
 
             handleStudentInput(value) {
@@ -243,7 +232,9 @@
                         points: 0,
                     };
                 });
-                this.currentAdminClass.students = [...students];
+                let clas = { ...this.currentAdminClass };
+                clas.students = [...students];
+                this.setCurrentAdminClass(clas);
             },
 
             addReward() {
@@ -303,7 +294,7 @@
             },
 
             handleSubmit() {
-                this.updateClassDoc().then(() => {
+                this.adminUpdateClassDoc(this.currentAdminClass).then(() => {
                     this.$refs.saveSuccess.openModal();
                 });
             },

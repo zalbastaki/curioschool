@@ -254,8 +254,7 @@ const actions = {
         context.commit('setCurrentAdminClass', currentAdminClass);
     },
 
-    async updateClassDoc(context) {
-        const clas = context.getters.currentAdminClass;
+    async adminUpdateClassDoc(context, clas) {
         await context.commit('setCurrentAdminClass', clas);
         await firebase
             .firestore()
