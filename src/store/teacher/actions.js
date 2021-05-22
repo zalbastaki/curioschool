@@ -104,6 +104,68 @@ const actions = {
                     .set(student);
             });
     },
+
+    addStudentCoinsPoints(context, { studentId, data }) {
+        firebase
+            .firestore()
+            .collection('users')
+            .doc(studentId)
+            .get()
+            .then(doc => {
+                let student = doc.data();
+                student.profile.coins =
+                    parseInt(student.profile.coins) + parseInt(data.coins);
+                student.profile.points =
+                    parseInt(student.profile.points) + parseInt(data.points);
+                firebase
+                    .firestore()
+                    .collection('users')
+                    .doc(studentId)
+                    .set(student);
+            });
+
+        const classId = context.getters.currentClass.id;
+
+        firebase
+            .firestore()
+            .collection('classes')
+            .doc(classId)
+            .get()
+            .then(doc => {
+                let clas = doc.data();
+                let index = clas.students.findIndex(
+                    ({ id }) => id === studentId
+                );
+                clas.students[index].points =
+                    parseInt(clas.students[index].points) +
+                    parseInt(data.points);
+                firebase
+                    .firestore()
+                    .collection('classes')
+                    .doc(classId)
+                    .set(clas);
+            });
+    },
+
+    useStudentReward(context, { studentId, reward }) {
+        firebase
+            .firestore()
+            .collection('users')
+            .doc(studentId)
+            .get()
+            .then(doc => {
+                let student = doc.data();
+                let index = student.profile.rewards.findIndex(
+                    ({ label }) => label === reward.label
+                );
+                student.profile.rewards.splice(index, 1);
+                firebase
+                    .firestore()
+                    .collection('users')
+                    .doc(studentId)
+                    .set(student);
+            });
+    },
 };
 
 export default actions;

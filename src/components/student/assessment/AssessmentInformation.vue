@@ -147,7 +147,12 @@
                             :style="{
                                 borderColor: currentAssessment.class.color,
                             }"
-                            @click="openSubmissionModal(index)"
+                            @click="
+                                openSubmissionModal(
+                                    submission,
+                                    currentAssessment
+                                )
+                            "
                         >
                             {{ formatDate(submission.datetime) }}
                         </div>
@@ -156,11 +161,6 @@
                                 currentAssessment.total_grade
                             }}
                         </div>
-                        <submission-modal
-                            ref="submissionModal"
-                            :assessment="currentAssessment"
-                            :submission="submission"
-                        />
                     </div>
                 </template>
                 <template v-if="role === 'teacher'">
@@ -184,7 +184,12 @@
                             :style="{
                                 borderColor: currentAssessment.class.color,
                             }"
-                            @click="openSubmissionModal(index)"
+                            @click="
+                                openSubmissionModal(
+                                    submission,
+                                    currentAssessment
+                                )
+                            "
                         >
                             {{ submission.student.profile.first_name }}
                             {{ submission.student.profile.last_name }} on
@@ -195,13 +200,9 @@
                                 currentAssessment.total_grade
                             }}
                         </div>
-                        <submission-modal
-                            ref="submissionModal"
-                            :assessment="currentAssessment"
-                            :submission="submission"
-                        />
                     </div>
                 </template>
+                <submission-modal ref="submissionModal" />
             </base-section>
         </div>
     </div>
@@ -269,8 +270,8 @@
                 return moment(datejs).format('Do [of] MMM [at] h:mm a');
             },
 
-            openSubmissionModal(index) {
-                this.$refs.submissionModal[index].$refs.submission.openModal();
+            openSubmissionModal(submission, assessment) {
+                this.$refs.submissionModal.openModal(submission, assessment);
             },
         },
     };

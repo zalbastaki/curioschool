@@ -62,6 +62,11 @@
             heading="Reward Bought!"
             button-color="yellow"
         />
+        <base-modal
+            ref="rewardFail"
+            heading="Oh no!"
+            button-color="dark-orange"
+        />
     </base-section>
 </template>
 
@@ -77,7 +82,7 @@
         },
 
         computed: {
-            ...mapGetters(['currentClass', 'role']),
+            ...mapGetters(['currentClass', 'role', 'profile']),
 
             color() {
                 return this.currentClass.color;
@@ -88,6 +93,12 @@
             ...mapActions(['buyReward', 'updateClassDoc']),
 
             buy(reward) {
+                if (reward.price > this.profile.coins) {
+                    return this.$refs.rewardFail.openModal(
+                        `You don't have enough coins to buy this reward. You can see the number of coins you have on the top right corner of the screen. Save up some more coins and try again later.`
+                    );
+                }
+
                 this.buyReward({ reward, clas: this.currentClass }).then(() => {
                     this.$refs.rewardSuccess.openModal(
                         `Yay! Check your rewards page to see all of your rewards.`

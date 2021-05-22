@@ -10,7 +10,6 @@
             :key="index"
             class="leaderboard-item"
             :style="{ borderColor: color }"
-            @click="openStudentModal"
         >
             <div
                 class="rank"
@@ -18,27 +17,52 @@
             >
                 {{ index + 1 }}
             </div>
-            <base-text class="name" type="p">
-                {{ student.first_name }} {{ student.last_name }}
-            </base-text>
+            <div
+                class="name"
+                :class="[role]"
+                @click="openStudentModal(student)"
+            >
+                <base-text type="p">
+                    {{ student.first_name || student.profile.first_name }}
+                    {{ student.last_name || student.profile.last_name }}
+                </base-text>
+            </div>
             <div class="points" :style="{ borderColor: color }">
-                {{ student.points }}
+                {{ student.points || student.classPoints }}
             </div>
         </div>
+        <student-modal ref="studentModal" />
     </base-section>
 </template>
 
 <script>
     import { mapGetters } from 'vuex';
+    import StudentModal from '../../teacher/StudentModal';
 
     export default {
         name: 'leaderboard-section',
+
+        components: {
+            StudentModal,
+        },
 
         computed: {
             ...mapGetters(['currentClass', 'role', 'currentStudents']),
 
             leaderboard() {
-                const students = this.currentClass.students;
+                let students = [];
+
+                if (this.role === 'teacher') {
+                    students = this.currentStudents;
+                    students.forEach(student => {
+                        const classPoints = this.currentClass.students.find(
+                            ({ id }) => id === student.id
+                        ).points;
+                        student.classPoints = classPoints;
+                    });
+                } else if (this.role === 'student') {
+                    students = this.currentClass.students;
+                }
 
                 return students.sort((a, b) => {
                     return b.points - a.points;
@@ -51,8 +75,9 @@
         },
 
         methods: {
-            openStudentModal() {
-                // TO DO
+            openStudentModal(student) {
+                if (this.role !== 'teacher') return;
+                this.$refs.studentModal.openModal(student);
             },
         },
     };
@@ -84,10 +109,21 @@
             .name {
                 flex: 1;
                 padding: 5px 8px;
-                font-size: 18px;
-                font-weight: bold;
                 display: flex;
                 align-items: center;
+
+                .p {
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+
+                &.teacher {
+                    cursor: pointer;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
             }
 
             .points {

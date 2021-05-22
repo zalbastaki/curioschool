@@ -78,18 +78,6 @@
     export default {
         name: 'submission-modal',
 
-        props: {
-            assessment: {
-                type: Object,
-                required: true,
-            },
-
-            submission: {
-                type: Object,
-                required: true,
-            },
-        },
-
         data() {
             return {
                 data: {
@@ -98,6 +86,8 @@
                     coins: 0,
                     feedback: '',
                 },
+                submission: {},
+                assessment: {},
             };
         },
 
@@ -107,6 +97,12 @@
 
         methods: {
             ...mapActions(['addStudentGrade']),
+
+            openModal(submission, assessment) {
+                this.submission = submission;
+                this.assessment = assessment;
+                this.$refs.submission.openModal();
+            },
 
             formatDate(date) {
                 let datejs = new Date(date);
