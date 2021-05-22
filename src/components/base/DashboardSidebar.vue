@@ -111,18 +111,20 @@
                         label: 'attendance',
                         path: `/${this.role}-attendance`,
                     },
-                    {
-                        label: 'grades',
-                        path: `/${this.role}-grades`,
-                    },
                 ];
 
                 if (this.role === 'teacher') return sidebar;
 
-                sidebar.push({
-                    label: 'rewards',
-                    path: '/student-rewards',
-                });
+                sidebar.push(
+                    {
+                        label: 'grades',
+                        path: `/student-grades`,
+                    },
+                    {
+                        label: 'rewards',
+                        path: '/student-rewards',
+                    }
+                );
 
                 return sidebar;
             },
