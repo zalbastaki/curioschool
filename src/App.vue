@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <router-view />
+        <router-view :key="$route.fullPath" />
     </div>
 </template>
 
@@ -17,5 +17,8 @@
 
     #app {
         font-family: $font-family;
+        font-size: 16px;
+        color: $black;
+        background: $white;
     }
 </style>

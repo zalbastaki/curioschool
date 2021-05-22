@@ -65,23 +65,13 @@
             };
         },
 
-        computed: {
-            disabled() {
-                return !this.user.email || !this.user.password;
-            },
-        },
-
         methods: {
-            ...mapActions(['login', 'sendPasswordResetEmail']),
+            ...mapActions(['login', 'sendPasswordResetEmail', 'goToDashboard']),
 
             userLogin() {
-                this.login(this.user)
-                    .then(() => {
-                        // TO DO
-                    })
-                    .catch(e => {
-                        this.handleError(e);
-                    });
+                this.login(this.user).catch(e => {
+                    this.handleError(e);
+                });
             },
 
             userForgotPassword() {
@@ -151,7 +141,7 @@
             justify-content: center;
             flex-direction: column;
 
-            .input {
+            .base-input {
                 width: 80vw;
                 max-width: 500px;
                 margin-top: 10px;

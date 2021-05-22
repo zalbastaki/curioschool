@@ -132,6 +132,7 @@
 
             &.disabled {
                 background: rgba($dark-purple, 0.3);
+                box-shadow: 3px 3px rgba($dark-purple, 0.5);
             }
         }
 
@@ -149,6 +150,7 @@
 
             &.disabled {
                 background: rgba($purple, 0.3);
+                box-shadow: 3px 3px rgba($purple, 0.5);
             }
         }
 
@@ -167,6 +169,7 @@
 
             &.disabled {
                 background: rgba($yellow, 0.3);
+                box-shadow: 3px 3px rgba($yellow, 0.5);
             }
         }
 
@@ -184,6 +187,7 @@
 
             &.disabled {
                 background: rgba($orange, 0.3);
+                box-shadow: 3px 3px rgba($orange, 0.5);
             }
         }
 
@@ -201,6 +205,7 @@
 
             &.disabled {
                 background: rgba($dark-orange, 0.3);
+                box-shadow: 3px 3px rgba($dark-orange, 0.5);
             }
         }
 

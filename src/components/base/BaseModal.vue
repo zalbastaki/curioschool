@@ -17,9 +17,11 @@
                     </button>
                 </div>
 
-                <div class="body">
+                <div v-if="message || $slots['body']" class="body">
                     <slot name="body" />
-                    <base-text type="p">{{ message }}</base-text>
+                    <base-text v-if="!$slots['body']" type="p">
+                        {{ message }}
+                    </base-text>
                 </div>
 
                 <div class="footer">
@@ -140,6 +142,7 @@
             position: absolute;
             right: 20px;
             top: 20px;
+            cursor: pointer;
         }
 
         .header {
@@ -155,6 +158,7 @@
             display: flex;
             flex-direction: column;
             align-items: stretch;
+            width: calc(100% - 100px);
         }
 
         .footer {

@@ -19,6 +19,40 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+firebase.auth().onAuthStateChanged(async user => {
+    if (user) {
+        store.commit('setIsLoggedIn', true);
+        await store.dispatch('getUserData');
+        store.dispatch('goToDashboard');
+    } else {
+        store.commit('setIsLoggedIn', false);
+        store.dispatch('resetUserData');
+        if (router.currentRoute.path !== '/') {
+            router.push('/');
+        }
+    }
+});
+
+firebase.getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged(async user => {
+            unsubscribe();
+            let role;
+            if (user) {
+                await firebase
+                    .firestore()
+                    .collection('users')
+                    .doc(user.uid)
+                    .get()
+                    .then(doc => {
+                        role = doc.data()['role'];
+                    });
+            }
+            resolve({ user, role });
+        }, reject);
+    });
+};
+
 // Initialize icons plugin
 Vue.use(icons);
 
