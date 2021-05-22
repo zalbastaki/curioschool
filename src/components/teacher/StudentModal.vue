@@ -15,15 +15,12 @@
             </base-text>
             <div class="info-item rewards">
                 <base-text class="label" type="p">Rewards: </base-text>
-                <base-text
-                    v-if="student.profile.rewards.length === 0"
-                    class="no-msg"
-                    type="p"
-                >
-                    {{ name }} doesn't have any rewards.
+                <base-text v-if="rewards.length === 0" class="no-msg" type="p">
+                    {{ name }} doesn't have any rewards in
+                    {{ currentClass.name }}.
                 </base-text>
                 <div
-                    v-for="(reward, index) in student.profile.rewards"
+                    v-for="(reward, index) in rewards"
                     :key="`reward-${index}`"
                     class="reward"
                 >
@@ -83,7 +80,7 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
+    import { mapActions, mapGetters } from 'vuex';
 
     export default {
         name: 'student-modal',
@@ -99,9 +96,17 @@
         },
 
         computed: {
+            ...mapGetters(['currentClass']),
+
             name() {
                 if (!this.student.profile) return '';
                 return `${this.student.profile.first_name} ${this.student.profile.last_name}`;
+            },
+
+            rewards() {
+                return this.student.profile.rewards.filter(
+                    reward => reward.class.id === this.currentClass.id
+                );
             },
         },
 

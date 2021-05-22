@@ -94,7 +94,6 @@
         .leaderboard-item {
             display: flex;
             justify-content: space-between;
-            cursor: pointer;
 
             &:not(:last-of-type) {
                 border-bottom-width: 2px;
