@@ -9,6 +9,14 @@
                 <span class="label">Submitted: </span>
                 {{ formatDate(submission.datetime) }}
             </base-text>
+            <base-text v-if="submission.grade" class="info-item" type="p">
+                <span class="label">Grade: </span>
+                {{ submission.grade }}/{{ assessment.total_grade }}
+            </base-text>
+            <base-text v-if="submission.feedback" class="info-item" type="p">
+                <span class="label">Feedback: </span>
+                {{ submission.feedback }}
+            </base-text>
             <base-text class="label" type="p">Answers:</base-text>
             <div
                 v-for="(answer, index) in submission.answers"
@@ -113,6 +121,9 @@
             },
 
             addGrade() {
+                if (!this.grade) this.grade = 0;
+                if (!this.points) this.points = 0;
+                if (!this.coins) this.coins = 0;
                 this.addStudentGrade({
                     studentId: this.submission.student.id,
                     submissionId: this.submission.id,

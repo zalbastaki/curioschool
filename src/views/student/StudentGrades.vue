@@ -69,11 +69,9 @@
                     ({ assessmentId }) => assessmentId === id
                 );
                 const grades = submissions.map(({ grade }) => parseInt(grade));
-                grades.forEach((grade, i) => {
-                    if (isNaN(grade)) grades.splice(i, 1);
-                });
-                if (grades.length === 0) return;
-                return Math.max(...grades);
+                const filteredGrades = grades.filter(grade => !isNaN(grade));
+                if (filteredGrades.length === 0) return;
+                return Math.max(...filteredGrades);
             },
         },
     };
