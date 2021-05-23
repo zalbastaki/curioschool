@@ -52,6 +52,7 @@
             ...mapActions(['updateClassDoc']),
 
             addReward() {
+                if (!this.reward.price) this.reward.price = 0;
                 this.reward.price = parseInt(this.reward.price);
                 const clas = this.currentClass;
                 clas.rewards.push(this.reward);

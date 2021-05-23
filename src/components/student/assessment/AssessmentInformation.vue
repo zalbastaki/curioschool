@@ -234,6 +234,7 @@
             },
 
             submissionLimitReached() {
+                if (this.role !== 'student') return;
                 return (
                     this.currentAssessment.submissions_limit !== 0 &&
                     this.currentAssessment.submissions_limit <=

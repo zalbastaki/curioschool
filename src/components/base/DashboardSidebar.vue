@@ -146,6 +146,8 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        max-height: 100vh;
+        overflow: scroll;
 
         &.white {
             color: $white;

@@ -73,6 +73,24 @@
             },
 
             addAssessment() {
+                if (!this.assessment.total_grade) {
+                    this.assessment.total_grade = 1;
+                }
+                if (!this.assessment.weight) {
+                    this.assessment.weight = 0;
+                }
+                if (!this.assessment.coins) {
+                    this.assessment.coins = 0;
+                }
+                if (!this.assessment.points) {
+                    this.assessment.points = 0;
+                }
+                if (!this.assessment.submissions_limit) {
+                    this.assessment.submissions_limit = 0;
+                }
+                if (!this.assessment.time_limit) {
+                    this.assessment.time_limit = 0;
+                }
                 const clas = this.currentClass;
                 clas.assessments.push(this.assessment);
                 this.updateClassDoc(clas);
